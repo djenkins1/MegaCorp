@@ -14,6 +14,8 @@ var _conn = undefined;
 //global singleton of the connection client
 var _client = undefined;
 
+var DEBUG_MODE = require('config').get('DebugMode');
+
 /*
 function: getDefaultConn
 info:
@@ -26,31 +28,33 @@ returns:
 */
 function getDefaultConn( onFinish )
 {
-    console.log( "Entering DataAPI function: getDefaultConn" );
+    DEBUG_MODE && console.log( "Entering DataAPI function: getDefaultConn" );
     if ( _conn )
     {
-        console.log( "getDefaultConn: _conn already exists,passing to onFinish" );
+        DEBUG_MODE && console.log( "DataAPI.getDefaultConn: _conn already exists,passing to onFinish" );
         onFinish( _conn );
-        console.log( "Exiting DataAPI function: getDefaultConn from existing connection" );
+        DEBUG_MODE && console.log( "Exiting DataAPI function: getDefaultConn from existing connection" );
         return;
     }
 
-    console.log( "getDefaultConn: _conn does not exist,opening connection" );
+    DEBUG_MODE && console.log( "DataAPI.getDefaultConn: _conn does not exist,opening connection" );
+
     var dbConfig = require('config').get('DataSource');
     var mongoClient = require('mongodb').MongoClient; 
     var url = "mongodb://" + dbConfig["host"] + ":" + dbConfig[ "port" ];
-    console.log( "getDefaultConn: connecting to database url," , url );
+    DEBUG_MODE && console.log( "DataAPI.getDefaultConn: connecting to database url," , url );
+
     mongoClient.connect(url, function(err, db) 
     {
         if (err) throw err;
 
-        console.log( "getDefaultConn: setting _conn to now open connection" );
+        DEBUG_MODE && console.log( "DataAPI.getDefaultConn: setting _conn to now open connection" );
         _client = db;
         _conn = db.db( dbConfig["name"] );
 
-        console.log( "getDefaultConn: passing new _conn to onFinish" );
+        DEBUG_MODE && console.log( "DataAPI.getDefaultConn: passing new _conn to onFinish" );
         onFinish( _conn );
-        console.log( "Exiting DataAPI function: getDefaultConn from new connection" );
+        DEBUG_MODE && console.log( "Exiting DataAPI function: getDefaultConn from new connection" );
     });
 }
 
@@ -67,7 +71,7 @@ returns:
 */
 function _dropTable( db , tableName )
 {
-    console.log( "Entering DataAPI function: _dropTable for table" , tableName );
+    DEBUG_MODE && console.log( "Entering DataAPI function: _dropTable for table" , tableName );
     return new Promise( function( resolve, reject) 
     {
         db.collection( tableName ).drop( tableName, function(err, delOK) 
@@ -75,13 +79,13 @@ function _dropTable( db , tableName )
             if (err)
             {
                 reject( err );
-                console.log( "Exiting DataAPI function: _dropTable rejected for table" , tableName );
+                DEBUG_MODE && console.log( "Exiting DataAPI function: _dropTable rejected for table" , tableName );
                 return;
             }
             else
             {
                 resolve( delOK );
-                console.log( "Exiting DataAPI function: _dropTable resolved for table" , tableName );
+                DEBUG_MODE && console.log( "Exiting DataAPI function: _dropTable resolved for table" , tableName );
             }
         });
     });
@@ -100,7 +104,7 @@ returns:
 */
 function _createTable( db, tableName )
 {
-    console.log( "Entering DataAPI function: _createTable for table" , tableName );
+    DEBUG_MODE && console.log( "Entering DataAPI function: _createTable for table" , tableName );
     return new Promise( function( resolve, reject) 
     {
         db.createCollection( tableName, function(err, res) 
@@ -108,13 +112,13 @@ function _createTable( db, tableName )
             if (err)
             {
                 reject( err );
-                console.log( "Exiting DataAPI function: _createTable rejected for table" , tableName );
+                DEBUG_MODE && console.log( "Exiting DataAPI function: _createTable rejected for table" , tableName );
                 return;
             }
 
-            console.log( "Created table: " + tableName );
+            DEBUG_MODE && console.log( "DataAPI._createTable: Created table: " + tableName );
             resolve( res );
-            console.log( "Exiting DataAPI function: _createTable resolved for table" , tableName );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: _createTable resolved for table" , tableName );
         });
     });
 }
@@ -130,7 +134,7 @@ returns:
 */
 function setupDatabase( onFinish )
 {
-    console.log( "Entering DataAPI function: setupDatabase" );
+    DEBUG_MODE && console.log( "Entering DataAPI function: setupDatabase" );
     var tableConfig = require('config').get('Tables');
     getDefaultConn( function( db )
     {
@@ -139,14 +143,14 @@ function setupDatabase( onFinish )
         {
             var tableAlias = tableConfig.listed[ i ];
             var tableName = tableConfig[ tableAlias ];
-            console.log( "setupDatabase: adding table to promises," , tableAlias , "with actual name," , tableName );
+            DEBUG_MODE && console.log( "DataAPI.setupDatabase: adding table to promises," , tableAlias , "with actual name," , tableName );
             tablePromises.push( _createTable( db, tableName ) );
         }
 
         Promise.all( tablePromises ).then( function()
         {
             //_setupIndexes( db, onFinish );
-            console.log( "Exiting DataAPI function: setupDatabase with all promises resolved" );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: setupDatabase with all promises resolved" );
             onFinish();
         }, 
         function(err) 
@@ -168,7 +172,7 @@ returns:
 */
 function cleanDatabase( onFinish )
 {
-    console.log( "Entering DataAPI function: cleanDatabase" );
+    DEBUG_MODE && console.log( "Entering DataAPI function: cleanDatabase" );
     var tableConfig = require('config').get('Tables');
     getDefaultConn( function( db )
     {
@@ -177,13 +181,13 @@ function cleanDatabase( onFinish )
         {
             var tableAlias = tableConfig.listed[ i ];
             var tableName = tableConfig[ tableAlias ];
-            console.log( "cleanDatabase: adding table to promises," , tableAlias , "with actual name," , tableName );
+            DEBUG_MODE && console.log( "DataAPI.cleanDatabase: adding table to promises," , tableAlias , "with actual name," , tableName );
             tablePromises.push( _dropTable( db, tableName ) );
         }
 
         Promise.all( tablePromises ).then( function()
         {
-            console.log( "Exiting DataAPI function: cleanDatabase with all promises resolved" );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: cleanDatabase with all promises resolved" );
             onFinish();
         }, 
         function(err) 
@@ -205,18 +209,112 @@ returns:
 */
 function closeConnection( onFinish )
 {
-    console.log( "Entering DataAPI function: closeConnection" );
-    console.log( "closeConnection: Getting connection to close" );
+    DEBUG_MODE && console.log( "Entering DataAPI function: closeConnection" );
+    DEBUG_MODE && console.log( "DataAPI.closeConnection: Getting connection to close" );
     getDefaultConn( function( db ) 
     {
-        console.log( "closeConnection: Connection received, closing connection" );
+        DEBUG_MODE && console.log( "DataAPI.closeConnection: Connection received, closing connection" );
         _client.close();
         _conn = undefined;
         _client = undefined;
         if ( onFinish )
             onFinish();
 
-        console.log( "Exiting DataAPI function: closeConnection after closed connection" );
+        DEBUG_MODE && console.log( "Exiting DataAPI function: closeConnection after closed connection" );
+    });
+}
+
+
+/*
+function: findAll
+info:
+    This function passes along all of the records that are in the table with the name provided.
+parameters:
+    tableName, string, the table to find the records in
+    onFinish, function, the function that is called after the records are found
+returns:
+    nothing
+*/
+function findAll( tableName, onFinish )
+{
+    DEBUG_MODE && console.log( "Entering DataAPI function: findAll for table", tableName );
+    getDefaultConn( function( db ) 
+    {
+        var allObjects = db.collection( tableName ).find( {} ).toArray();
+        DEBUG_MODE && console.log( "DataAPI.findAll: number of records found," , allObjects.length );
+
+        onFinish( allObjects );
+
+        DEBUG_MODE && console.log( "Exiting DataAPI function: findAll for table" , tableName );
+    });
+
+}
+
+/*
+function: findById
+info:
+    This function passes along the record that is identified by the recordId given.
+parameters:
+    tableName, string, the table to find the records in
+    recordId, string/ObjectID, the id of the record to be found
+    onFinish, function, the function that is called after the record is found
+returns:
+    nothing
+*/
+function findById( tableName , recordId , onFinish )
+{
+    DEBUG_MODE && console.log( "Entering DataAPI function: findById for table" , tableName );
+
+    var query = { "_id" : recordId };
+    DEBUG_MODE && console.log( "DataAPI.findById: id is," , query._id );
+
+    if ( typeof recordId === "string" )
+    {
+        query._id = ObjectId( recordId );
+        DEBUG_MODE && console.log( "DataAPI.findById: id is a string changed to ObjectId," , query._id );
+    }
+
+    getDefaultConn( function( db ) 
+    {
+        db.collection( tableName ).findOne( query, function( err , result )
+        {
+            onFinish( err , result );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: findById for table", tableName );
+        });
+    });
+}
+
+/*
+function: insertOne
+info:
+    This function inserts the object given and passes it along to the onFinish function.
+parameters:
+    tableName, string, the table to find the records in
+    insertObj, Object, the record to be inserted
+    onFinish, function, the function that is called after the company is inserted
+returns:
+    nothing
+*/
+function insertOne( tableName , insertObj, onFinish )
+{
+    DEBUG_MODE && console.log( "Entering DataAPI function: insertOne for table" , tableName );
+    getDefaultConn( function( db ) 
+    {
+        db.collection( tableName ).insertOne( insertObj, function(err, result ) 
+        {
+            if (err) 
+            {
+                DEBUG_MODE && console.log( "DataAPI.insertOne: error occurred, passing along error and exiting for table" , tableName );
+                onFinish( err , insertObj );
+                return;
+            }
+
+            insertObj._id = result.insertedId;
+            DEBUG_MODE && console.log( "DataAPI.insertOne: id of record inserted," , insertObj._id );
+
+            onFinish( err , insertObj );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: insertOne for table" , tableName );
+        });
     });
 }
 
@@ -225,5 +323,11 @@ exports.closeConnection = closeConnection;
 exports.getDefaultConn = getDefaultConn;
 exports.setupDatabase = setupDatabase;
 exports.cleanDatabase = cleanDatabase;
+exports.insertOne = insertOne;
+exports.findById = findById;
+exports.findAll = findAll;
+
+
+
 
 

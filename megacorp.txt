@@ -1,0 +1,71 @@
+Megacorp space game
+
+Oversee company operations
+
+Unit testing
+
+Choose company logos(font awesome)?
+
+RESTful using Mongo/Express/Node stack
+
+
+Future Ideas:
+    Contracts for specific dates
+    Buyout other companies
+    Military aspects
+    Multiplayer?
+
+
+TEST DRIVEN DEVELOPMENT....
+
+Modules:
+    Configuration(DONE)
+    Data API
+        DataConnection(DONE)
+        Clean/Build each table(DONE)
+        CompanyDAO
+        PlanetDAO
+        SystemDAO
+        ShipDAO
+        BuildingDAO
+        ShipBluePrintDAO
+        BuildingBluePrintDAO
+        WeaponBluePrintDAO
+        Indexes for each table
+    Loading Data from JSON for server setup
+    Restful endpoints for each DAO
+
+==============================
+DATA:
+==============================
+Configuration(FILE/Constants?)
+    Key,Value
+
+ServerInfo
+    Key,Value
+    +++Things like Galactic Star Date...
+
+Company
+    ID,Name,Logo,Money,Employees,PlanetID(Headquarters)
+
+Planet
+    ID,Name,Taxes,Money,Atmosphere,Composition,SystemID,Population,Location(OBJ)
+
+System
+    ID,Name,Location(OBJ)
+
+Ship
+    ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Inventory: []
+    
+Building
+    ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
+
+ShipBluePrint
+    ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
+
+BuildingBluePrint
+    ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
+
+WeaponBluePrint
+    ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
+
