@@ -31,7 +31,8 @@ Modules:
         ShipBluePrintDAO(DONE)
         BuildingBluePrintDAO(DONE)
         WeaponBluePrintDAO(DONE)
-        Indexes for each table
+    Business Objects for each table
+    Indexes for each table
     Loading Data from JSON for server setup
     Restful endpoints for each DAO
 
@@ -45,13 +46,13 @@ ServerInfo
     Key,Value
     +++Things like Galactic Star Date...
 
-Company
+Company(DONE)
     ID,Name,Logo,Money,Employees,PlanetID(Headquarters)
 
-Planet
+Planet(DONE)
     ID,Name,Taxes,Money,Atmosphere,Composition,SystemID,Population,Location(OBJ)
 
-System
+System(DONE)
     ID,Name,Location(OBJ)
 
 Ship

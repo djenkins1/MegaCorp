@@ -1,0 +1,46 @@
+[
+    {
+        "id" : "1",
+        "name" : "Optimus Primus",
+        "taxes" : 0.10,
+        "money" : 100000,
+        "atmosphere" : "oxygen",
+        "composition" : "metallic",
+        "systemID" : "1",
+        "population" : 1000,
+        "location" : { "z" : "1" }
+    },
+    {
+        "id" : "2",
+        "name" : "Tiberius II",
+        "taxes" : 0.05,
+        "money" : 120000,
+        "atmosphere" : "oxygen",
+        "composition" : "rocky",
+        "systemID" : "2",
+        "population" : 2000,
+        "location" : { "z" : "1" }
+    },
+    {
+        "id" : "3",
+        "name" : "Maximus I",
+        "taxes" : 0.05,
+        "money" : 60000,
+        "atmosphere" : "none",
+        "composition" : "rocky",
+        "systemID" : "3",
+        "population" : 100,
+        "location" : { "z" : "1" }
+    },
+    {
+        "id" : "4",
+        "name" : "Jovian IV",
+        "taxes" : 0.05,
+        "money" : 12000,
+        "atmosphere" : "helium",
+        "composition" : "gas",
+        "systemID" : "4",
+        "population" : 10,
+        "location" : { "z" : "1" }
+    }
+]

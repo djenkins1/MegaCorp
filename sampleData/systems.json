@@ -1,0 +1,22 @@
+[
+    {
+        "id" : "1",
+        "name" : "Optimus",
+        "location" : { "x" : 2 , "y" : 2 }
+    },
+    {
+        "id" : "2",
+        "name" : "Tiberius",
+        "location" : { "x" : 5 , "y" : 3 }
+    },
+    {
+        "id" : "3",
+        "name" : "Maximus",
+        "location" : { "x" : 4 , "y" : 6 }
+    },
+    {
+        "id" : "4",
+        "name" : "Jovian",
+        "location" : { "x" : 8 , "y" : 4 }
+    },
+]
