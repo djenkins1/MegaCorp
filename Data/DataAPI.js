@@ -321,6 +321,46 @@ function insertOne( tableName , insertObj, onFinish )
     });
 }
 
+function replaceOne( tableName, updateObj, onFinish )
+{
+    DEBUG_MODE && console.log( "Entering DataAPI function: replaceOne for table" , tableName );
+    var query = { "_id" : updateObj._id  };
+    if ( typeof updateObj._id === "string" )
+    {
+        query._id = ObjectId( updateObj._id );
+        updateObj._id = ObjectId( updateObj._id );
+    }
+
+    getDefaultConn( function( db ) 
+    {
+        db.collection( tableName ).replaceOne( query , updateObj, function( err, resultObj )
+        {
+            onFinish( err, resultObj );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: replaceOne for table" , tableName );
+        });
+    });    
+}
+
+function removeOne( tableName, removeObj, onFinish )
+{
+    DEBUG_MODE && console.log( "Entering DataAPI function: removeOne for table" , tableName );
+    var query = { "_id" : removeObj._id  };
+    if ( typeof removeObj._id === "string" )
+    {
+        query._id = ObjectId( removeObj._id );
+        removeObj._id = ObjectId( removeObj._id );
+    }    
+
+    getDefaultConn( function( db ) 
+    {
+        db.collection( tableName ).deleteOne( query, function( err, deleteResult )
+        {
+            onFinish( err, deleteResult );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: removeOne for table" , tableName );
+        }); 
+    });
+}
+
 //expose each of the functions above for calling externally
 exports.closeConnection = closeConnection;
 exports.getDefaultConn = getDefaultConn;
@@ -329,7 +369,8 @@ exports.cleanDatabase = cleanDatabase;
 exports.insertOne = insertOne;
 exports.findById = findById;
 exports.findAll = findAll;
-
+exports.replaceOne = replaceOne;
+exports.removeOne = removeOne;
 
 
 

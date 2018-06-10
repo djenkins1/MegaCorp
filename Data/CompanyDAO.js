@@ -29,9 +29,22 @@ function getCompany( companyId , onFinish )
     dataAPI.findById( TABLE_NAME , companyId , onFinish );
 }
 
+function updateCompany( companyObj, onFinish )
+{
+    dataAPI.replaceOne( TABLE_NAME , companyObj, onFinish );
+}
+
+function removeCompany( companyObj, onFinish )
+{
+    dataAPI.removeOne( TABLE_NAME , companyObj, onFinish );
+}
+
 //expose each of the functions to be called externally
 exports.createCompany = createCompany;
 exports.getAllCompanies = getAllCompanies;
 exports.getCompany = getCompany;
+exports.updateCompany = updateCompany;
+exports.removeCompany = removeCompany;
+
 
 
