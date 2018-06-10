@@ -6,15 +6,15 @@ Info:
     It is used as an API for accessing the database.
 */
 
-var ObjectId = require('mongodb').ObjectID;
+const ObjectId = require('mongodb').ObjectID;
+
+const DEBUG_MODE = require('config').get('DebugMode');
 
 //global singleton of the connection object
 var _conn = undefined;
 
 //global singleton of the connection client
 var _client = undefined;
-
-var DEBUG_MODE = require('config').get('DebugMode');
 
 /*
 function: getDefaultConn

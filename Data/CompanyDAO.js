@@ -6,13 +6,13 @@ Info:
     It is used as a Data Access Object for the Companies table.
 */
 
-var tableConfig = require('config').get('Tables');
+const tableConfig = require('config').get('Tables');
 
 const TABLE_NAME = tableConfig[ "Company" ];
 
-var ObjectId = require('mongodb').ObjectID;
+const ObjectId = require('mongodb').ObjectID;
 
-var dataAPI = require( './DataAPI' );
+const dataAPI = require( './DataAPI' );
 
 function createCompany( companyObj , onFinish )
 {
