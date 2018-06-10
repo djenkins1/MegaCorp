@@ -23,14 +23,14 @@ Modules:
     Data API
         DataConnection(DONE)
         Clean/Build each table(DONE)
-        CompanyDAO
-        PlanetDAO
-        SystemDAO
-        ShipDAO
-        BuildingDAO
-        ShipBluePrintDAO
-        BuildingBluePrintDAO
-        WeaponBluePrintDAO
+        CompanyDAO(DONE)
+        PlanetDAO(DONE)
+        SystemDAO(DONE)
+        ShipDAO(DONE)
+        BuildingDAO(DONE)
+        ShipBluePrintDAO(DONE)
+        BuildingBluePrintDAO(DONE)
+        WeaponBluePrintDAO(DONE)
         Indexes for each table
     Loading Data from JSON for server setup
     Restful endpoints for each DAO
