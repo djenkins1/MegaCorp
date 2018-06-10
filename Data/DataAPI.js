@@ -240,12 +240,15 @@ function findAll( tableName, onFinish )
     DEBUG_MODE && console.log( "Entering DataAPI function: findAll for table", tableName );
     getDefaultConn( function( db ) 
     {
-        var allObjects = db.collection( tableName ).find( {} ).toArray();
-        DEBUG_MODE && console.log( "DataAPI.findAll: number of records found," , allObjects.length );
+        db.collection( tableName ).find( {} ).toArray( function(err, results )
+        {
+            DEBUG_MODE && console.log( "DataAPI.findAll: number of records found," , results.length );
 
-        onFinish( allObjects );
+            onFinish( err, results );
 
-        DEBUG_MODE && console.log( "Exiting DataAPI function: findAll for table" , tableName );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: findAll for table" , tableName );            
+        });
+
     });
 
 }
