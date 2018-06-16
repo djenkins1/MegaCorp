@@ -46,6 +46,8 @@ ServerInfo
     Key,Value
     +++Things like Galactic Star Date...
 
+
+
 Company(DONE)
     ID,Name,Logo,Money,Employees,PlanetID(Headquarters)
 
@@ -55,18 +57,24 @@ Planet(DONE)
 System(DONE)
     ID,Name,Location(OBJ)
 
-Ship
+ShipBluePrint(Needs JSON sample data)
+    ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
+
+BuildingBluePrint(Needs JSON sample data)
+    ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,Employees,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
+
+WeaponBluePrint(Needs JSON sample data)
+    ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
+
+Ship(Needs JSON sample data)
     ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Inventory: []
     
-Building
+Building(Needs JSON sample data)
     ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
 
-ShipBluePrint
-    ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
+Offer(Needs DAO object/JSON sample data)
+    ID,BuildingID,CompanyID,PlanetID,Price,OfferType(Buy/Sell),Goods: []
 
-BuildingBluePrint
-    ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
 
-WeaponBluePrint
-    ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
+
 
