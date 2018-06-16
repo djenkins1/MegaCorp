@@ -16,6 +16,7 @@
         ,"BuildingBluePrint" : "buildingprints"
         ,"WeaponBluePrint" : "weaponprints"
         ,"Offer" : "offers"
+        ,"Transfer" : "transfers"
         ,"listed" :
         [
              "Company"
@@ -27,6 +28,7 @@
             ,"BuildingBluePrint"
             ,"WeaponBluePrint"
             ,"Offer"
+            ,"Transfer"
         ] 
     }
     ,"DebugMode": true
