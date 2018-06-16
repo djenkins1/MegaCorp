@@ -9,11 +9,11 @@ These instructions will get you a copy of the project up and running on your loc
 1. Clone this repository.
 2. Run 'npm install' to install dependencies.
 3. Make sure MongoDB is running, run 'mongod' if not.
-4. Initialize database by running 'node server.js --setup'
+4. Initialize database by running 'node Serve.js --setup'
 4. FUTURE: Run 'node buildPack.js' to build the index.js file from es6.
-5. FUTURE: Host by running 'node server.js --serve'
+5. FUTURE: Host by running 'node Serve.js --serve'
 6. FUTURE: Site is now running at localhost:8081
-7. FUTURE: To clean the database, shutdown server.js and run 'node server.js --clean'
+7. FUTURE: To clean the database, shutdown Serve.js and run 'node Serve.js --clean'
 
 ### Prerequisites
 
@@ -26,14 +26,15 @@ Everything else can be installed using npm(See Getting Started).
 To run the automated unit testing, do the following:
 
 1. Make sure MongoDB is running, run 'mongod' if not.
-2. Make sure site is running, run 'node server.js --serve' if not.
-3. FUTURE: Run the database tests with the following command, 'mocha -t 100000 testDB.js'
-4. FUTURE: Run the endpoint tests with the following command, 'mocha -t 100000 testEndpoints.js'
+2. Make sure the database is initialized, run 'node Serve.js --setup' if not.
+2. FUTURE: Make sure site is running, run 'node Serve.js --serve' if not.
+3. Run all the unit tests with the following command, 'mocha -t 100000 --recursive tests/'
 
 ## Built With
 
 * [Node.js](https://nodejs.org/en/) - Back end framework
 * [MongoDB](https://www.mongodb.com/) - NoSQL data store
+* [Mocha](https://mochajs.org/) - Unit testing framework
 
 ## Authors
 
