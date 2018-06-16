@@ -66,16 +66,16 @@ BuildingBluePrint(DONE)
 WeaponBluePrint(DONE)
     ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
 
-
-Ship(Needs JSON sample data)
+Ship(DONE)
     ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Inventory: []
     
+
 Building(Needs JSON sample data)
     ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
 
 Offer(Needs JSON sample data)
     ID,BuildingID,CompanyID,PlanetID,Price,OfferType(Buy/Sell),Goods: []
 
-
+Need to update tables having locations so that x,y,z are all numeric and not strings
 
 
