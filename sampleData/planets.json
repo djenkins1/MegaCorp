@@ -8,7 +8,7 @@
         "composition" : "metallic",
         "systemID" : "1",
         "population" : 1000,
-        "location" : { "z" : "1" }
+        "location" : { "z" : 1 }
     },
     {
         "id" : "2",
@@ -19,7 +19,7 @@
         "composition" : "rocky",
         "systemID" : "2",
         "population" : 2000,
-        "location" : { "z" : "1" }
+        "location" : { "z" : 1 }
     },
     {
         "id" : "3",
@@ -30,7 +30,7 @@
         "composition" : "rocky",
         "systemID" : "3",
         "population" : 100,
-        "location" : { "z" : "1" }
+        "location" : { "z" : 1 }
     },
     {
         "id" : "4",
@@ -41,6 +41,6 @@
         "composition" : "gas",
         "systemID" : "4",
         "population" : 10,
-        "location" : { "z" : "1" }
+        "location" : { "z" : 1 }
     }
 ]
