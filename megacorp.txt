@@ -60,11 +60,9 @@ System(DONE)
 ShipBluePrint(DONE)
     ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
 
-BuildingBluePrint(TODO,new design)
-    ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,PowerCost,Employees,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
-    UPDATE DESIGN:
-        Instead of PowerCost, have ProductionCost: []
-            Power can be a resource
+BuildingBluePrint(DONE)
+    ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,ProductionCost: [],Employees,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
+
 
 WeaponBluePrint(Needs JSON sample data)
     ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
