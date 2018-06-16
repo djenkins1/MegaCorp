@@ -42,50 +42,126 @@ DATA:
 Configuration(FILE/Constants?)
     Key,Value
 
-ServerInfo
+
+
+
+ShipBluePrint(Needs BusinessObject)
+    ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
+    BO:
+        GetShips,returns all ships having the type
+        AllBluePrints,returns all ship blue prints in the database
+
+BuildingBluePrint(Needs BusinessObject)
+    ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,ProductionCost: [],Employees,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
+    BO:
+        GetBuildings,returns all buildings having the type
+        AllBluePrints,returns all building blueprints in the database
+
+WeaponBluePrint(Needs BusinessObject)
+    ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
+    BO:
+        GetShipPrints,returns all ship prints with weapon type
+        GetBuildingPrints,returns all building prints with weapon type
+        AllBluePrints,returns all weapon blueprints in the database
+
+Company(Needs BusinessObject)
+    ID,Name,Logo,Money,Employees,PlanetID(Headquarters)
+    BO:
+        ChangeName,Changes the name of the company(NO UPDATE DB YET)
+        ChangeLogo,Changes the logo of the company(NO UPDATE DB YET)
+        AddMoney,Adds money to the company(NO UPDATE DB YET)
+        RemoveMoney,Removes money from the company(NO UPDATE DB YET)
+        AddEmployees,Adds employees to the company(NO UPDATE DB YET)
+        RemoveEmployees,Removes employees from the company(NO UPDATE DB YET)
+        ChangeHQ,Changes the headquarters of the company(NO UPDATE DB YET)
+        GetAllBuildings,Returns all buildings owned by the company
+        GetAllShips,Returns all ships owned by the company
+        SaveCompany,Saves any changes made to the company to the database
+        AllCompanies,Returns all companies in the database
+        CreateCompany,Creates a new company and adds it to the database
+
+Planet(Needs BusinessObject)
+    ID,Name,Taxes,Money,Atmosphere,Composition,SystemID,Population,Location(OBJ)
+    BO:
+        ChangeName,changes the name of the planet(NO UPDATE DB YET)
+        ChangeTaxes,changes the tax rate of the planet(NO UPDATE DB YET)
+        AddMoney,Adds money to the planet(NO UPDATE DB YET)
+        RemoveMoney,Removes money from the planet(NO UPDATE DB YET)
+        AddPopulation,Adds population to the planet(NO UPDATE DB YET)
+        RemovePopulation,Removes population from the planet(NO UPDATE DB YET)
+        GetDockedShips,Returns all ships that are docked on planet(Have Z in location that matches planet's Z)
+        GetAllBuildings,Returns all buildings that are on the planet
+        GetCompaniesByHQ,Returns all companies that have headquarters on planet
+        GetAllCompanies,Returns all companies with buildings/ships/headquarters(?) on planet
+        SavePlanet,Saves any changes to the planet to the database
+        AllPlanets,Returns all planets in the database
+        CreatePlanet,Creates a new planet and adds it to the database
+
+System(Needs BusinessObject)
+    ID,Name,Location(OBJ)
+    BO:
+        GetPlanets,Returns all planets that are part of the system
+        GetShipsTraveling,Returns all ships that are In System but not docked
+        GetAllShips,Returns all ships that are In System traveling or docked
+        AllSystems,Returns all systems in the database
+        CreateSystem,Creates a new system and adds it to the database
+
+Ship(Needs BusinessObject)
+    ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Inventory: []
+    BO:
+        MoveShip,Move the ship to the location given(NO UPDATE DB YET)
+        UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
+        RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
+        AddGoods,Adds goods to the ships inventory(NO UPDATE DB YET)
+        ChangeName,Change the name of the ship(NO UPDATE DB YET)
+        ChangeCompany,Change the company that owns the ship(NO UPDATE DB YET)
+        AddDamage,Add damage to the ship(NO UPDATE DB YET)
+        FixDamage,Remove damage from the ship(NO UPDATE DB YET)
+        IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
+        IsFull,Returns true if the ship's inventory is completely maxed out
+        HasFuel,Returns true if the ship has the fuel needed to travel 1 square
+        HasGoods,Returns true if the ship has the goods specified
+        SaveShip,Saves the changes made to the ship into the database
+        AllShips,Returns all ships in the database
+        CreateShip,Creates a new ship and adds it to the database
+    
+Building(Needs BusinessObject)
+    ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
+    BO:
+        ChangeName,change name(NO UPDATE DB YET)
+        ChangeCompany,change company that owns(NO UPDATE DB YET)
+        AddGoods,add goods to inventory(NO UPDATE DB YET)
+        RemoveGoods,remove goods from inventory(NO UPDATE DB YET)
+        ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
+        AddDamage,add on damage(NO UPDATE DB YET)
+        FixDamage,remove damage(NO UPDATE DB YET)
+        UseNeeded,remove goods needed for producing(NO UPDATE DB YET)
+        IsFull,return true if inventory is filled to max space or false otherwise
+        HasNeeded,returns true if the building has the goods needed to produce goods
+        HasGoods,returns true if the building has the goods speciifed
+        SaveBuilding,save the changes made to the building object to the database
+        AllBuildings,return all buildings in the database
+        CreateBuilding,insert a new building into database
+
+
+
+
+ServerInfo(Needs DAO/JSON sample data/Business Object)
     Key,Value
     +++Things like Galactic Star Date...
 
 
 
-Company(DONE)
-    ID,Name,Logo,Money,Employees,PlanetID(Headquarters)
+Offer(Needs JSON sample data/Business Object)
+    ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated(OBJ),OfferType(Buy/Sell),IsFilled,Priority,Goods: []
 
-Planet(DONE)
-    ID,Name,Taxes,Money,Atmosphere,Composition,SystemID,Population,Location(OBJ)
+Transfer(JSON sample data/Business Object)
+    ID,BuildingFromID,BuildingToID,CompanyID,PlanetID,IsFilled,Priority,Goods: []
 
-System(DONE)
-    ID,Name,Location(OBJ)
-
-ShipBluePrint(DONE)
-    ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
-
-BuildingBluePrint(DONE)
-    ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,ProductionCost: [],Employees,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
-
-WeaponBluePrint(DONE)
-    ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
-
-Ship(DONE)
-    ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Inventory: []
-    
-Building(DONE)
-    ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
-
-
-
-Offer(Needs JSON sample data)
-    ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated(OBJ),OfferType(Buy/Sell),IsFilled,Goods: []
-
-Transfer(JSON sample data)
-    ID,BuildingFromID,BuildingToID,CompanyID,PlanetID,IsFilled,Goods: []
-
-RevolveOffer(JSON sample data)
+RevolveOffer(JSON sample data/Business Object)
     ID,Offer(OBJ),Frequency(OBJ),Until(OBJ)
 
-
-
-RevolveTransfer(Needs Data Access Object/JSON sample data)
+RevolveTransfer(JSON sample data/Business Object)
     ID,Transfer(OBJ),Frequency(OBJ),Until(OBJ)
 
 
@@ -94,6 +170,7 @@ NOTES:
 
     Resources that start with @ in their name do not take up inventory space
 
-
+    How to construct buildings/ships from specific buildings?
+        @Building/@Ship for produced good?
 
 
