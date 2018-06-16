@@ -57,7 +57,7 @@ Planet(DONE)
 System(DONE)
     ID,Name,Location(OBJ)
 
-ShipBluePrint(Needs JSON sample data)
+ShipBluePrint(DONE)
     ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
 
 BuildingBluePrint(Needs JSON sample data)
