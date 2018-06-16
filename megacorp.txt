@@ -63,9 +63,9 @@ ShipBluePrint(DONE)
 BuildingBluePrint(DONE)
     ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,ProductionCost: [],Employees,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
 
-
-WeaponBluePrint(Needs JSON sample data)
+WeaponBluePrint(DONE)
     ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
+
 
 Ship(Needs JSON sample data)
     ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Inventory: []

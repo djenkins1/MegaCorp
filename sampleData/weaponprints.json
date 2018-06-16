@@ -1,0 +1,21 @@
+[
+    {
+        "id" : "1",
+        "name" : "Laser Cannon",
+        "damageLow" : 1,
+        "damageHigh" : 10,
+        "hitRatio" : 20,
+        "speed" : 1,
+        "ammoCost" : {}
+    },
+    {
+        "id" : "2",
+        "name" : "Torpedo Bay",
+        "damageLow" : 5,
+        "damageHigh" : 20,
+        "hitRatio" : 25,
+        "speed" : 1,
+        "ammoCost" : { "Torpedo" : 1 }
+    }
+]
+
