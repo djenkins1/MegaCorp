@@ -1,23 +1,24 @@
 {
     "DataSource":
     {
-        "host" : "localhost",
-        "port" : "27017",
-        "name" : "megacorp"
-    },
-    "Tables":
+         "host" : "localhost"
+        ,"port" : "27017"
+        ,"name" : "megacorp"
+    }
+    ,"Tables":
     {
-        "Company" : "companies",
-        "Planet" : "planets",
-        "System" : "systems",
-        "Ship" : "ships",
-        "Building" : "buildings",
-        "ShipBluePrint" : "shipprints",
-        "BuildingBluePrint" : "buildingprints",
-        "WeaponBluePrint" : "weaponprints",
-        "listed" :
+         "Company" : "companies"
+        ,"Planet" : "planets"
+        ,"System" : "systems"
+        ,"Ship" : "ships"
+        ,"Building" : "buildings"
+        ,"ShipBluePrint" : "shipprints"
+        ,"BuildingBluePrint" : "buildingprints"
+        ,"WeaponBluePrint" : "weaponprints"
+        ,"Offer" : "offers"
+        ,"listed" :
         [
-            "Company"
+             "Company"
             ,"Planet"
             ,"System"
             ,"Ship"
@@ -25,7 +26,8 @@
             ,"ShipBluePrint"
             ,"BuildingBluePrint"
             ,"WeaponBluePrint"
+            ,"Offer"
         ] 
-    },
-    "DebugMode": true
+    }
+    ,"DebugMode": true
 }
