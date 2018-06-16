@@ -73,18 +73,19 @@ Building(DONE)
     ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
 
 
+
 Offer(Needs JSON sample data)
     ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated(OBJ),OfferType(Buy/Sell),IsFilled,Goods: []
 
-
-
-Transfer(Needs Data Access Object/JSON sample data)
+Transfer(JSON sample data)
     ID,BuildingFromID,BuildingToID,CompanyID,PlanetID,IsFilled,Goods: []
 
-RevolvingOffer(Needs Data Access Object/JSON sample data)
+RevolveOffer(JSON sample data)
     ID,Offer(OBJ),Frequency(OBJ),Until(OBJ)
 
-RevolvingTransfer(Needs Data Access Object/JSON sample data)
+
+
+RevolveTransfer(Needs Data Access Object/JSON sample data)
     ID,Transfer(OBJ),Frequency(OBJ),Until(OBJ)
 
 

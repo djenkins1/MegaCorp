@@ -17,6 +17,7 @@
         ,"WeaponBluePrint" : "weaponprints"
         ,"Offer" : "offers"
         ,"Transfer" : "transfers"
+        ,"RevolveOffer" : "revolveOffers"
         ,"listed" :
         [
              "Company"
@@ -29,6 +30,7 @@
             ,"WeaponBluePrint"
             ,"Offer"
             ,"Transfer"
+            ,"RevolveOffer"
         ] 
     }
     ,"DebugMode": true
