@@ -1,6 +1,6 @@
 [
     {
-        "id" : "1",
+        "_id" : "1",
         "name" : "Cruiser",
         "maxInventory" : 50,
         "maxDamage" : 10,
@@ -15,7 +15,7 @@
         "resourceCost" : { "Steel" : 20, "Crystal" : 10 }
     },
     {
-        "id" : "2",
+        "_id" : "2",
         "name" : "Freighter",
         "maxInventory" : 200,
         "maxDamage" : 20,

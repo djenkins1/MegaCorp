@@ -1,6 +1,6 @@
 [
     {
-        "id" : "1",
+        "_id" : "1",
         "name" : "Hello World Inc",
         "logo" : "adjust",
         "money" : 10000,
@@ -8,7 +8,7 @@
         "planetHq" : "2"
     },
     {
-        "id" : "2",
+        "_id" : "2",
         "name" : "Spice Cartel",
         "logo" : "asterisk",
         "money" : 20000,
@@ -16,7 +16,7 @@
         "planetHq" : "2"
     },
     {
-        "id" : "3",
+        "_id" : "3",
         "name" : "MegaMoney Co",
         "logo" : "dollar-sign",
         "money" : 12000,
@@ -24,7 +24,7 @@
         "planetHq" : "2"
     },
     {
-        "id" : "4",
+        "_id" : "4",
         "name" : "Shady Sands Inc",
         "logo" : "anchor",
         "money" : 12500,

@@ -1,6 +1,6 @@
 [
     {
-        "id" : "1",
+        "_id" : "1",
         "buildingId" : "2",
         "companyId" : "4",
         "planetId" : "2",
@@ -12,7 +12,7 @@
         "goods" : { "@Power" : 50 }
     },
     {
-        "id" : "2",
+        "_id" : "2",
         "buildingId" : "1",
         "companyId" : "4",
         "planetId" : "2",

@@ -1,6 +1,6 @@
 [
     {
-        "id" : "1",
+        "_id" : "1",
         "name" : "Laser Cannon",
         "damageLow" : 1,
         "damageHigh" : 10,
@@ -9,7 +9,7 @@
         "ammoCost" : {}
     },
     {
-        "id" : "2",
+        "_id" : "2",
         "name" : "Torpedo Bay",
         "damageLow" : 5,
         "damageHigh" : 20,

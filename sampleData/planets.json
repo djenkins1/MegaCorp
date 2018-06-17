@@ -1,6 +1,6 @@
 [
     {
-        "id" : "1",
+        "_id" : "1",
         "name" : "Optimus Primus",
         "taxes" : 0.10,
         "money" : 100000,
@@ -11,7 +11,7 @@
         "location" : { "z" : 1 }
     },
     {
-        "id" : "2",
+        "_id" : "2",
         "name" : "Tiberius II",
         "taxes" : 0.05,
         "money" : 120000,
@@ -22,7 +22,7 @@
         "location" : { "z" : 1 }
     },
     {
-        "id" : "3",
+        "_id" : "3",
         "name" : "Maximus I",
         "taxes" : 0.05,
         "money" : 60000,
@@ -33,7 +33,7 @@
         "location" : { "z" : 1 }
     },
     {
-        "id" : "4",
+        "_id" : "4",
         "name" : "Jovian IV",
         "taxes" : 0.05,
         "money" : 12000,

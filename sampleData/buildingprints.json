@@ -1,6 +1,6 @@
 [
     {
-        "id" : "1",
+        "_id" : "1",
         "name" : "Smeltery",
         "maxInventory" : 30,
         "maxDamage" : 5,
@@ -15,7 +15,7 @@
         "resourceCost" : { "Steel" : 20 , "Stone" : 10, "Copper" : 10, "Low-Grade Fuel" : 10 }
     },
     {
-        "id" : "2",
+        "_id" : "2",
         "name" : "Refinery",
         "maxInventory" : 50,
         "maxDamage" : 10,

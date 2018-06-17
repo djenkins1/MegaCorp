@@ -1,6 +1,6 @@
 [
     {
-        "id" : "1",
+        "_id" : "1",
         "name" : "Sandy Smelts",
         "buildingTypeName" : "Smeltery",
         "buildingBluePrint" : "1",
@@ -9,7 +9,7 @@
         "inventory" : {"Ore" : 20 }
     },
     {
-        "id" : "2",
+        "_id" : "2",
         "name" : "Sandy Oils",
         "buildingTypeName" : "Refinery",
         "buildingBluePrint" : "2",
