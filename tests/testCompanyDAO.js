@@ -1,6 +1,9 @@
 const assert = require('assert');
 const dataAPI = require( '../Data/DataAPI' );
 const companyDAO = require( '../Data/CompanyDAO' );
+const tableConfig = require('config').get('Tables');
+const TABLE_NAME = tableConfig[ "Company" ];
+var mockDataList = require("../sampleData/" + TABLE_NAME + ".json" );
 var totalCreated = 0;
 
 describe('TestCompanyDAO', function() 
@@ -23,7 +26,8 @@ describe('TestCompanyDAO', function()
 
     it( 'test insert company' , function( done )
     {
-        var company = { "name" : "New Relic" , "money" : 100000 };
+        assert.ok( mockDataList.length > totalCreated );
+        var company = mockDataList[ totalCreated ];
         companyDAO.createCompany( company , function( err , insertedObj )
         {
             if ( err )
@@ -43,7 +47,8 @@ describe('TestCompanyDAO', function()
 
     it( 'test getCompany by id' , function( done )
     {
-        var company = { "name" : "Old Relic" , "money" : 100002 };
+        assert.ok( mockDataList.length > totalCreated );
+        var company = mockDataList[ totalCreated ];
         companyDAO.createCompany( company , function( err , insertedObj )
         {
             if ( err )
@@ -95,7 +100,8 @@ describe('TestCompanyDAO', function()
 
     it( 'test updateCompany' , function( done )
     {
-        var company = { "name" : "Relic 2.0" , "money" : 200000 };
+        assert.ok( mockDataList.length > totalCreated );
+        var company = mockDataList[ totalCreated ];
         companyDAO.createCompany( company , function( err , insertedObj )
         {
             if ( err )
@@ -109,12 +115,10 @@ describe('TestCompanyDAO', function()
             assert.ok( insertedObj._id );
             totalCreated++;
 
-            var changedCompany = {};
-            changedCompany.name = "Dream On";
-            changedCompany.money = insertedObj.money * 2;
-            changedCompany._id = insertedObj._id;
+            insertedObj.name = "Dream On";
+            insertedObj.money = insertedObj.money * 2;
 
-            companyDAO.updateCompany( changedCompany, function( err2, updateResult )
+            companyDAO.updateCompany( insertedObj, function( err2, updateResult )
             {
                 if ( err2 )
                 {
@@ -133,7 +137,8 @@ describe('TestCompanyDAO', function()
 
     it( 'test removeCompany' , function( done )
     {
-        var company = { "name" : "Relic 3.0" , "money" : 125000 };
+        assert.ok( mockDataList.length > totalCreated );
+        var company = mockDataList[ totalCreated ];
         companyDAO.createCompany( company , function( err , insertedObj )
         {
             if ( err )
@@ -178,7 +183,6 @@ describe('TestCompanyDAO', function()
 
                     done();
                 });
-                     
             });
         });
     });
