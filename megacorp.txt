@@ -151,9 +151,9 @@ ServerInfo(Needs DAO/JSON sample data/Business Object)
     +++Things like Galactic Star Date...
 
 
+Offer(Needs Business Object)
+    ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated,OfferType(Buy/Sell),IsFilled,Priority,Goods: []
 
-Offer(Needs JSON sample data/Business Object)
-    ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated(OBJ),OfferType(Buy/Sell),IsFilled,Priority,Goods: []
 
 Transfer(JSON sample data/Business Object)
     ID,BuildingFromID,BuildingToID,CompanyID,PlanetID,IsFilled,Priority,Goods: []
