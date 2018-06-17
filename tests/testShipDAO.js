@@ -97,6 +97,42 @@ describe('TestShipDAO', function()
         });
     });
 
+    it( 'test getShipsInSystemLocation after InsertMany', function( done )
+    {
+        assert.ok( mockDataList.length > 0 );
+        dataAPI.insertMany( TABLE_NAME, mockDataList, function( err, insertResults )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error occured from dataAPI.insertMany" );
+                done();
+                return;
+            }
+
+            if ( mockDataList[ 1 ].location.z )
+            {
+                assert.fail( "MockDataList[0] has defined z location so is not traveling" );
+                done();
+                return;                
+            }
+        
+            shipDAO.getShipsInSystemLocation( mockDataList[ 1 ].location.x, mockDataList[ 1 ].location.y, function( err2, foundResults )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error occured from shipDAO.getShipsInSystemLocation" );
+                    done();
+                    return;
+                }
+
+                assert.equal( foundResults.length , mockDataList.length );
+                done();
+            });
+        });
+    });
+
     //after() is run after all tests have completed.
     //close down the database connection
     after( function( done ) 

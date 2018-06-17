@@ -43,6 +43,12 @@ function getShipsAtLocation( locationObj , onFinish )
     dataAPI.findManyLike( TABLE_NAME , query, onFinish );
 }
 
+function getShipsInSystemLocation( x , y , onFinish )
+{
+    var query = { "location.x" : x, "location.y" : y };
+    dataAPI.findManyLike( TABLE_NAME , query, onFinish );
+}
+
 //expose each of the functions to be called externally
 exports.createShip = createShip;
 exports.getAllShips = getAllShips;
@@ -50,4 +56,6 @@ exports.getShip = getShip;
 exports.updateShip = updateShip;
 exports.removeShip = removeShip;
 exports.getShipsAtLocation = getShipsAtLocation;
+exports.getShipsInSystemLocation = getShipsInSystemLocation;
+
 
