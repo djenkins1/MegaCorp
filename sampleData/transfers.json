@@ -1,0 +1,14 @@
+[
+    {
+        "id" : "1",
+        "buildingFrom" : "2",
+        "buildingTo" : "1",
+        "companyId" : "4",
+        "planetId" : "2",
+        "isFilled" : true,
+        "starDateCreated" : "1234.5",
+        "priority" : 1,
+        "goods" : { "Ore" : 20 }
+    }
+]
+

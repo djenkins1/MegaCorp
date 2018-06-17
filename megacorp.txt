@@ -147,15 +147,14 @@ Building(Needs BusinessObject)
 Offer(Needs Business Object)
     ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated,OfferType(Buy/Sell),IsFilled,Priority,Goods: []
 
-
-
-
-ServerInfo(Needs JSON sample data/Business Object)
+ServerInfo(Needs Business Object)
     Key,Value
     +++Things like Galactic Star Date...
 
-Transfer(Needs JSON sample data/Business Object)
-    ID,BuildingFromID,BuildingToID,CompanyID,PlanetID,IsFilled,Priority,Goods: []
+Transfer(Needs Business Object)
+    ID,BuildingFromID,BuildingToID,CompanyID,PlanetID,IsFilled,StarDateCreated,Priority,Goods: []
+
+
 
 RevolveOffer(Needs JSON sample data/Business Object)
     ID,Offer(OBJ),Frequency(OBJ),Until(OBJ)
