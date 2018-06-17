@@ -32,20 +32,20 @@ DATA:
 ShipBluePrint(Needs BusinessObject)
     ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
     BO:
-        GetShips,returns all ships having the type
+        (NEED DAO FUNCTION)GetShips,returns all ships having the type
         AllBluePrints,returns all ship blue prints in the database
 
 BuildingBluePrint(Needs BusinessObject)
     ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,ProductionCost: [],Employees,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
     BO:
-        GetBuildings,returns all buildings having the type
+        (NEED DAO FUNCTION)GetBuildings,returns all buildings having the type
         AllBluePrints,returns all building blueprints in the database
 
 WeaponBluePrint(Needs BusinessObject)
     ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
     BO:
-        GetShipPrints,returns all ship prints with weapon type
-        GetBuildingPrints,returns all building prints with weapon type
+        (NEED DAO FUNCTION)GetShipPrints,returns all ship prints with weapon type
+        (NEED DAO FUNCTION)GetBuildingPrints,returns all building prints with weapon type
         AllBluePrints,returns all weapon blueprints in the database
 
 Company(Needs BusinessObject)
@@ -58,7 +58,7 @@ Company(Needs BusinessObject)
         AddEmployees,Adds employees to the company(NO UPDATE DB YET)
         RemoveEmployees,Removes employees from the company(NO UPDATE DB YET)
         ChangeHQ,Changes the headquarters of the company(NO UPDATE DB YET)
-        GetAllBuildings,Returns all buildings owned by the company
+        (NEED DAO FUNCTION)GetAllBuildings,Returns all buildings owned by the company
         GetAllShips,Returns all ships owned by the company
         SaveCompany,Saves any changes made to the company to the database
         AllCompanies,Returns all companies in the database
@@ -67,6 +67,7 @@ Company(Needs BusinessObject)
 Planet(Needs BusinessObject)
     ID,Name,Taxes,Money,Atmosphere,Composition,SystemID,Population,Location(OBJ)
     BO:
+        (NOT NEEDED)GetAllCompanies,Returns all companies with buildings/ships/headquarters(?) on planet
         ChangeName,changes the name of the planet(NO UPDATE DB YET)
         ChangeTaxes,changes the tax rate of the planet(NO UPDATE DB YET)
         AddMoney,Adds money to the planet(NO UPDATE DB YET)
@@ -74,9 +75,8 @@ Planet(Needs BusinessObject)
         AddPopulation,Adds population to the planet(NO UPDATE DB YET)
         RemovePopulation,Removes population from the planet(NO UPDATE DB YET)
         GetDockedShips,Returns all ships that are docked on planet(Have Z in location that matches planet's Z)
-        GetAllBuildings,Returns all buildings that are on the planet
+        (NEED DAO FUNCTION)GetAllBuildings,Returns all buildings that are on the planet
         GetCompaniesByHQ,Returns all companies that have headquarters on planet
-        GetAllCompanies,Returns all companies with buildings/ships/headquarters(?) on planet
         SavePlanet,Saves any changes to the planet to the database
         AllPlanets,Returns all planets in the database
         CreatePlanet,Creates a new planet and adds it to the database
@@ -84,7 +84,7 @@ Planet(Needs BusinessObject)
 System(Needs BusinessObject)
     ID,Name,Location(OBJ)
     BO:
-        GetPlanets,Returns all planets that are part of the system
+        (NEED DAO FUNCTION)GetPlanets,Returns all planets that are part of the system
         GetShipsTraveling,Returns all ships that are In System but not docked
         GetAllShips,Returns all ships that are In System traveling or docked
         AllSystems,Returns all systems in the database
@@ -168,7 +168,7 @@ RevolveOffer(Needs JSON sample data populated/Business Object)
         UpdateUntil,updates the until field of the revolve offer(NO UPDATE DB YET)
         SetInEffect,updates the InEffect field of the revolve offer(NO UPDATE DB YET)
         SaveRevolveOffer,updates the revolve offer to the database
-        AllOffers,returns all offers that are in revolve offers table under Offer column
+        (NEED DAO FUNCTION)AllOffers,returns all offers that are in revolve offers table under Offer column
         AllRevolveOffers,returns all revolve offers in the database
         CreateRevolveOffer,creates a new revolve offer and inserts into the database
 
@@ -179,7 +179,7 @@ RevolveTransfer(Needs JSON sample data populated/Business Object)
         UpdateUntil,updates the until field of the revolve transfer(NO UPDATE DB YET)
         SetInEffect,updates the InEffect field of the revolve transfer(NO UPDATE DB YET)
         SaveRevolveTransfer,updates the revolve transfer to the database
-        AllTransfers,returns all transfers that are in revolve transfers table under Transfer column
+        (NEED DAO FUNCTION)AllTransfers,returns all transfers that are in revolve transfers table under Transfer column
         AllRevolveTransfers,returns all revolve transfers in the database
         CreateRevolveTransfer,creates a new revolve transfer and inserts into the database        
 

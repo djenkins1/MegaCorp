@@ -49,6 +49,12 @@ function getShipsInSystemLocation( x , y , onFinish )
     dataAPI.findManyLike( TABLE_NAME , query, onFinish );
 }
 
+function getShipsOwnedBy( companyId, onFinish )
+{
+    var query = { "companyId" : companyId };
+    dataAPI.findManyLike( TABLE_NAME , query, onFinish );
+}
+
 //expose each of the functions to be called externally
 exports.createShip = createShip;
 exports.getAllShips = getAllShips;
@@ -57,5 +63,6 @@ exports.updateShip = updateShip;
 exports.removeShip = removeShip;
 exports.getShipsAtLocation = getShipsAtLocation;
 exports.getShipsInSystemLocation = getShipsInSystemLocation;
+exports.getShipsOwnedBy = getShipsOwnedBy;
 
 

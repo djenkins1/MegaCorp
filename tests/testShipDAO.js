@@ -133,6 +133,44 @@ describe('TestShipDAO', function()
         });
     });
 
+    it( 'test getShipsOwnedBy after InsertMany', function( done )
+    {
+        assert.ok( mockDataList.length > 0 );
+        dataAPI.insertMany( TABLE_NAME, mockDataList, function( err, insertResults )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error occured from dataAPI.insertMany" );
+                done();
+                return;
+            }
+
+            if ( mockDataList[ 1 ].companyId == mockDataList[ 0 ].companyId )
+            {
+                assert.fail( "MockDataList[0] has same owner as MockDataList[1]" );
+                done();
+                return;                
+            }
+        
+            shipDAO.getShipsOwnedBy( mockDataList[ 0 ].companyId, function( err2, foundResults )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error occured from shipDAO.getShipsOwnedBy" );
+                    done();
+                    return;
+                }
+
+                assert.equal( foundResults.length , 1 );
+                assert.equal( foundResults[ 0 ].companyId, mockDataList[ 0 ].companyId );
+                done();
+            });
+        });
+    });
+
+
     //after() is run after all tests have completed.
     //close down the database connection
     after( function( done ) 
