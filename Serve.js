@@ -19,7 +19,7 @@ else
         http.createServer(function (request, response) 
         {
             urlHandler.handleUrl( request, response );
-        }).listen(8081);
+        }).listen(8081);//TODO: should get this from config
         */
         //console.log('Server running at http://127.0.0.1:8081/');
         console.log('Serve command not yet implemented');

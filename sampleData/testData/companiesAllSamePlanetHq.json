@@ -1,0 +1,34 @@
+[
+    {
+        "id" : "1",
+        "name" : "Hello World Inc",
+        "logo" : "adjust",
+        "money" : 10000,
+        "employees" : 100,
+        "planetHq" : "2"
+    },
+    {
+        "id" : "2",
+        "name" : "Spice Cartel",
+        "logo" : "asterisk",
+        "money" : 20000,
+        "employees" : 150,
+        "planetHq" : "2"
+    },
+    {
+        "id" : "3",
+        "name" : "MegaMoney Co",
+        "logo" : "dollar-sign",
+        "money" : 12000,
+        "employees" : 180,
+        "planetHq" : "2"
+    },
+    {
+        "id" : "4",
+        "name" : "Shady Sands Inc",
+        "logo" : "anchor",
+        "money" : 12500,
+        "employees" : 101,
+        "planetHq" : "2"
+    }
+]
