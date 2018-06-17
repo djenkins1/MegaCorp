@@ -328,7 +328,7 @@ function findById( tableName , recordId , onFinish )
     var query = { "_id" : recordId };
     DEBUG_MODE && console.log( "DataAPI.findById: id is," , query._id );
 
-    if ( typeof recordId === "string" )
+    if ( typeof recordId === "string" && ObjectId.isValid( recordId ) )
     {
         query._id = ObjectId( recordId );
         DEBUG_MODE && console.log( "DataAPI.findById: id is a string changed to ObjectId," , query._id );
@@ -433,7 +433,7 @@ function replaceOne( tableName, updateObj, onFinish )
 {
     DEBUG_MODE && console.log( "Entering DataAPI function: replaceOne for table" , tableName );
     var query = { "_id" : updateObj._id  };
-    if ( typeof updateObj._id === "string" )
+    if ( typeof updateObj._id === "string" && ObjectId.isValid( updateObj._id ) )
     {
         query._id = ObjectId( updateObj._id );
         updateObj._id = ObjectId( updateObj._id );
@@ -465,7 +465,7 @@ function removeOne( tableName, removeObj, onFinish )
 {
     DEBUG_MODE && console.log( "Entering DataAPI function: removeOne for table" , tableName );
     var query = { "_id" : removeObj._id  };
-    if ( typeof removeObj._id === "string" )
+    if ( typeof removeObj._id === "string" && ObjectId.isValid( removeObj._id ) )
     {
         query._id = ObjectId( removeObj._id );
         removeObj._id = ObjectId( removeObj._id );
@@ -496,7 +496,7 @@ returns:
 function findOneLike( tableName, queryObj, onFinish )
 {
     DEBUG_MODE && console.log( "Entering DataAPI function: findOne for table" , tableName );
-    if ( typeof queryObj._id === "string" )
+    if ( typeof queryObj._id === "string" && ObjectId.isValid( queryObj._id ) )
     {
         queryObj._id = ObjectId( queryObj._id );
         DEBUG_MODE && console.log( "DataAPI.findOne: id is a string changed to ObjectId," , queryObj._id );
