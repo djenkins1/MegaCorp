@@ -110,6 +110,90 @@ describe('TestDataAPI', function()
         });      
     });
 
+    it( 'test replaceOne' , function( done )
+    {
+        assert.ok( mockDataList.length > 0 );
+        var toInsert = mockDataList[ 0 ];
+        dataAPI.insertOne( TABLE_NAME , toInsert, function( err , result )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error occured from DataAPI.insertOne" );
+                done();
+                return;
+            }
+
+            assert.ok( result );
+            assert.equal( result.name, toInsert.name );
+            result.name = "Test Name";
+            result.money = result.money * 3;
+            dataAPI.replaceOne( TABLE_NAME, result, function( err2, updateResult )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error occured from DataAPI.replaceOne" );
+                    done();
+                    return;
+                }
+
+                assert.ok( updateResult );
+                assert.equal( updateResult.result.nModified , 1 );
+                done();
+            });
+        });
+    });
+
+    it( 'test removeOne', function( done )
+    {
+        assert.ok( mockDataList.length > 0 );
+        var toInsert = mockDataList[ 0 ];
+        dataAPI.insertOne( TABLE_NAME , toInsert, function( err , result )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error occured from DataAPI.insertOne" );
+                done();
+                return;
+            }
+
+            assert.ok( result );
+            assert.equal( result.name, toInsert.name );
+            dataAPI.removeOne( TABLE_NAME, result, function( err2, removeResult )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error occured from DataAPI.removeOne" );
+                    done();
+                    return;
+                }
+
+                assert.ok( removeResult );
+                assert.equal( removeResult.result.n , 1 );
+                dataAPI.findById( TABLE_NAME, result._id, function( err3, findResult )
+                {
+                    if ( err3 )
+                    {
+                        console.log( err3 );
+                        assert.fail( "Error occured from DataAPI.findById" );
+                        done();
+                        return;
+                    }         
+
+                    if ( findResult )
+                    {
+                        assert.fail( "Deleted Record should not have been returned" );
+                    }
+
+                    done();       
+                });
+            });
+        });
+    });
+
 
     //after() is run after all tests have completed.
     //close down the database connection
@@ -121,8 +205,6 @@ describe('TestDataAPI', function()
 
 /*
 
-exports.replaceOne = replaceOne;
-exports.removeOne = removeOne;
 exports.findOneLike = findOneLike;
 exports.findManyLike = findManyLike;
 */
