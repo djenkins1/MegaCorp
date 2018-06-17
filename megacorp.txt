@@ -165,11 +165,27 @@ Transfer(Needs Business Object)
 
 
 
-RevolveOffer(Needs JSON sample data/Business Object)
-    ID,Offer(OBJ),Frequency(OBJ),Until(OBJ)
+RevolveOffer(Needs JSON sample data populated/Business Object)
+    ID,Offer(OBJ),Frequency(OBJ),Until(OBJ),InEffect(true,false)
+    BO:
+        UpdateFrequency,updates the frequency of the revolve offer(NO UPDATE DB YET)
+        UpdateUntil,updates the until field of the revolve offer(NO UPDATE DB YET)
+        SetInEffect,updates the InEffect field of the revolve offer(NO UPDATE DB YET)
+        SaveRevolveOffer,updates the revolve offer to the database
+        AllOffers,returns all offers that are in revolve offers table under Offer column
+        AllRevolveOffers,returns all revolve offers in the database
+        CreateRevolveOffer,creates a new revolve offer and inserts into the database
 
-RevolveTransfer(Needs JSON sample data/Business Object)
-    ID,Transfer(OBJ),Frequency(OBJ),Until(OBJ)
+RevolveTransfer(Needs JSON sample data populated/Business Object)
+    ID,Transfer(OBJ),Frequency(OBJ),Until(OBJ),InEffect(true,false)
+    BO:
+        UpdateFrequency,updates the frequency of the revolve transfer(NO UPDATE DB YET)
+        UpdateUntil,updates the until field of the revolve transfer(NO UPDATE DB YET)
+        SetInEffect,updates the InEffect field of the revolve transfer(NO UPDATE DB YET)
+        SaveRevolveTransfer,updates the revolve transfer to the database
+        AllTransfers,returns all transfers that are in revolve transfers table under Transfer column
+        AllRevolveTransfers,returns all revolve transfers in the database
+        CreateRevolveTransfer,creates a new revolve transfer and inserts into the database        
 
 
 NOTES:
