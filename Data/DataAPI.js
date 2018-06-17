@@ -248,9 +248,7 @@ function findAll( tableName, onFinish )
 
             DEBUG_MODE && console.log( "Exiting DataAPI function: findAll for table" , tableName );            
         });
-
     });
-
 }
 
 /*
@@ -294,7 +292,7 @@ info:
 parameters:
     tableName, string, the table to find the records in
     insertObj, Object, the record to be inserted
-    onFinish, function, the function that is called after the company is inserted
+    onFinish, function, the function that is called after the record is inserted
 returns:
     nothing
 */
@@ -321,6 +319,17 @@ function insertOne( tableName , insertObj, onFinish )
     });
 }
 
+/*
+function: replaceOne
+info:
+    This function updates the object given into the database and passes it along to the onFinish function.
+parameters:
+    tableName, string, the table to update the records in
+    updateObj, Object, the record to be updated
+    onFinish, function, the function that is called after the record is updated
+returns:
+    nothing
+*/
 function replaceOne( tableName, updateObj, onFinish )
 {
     DEBUG_MODE && console.log( "Entering DataAPI function: replaceOne for table" , tableName );
@@ -329,6 +338,7 @@ function replaceOne( tableName, updateObj, onFinish )
     {
         query._id = ObjectId( updateObj._id );
         updateObj._id = ObjectId( updateObj._id );
+        DEBUG_MODE && console.log( "DataAPI.replaceOne: id is a string changed to ObjectId," , query._id );
     }
 
     getDefaultConn( function( db ) 
@@ -341,6 +351,17 @@ function replaceOne( tableName, updateObj, onFinish )
     });    
 }
 
+/*
+function: removeOne
+info:
+    This function removes the object given from the database and passes along success/failure to the onFinish function.
+parameters:
+    tableName, string, the table to delete the record from
+    removeObj, Object, the record to be deleted
+    onFinish, function, the function that is called after the record is removed
+returns:
+    nothing
+*/
 function removeOne( tableName, removeObj, onFinish )
 {
     DEBUG_MODE && console.log( "Entering DataAPI function: removeOne for table" , tableName );
@@ -349,6 +370,7 @@ function removeOne( tableName, removeObj, onFinish )
     {
         query._id = ObjectId( removeObj._id );
         removeObj._id = ObjectId( removeObj._id );
+        DEBUG_MODE && console.log( "DataAPI.removeOne: id is a string changed to ObjectId," , query._id );
     }    
 
     getDefaultConn( function( db ) 
@@ -358,6 +380,63 @@ function removeOne( tableName, removeObj, onFinish )
             onFinish( err, deleteResult );
             DEBUG_MODE && console.log( "Exiting DataAPI function: removeOne for table" , tableName );
         }); 
+    });
+}
+
+/*
+function: findOneLike
+info:
+    This function finds an object like the one given from the database and passes along the found object to the onFinish function.
+parameters:
+    tableName, string, the table to find the record from
+    queryObj, Object, the record that is like the one to be found
+    onFinish, function, the function that is called after the record is found
+returns:
+    nothing
+*/
+function findOneLike( tableName, queryObj, onFinish )
+{
+    DEBUG_MODE && console.log( "Entering DataAPI function: findOne for table" , tableName );
+    if ( typeof queryObj._id === "string" )
+    {
+        queryObj._id = ObjectId( queryObj._id );
+        DEBUG_MODE && console.log( "DataAPI.findOne: id is a string changed to ObjectId," , queryObj._id );
+    }
+
+    getDefaultConn( function( db ) 
+    {
+        db.collection( tableName ).findOne( queryObj , function( err, result )
+        {
+            onFinish( err, result );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: findOne for table" , tableName );
+        });
+    });
+}
+
+/*
+function: findManyLike
+info:
+    This function finds all objects like the one given from the database and passes along the found objects to the onFinish function.
+parameters:
+    tableName, string, the table to find the records in
+    queryObj, Object, the record that is like the ones to be found
+    onFinish, function, the function that is called after the record is found
+returns:
+    nothing
+*/
+function findManyLike( tableName, queryObj, onFinish )
+{
+    DEBUG_MODE && console.log( "Entering DataAPI function: findManyLike for table", tableName );
+    getDefaultConn( function( db ) 
+    {
+        db.collection( tableName ).find( queryObj ).toArray( function(err, results )
+        {
+            DEBUG_MODE && console.log( "DataAPI.findManyLike: number of records found," , results.length );
+
+            onFinish( err, results );
+
+            DEBUG_MODE && console.log( "Exiting DataAPI function: findManyLike for table" , tableName );            
+        });
     });
 }
 
@@ -371,6 +450,10 @@ exports.findById = findById;
 exports.findAll = findAll;
 exports.replaceOne = replaceOne;
 exports.removeOne = removeOne;
+exports.findOneLike = findOneLike;
+exports.findManyLike = findManyLike;
+
+
 
 
 
