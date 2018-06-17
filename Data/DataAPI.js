@@ -320,6 +320,39 @@ function insertOne( tableName , insertObj, onFinish )
 }
 
 /*
+function: insertMany
+info:
+    This function inserts the objects given and passes them along to the onFinish function.
+parameters:
+    tableName, string, the table to find the records in
+    insertObjList, Array, list of objects to be inserted
+    onFinish, function, the function that is called after the records are inserted
+returns:
+    nothing
+*/
+function insertMany( tableName, insertObjList, onFinish )
+{
+    DEBUG_MODE && console.log( "Entering DataAPI function: insertMany for table" , tableName );
+    getDefaultConn( function( db ) 
+    {
+        db.collection( tableName ).insertMany( insertObjList, function(err, result ) 
+        {
+            if (err) 
+            {
+                DEBUG_MODE && console.log( "DataAPI.insertMany: error occurred, passing along error and exiting for table" , tableName );
+                onFinish( err , insertObjList );
+                return;
+            }
+
+            DEBUG_MODE && console.log( "DataAPI.insertMany: number of records inserted," , result.insertedCount );
+
+            onFinish( err , result.ops );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: insertOne for table" , tableName );
+        });
+    });
+}
+
+/*
 function: replaceOne
 info:
     This function updates the object given into the database and passes it along to the onFinish function.
@@ -452,7 +485,7 @@ exports.replaceOne = replaceOne;
 exports.removeOne = removeOne;
 exports.findOneLike = findOneLike;
 exports.findManyLike = findManyLike;
-
+exports.insertMany = insertMany;
 
 
 
