@@ -10,6 +10,8 @@ const ObjectId = require('mongodb').ObjectID;
 
 const DEBUG_MODE = require('config').get('DebugMode');
 
+const tableConfig = require('config').get('Tables');
+
 //global singleton of the connection object
 var _conn = undefined;
 
@@ -91,6 +93,28 @@ function _dropTable( db , tableName )
     });
 }
 
+function _populateTable( db, tableName )
+{
+    DEBUG_MODE && console.log( "Entering DataAPI function: _populateTable for table" , tableName );
+    return new Promise( function( resolve, reject ) 
+    {
+        var objList = require( "../sampleData/" + tableName + ".json" );
+        insertMany( tableName, objList, function( err,res )
+        {
+            if (err)
+            {
+                reject( err );
+                DEBUG_MODE && console.log( "Exiting DataAPI function: _populateTable rejected for table" , tableName );
+                return;
+            }
+
+            DEBUG_MODE && console.log( "DataAPI._createTable: Created table: " + tableName );
+            resolve( res );
+            DEBUG_MODE && console.log( "Exiting DataAPI function: _populateTable resolved for table" , tableName );
+        });
+    });
+}
+
 /*
 function: _createTable
 info:
@@ -135,7 +159,6 @@ returns:
 function setupDatabase( onFinish )
 {
     DEBUG_MODE && console.log( "Entering DataAPI function: setupDatabase" );
-    var tableConfig = require('config').get('Tables');
     getDefaultConn( function( db )
     {
         var tablePromises = [];
@@ -173,7 +196,6 @@ returns:
 function cleanDatabase( onFinish )
 {
     DEBUG_MODE && console.log( "Entering DataAPI function: cleanDatabase" );
-    var tableConfig = require('config').get('Tables');
     getDefaultConn( function( db )
     {
         var tablePromises = [];
@@ -197,6 +219,43 @@ function cleanDatabase( onFinish )
         });
     });  
 }
+
+/*
+function: populateDatabase
+info:
+    This function populates each of the collections that are in the database from the sampleData.
+parameters:
+    onFinish, function, the function to be called once the database has been populated
+returns:
+    nothing
+*/
+function populateDatabase( onFinish )
+{
+    DEBUG_MODE && console.log( "Entering DataAPI function: populateDatabase" );
+    getDefaultConn( function( db )
+    {
+        var tablePromises = [];
+        for ( var i = 0; i < tableConfig.listed.length; i++ )
+        {
+            var tableAlias = tableConfig.listed[ i ];
+            var tableName = tableConfig[ tableAlias ];
+            DEBUG_MODE && console.log( "DataAPI.populateDatabase: adding table to promises," , tableAlias , "with actual name," , tableName );
+            tablePromises.push( _populateTable( db, tableName ) );
+        }
+
+        Promise.all( tablePromises ).then( function()
+        {
+            DEBUG_MODE && console.log( "Exiting DataAPI function: populateDatabase with all promises resolved" );
+            onFinish();
+        }, 
+        function(err) 
+        {
+            // error occurred
+            if ( err ) throw err;
+        });
+    });     
+}
+
 
 /*
 function: closeConnection
@@ -333,6 +392,13 @@ returns:
 function insertMany( tableName, insertObjList, onFinish )
 {
     DEBUG_MODE && console.log( "Entering DataAPI function: insertMany for table" , tableName );
+    if ( insertObjList.length == 0 )
+    {
+        DEBUG_MODE && console.log( "DataAPI.insertMany: returning as insert list contains zero records" , tableName );
+        onFinish( undefined, [] );
+        return;
+    }
+
     getDefaultConn( function( db ) 
     {
         db.collection( tableName ).insertMany( insertObjList, function(err, result ) 
@@ -478,6 +544,7 @@ exports.closeConnection = closeConnection;
 exports.getDefaultConn = getDefaultConn;
 exports.setupDatabase = setupDatabase;
 exports.cleanDatabase = cleanDatabase;
+exports.populateDatabase = populateDatabase;
 exports.insertOne = insertOne;
 exports.findById = findById;
 exports.findAll = findAll;

@@ -3,7 +3,7 @@ const dataAPI = require( '../Data/DataAPI' );
 const companyDAO = require( '../Data/CompanyDAO' );
 const tableConfig = require('config').get('Tables');
 const TABLE_NAME = tableConfig[ "Company" ];
-var mockDataList = require("../sampleData/" + TABLE_NAME + ".json" );
+var mockDataList = require( "../sampleData/testData/companiesAllSamePlanetHq.json" );
 var totalCreated = 0;
 
 describe('TestCompanyDAO', function() 
@@ -184,6 +184,50 @@ describe('TestCompanyDAO', function()
                     done();
                 });
             });
+        });
+    });
+
+    it( 'test getCompaniesByHq' , function( done )
+    {
+        const TEST_PLANET = "2";
+        assert.ok( mockDataList.length > 0 );
+        companyDAO.getCompaniesByHq( TEST_PLANET , function( err, results )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error occured from companyDAO.getCompaniesByHq" );
+                done();
+                return;
+            }
+
+            assert.ok( results );
+            assert.equal( results.length, totalCreated );
+            for ( var i = 0; i < results.length; i++ )
+            {
+                assert.equal( results[ i ].planetHq, TEST_PLANET );
+            }
+            done();
+        });
+    });
+
+    it( 'test getCompaniesByHq no results' , function( done )
+    {
+        const TEST_PLANET = "1";
+        assert.ok( mockDataList.length > 0 );
+        companyDAO.getCompaniesByHq( TEST_PLANET , function( err, results )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error occured from companyDAO.getCompaniesByHq" );
+                done();
+                return;
+            }
+
+            assert.ok( results );
+            assert.equal( results.length, 0 );
+            done();
         });
     });
 

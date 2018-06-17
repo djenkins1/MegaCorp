@@ -20,20 +20,10 @@ TEST DRIVEN DEVELOPMENT....
 
 Modules:
     Configuration(DONE)
-    Data API
-        DataConnection(DONE)
-        Clean/Build each table(DONE)
-        CompanyDAO(DONE)
-        PlanetDAO(DONE)
-        SystemDAO(DONE)
-        ShipDAO(DONE)
-        BuildingDAO(DONE)
-        ShipBluePrintDAO(DONE)
-        BuildingBluePrintDAO(DONE)
-        WeaponBluePrintDAO(DONE)
+    Data API(DONE)
+    Loading Data from JSON for server setup(DONE)
     Business Objects for each table
     Indexes for each table
-    Loading Data from JSON for server setup
     Restful endpoints for each DAO
 
 ==============================

@@ -39,12 +39,11 @@ function removeCompany( companyObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , companyObj, onFinish );
 }
 
-/*
 function getCompaniesByHq( planetId, onFinish )
 {
-
+    var queryObj = { "planetHq" : planetId };
+    dataAPI.findManyLike( TABLE_NAME, queryObj, onFinish );
 }
-*/
 
 //expose each of the functions to be called externally
 exports.createCompany = createCompany;
@@ -52,7 +51,7 @@ exports.getAllCompanies = getAllCompanies;
 exports.getCompany = getCompany;
 exports.updateCompany = updateCompany;
 exports.removeCompany = removeCompany;
-//exports.getCompaniesByHq = getCompaniesByHq;
+exports.getCompaniesByHq = getCompaniesByHq;
 
 
 

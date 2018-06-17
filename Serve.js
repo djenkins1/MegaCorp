@@ -26,13 +26,26 @@ else
     }
     else if ( myArgs[ 0 ] === "--clean" )
     {
-        dataAPI.cleanDatabase( dataAPI.closeConnection );
-        console.log( "Database cleaned" );
+        dataAPI.cleanDatabase( function()
+        {
+            dataAPI.closeConnection( function()
+            {
+                console.log( "Database cleaned" );
+            });
+        });
     }
     else if ( myArgs[ 0 ] === "--setup" )
     {
-        dataAPI.setupDatabase( dataAPI.closeConnection );
-        console.log( "Database setup finished" );
+        dataAPI.setupDatabase( function()
+        {
+            dataAPI.populateDatabase( function()
+            {
+                dataAPI.closeConnection( function()
+                {
+                    console.log( "Database setup finished" );
+                });
+            });
+        });
     }
     else
     {
