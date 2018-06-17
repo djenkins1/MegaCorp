@@ -29,12 +29,6 @@ Modules:
 ==============================
 DATA:
 ==============================
-Configuration(FILE/Constants?)
-    Key,Value
-
-
-
-
 ShipBluePrint(Needs BusinessObject)
     ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
     BO:
@@ -97,8 +91,9 @@ System(Needs BusinessObject)
         CreateSystem,Creates a new system and adds it to the database
 
 Ship(Needs BusinessObject)
-    ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Inventory: []
+    ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Destination(OBJ),Inventory: []
     BO:
+        ChangeDestination,Change the destination of the ship(NO UPDATE DB YET)
         MoveShip,Move the ship to the location given(NO UPDATE DB YET)
         UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
         RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
@@ -110,6 +105,7 @@ Ship(Needs BusinessObject)
         IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
         IsFull,Returns true if the ship's inventory is completely maxed out
         HasFuel,Returns true if the ship has the fuel needed to travel 1 square
+        LocationFuelCost,returns the amount of fuel needed to travel to the location given
         HasGoods,Returns true if the ship has the goods specified
         SaveShip,Saves the changes made to the ship into the database
         AllShips,Returns all ships in the database
@@ -195,5 +191,24 @@ NOTES:
 
     How to construct buildings/ships from specific buildings?
         @Building/@Ship for produced good?
+
+    NEED TO TEST ShipDAO getShipsAtLocation for both on planet and in system
+
+https://mongodb.github.io/node-mongodb-native/markdown-docs/queries.html
+
+{
+  "_id": idvalue,
+  "author":{
+    "firstname":"Daniel",
+    "lastname": "Defoe"
+  },
+  "books":[
+    {
+      "title":"Robinson Crusoe"
+      "year": 1714
+    }
+  ]
+}
+collection.find({"author.firstname":"Daniel})
 
 

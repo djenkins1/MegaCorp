@@ -37,10 +37,17 @@ function removeShip( shipObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , shipObj, onFinish );
 }
 
+function getShipsAtLocation( locationObj , onFinish )
+{
+    var query = { "location" : locationObj };
+    dataAPI.findManyLike( TABLE_NAME , query, onFinish );
+}
+
 //expose each of the functions to be called externally
 exports.createShip = createShip;
 exports.getAllShips = getAllShips;
 exports.getShip = getShip;
 exports.updateShip = updateShip;
 exports.removeShip = removeShip;
+exports.getShipsAtLocation = getShipsAtLocation;
 
