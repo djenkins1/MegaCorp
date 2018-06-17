@@ -144,15 +144,34 @@ Building(Needs BusinessObject)
         CreateBuilding,insert a new building into database
 
 
-Offer(Needs Business Object)
-    ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated,OfferType(Buy/Sell),IsFilled,Priority,Goods: []
-
 ServerInfo(Needs Business Object)
     Key,Value
     +++Things like Galactic Star Date...
+    BO:
+        UpdateInfoValue,updates the value for the key(NO UPDATE DB YET)
+        SaveInfo,Saves the changes made to the info object to the database
+        AllInfo,return all info in the database
+        CreateInfo,insert a new info object into the database
+
+Offer(Needs Business Object)
+    ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated,OfferType(Buy/Sell),IsFilled,Priority,Goods: []
+    BO:
+        UpdatePrice,updates the price of the offer(NO UPDATE DB YET)
+        SetFilled,sets that the offer is filled(NO UPDATE DB YET)
+        UpdatePriority,updates the priority of the offer(NO UPDATE DB YET)
+        SaveOffer,updates the offer in the database
+        AllOffers,returns all offers in the database
+        CreateOffer,creates a new offer and inserts into the database
 
 Transfer(Needs Business Object)
     ID,BuildingFromID,BuildingToID,CompanyID,PlanetID,IsFilled,StarDateCreated,Priority,Goods: []
+    BO:
+        SetFilled,sets that the transfer is filled(NO UPDATE DB YET)
+        UpdatePriority,updates the priority of the transfer(NO UPDATE DB YET)
+        SaveTransfer,updates the transfer in the database
+        AllTransfers,returns all transfers in the database
+        CreateTransfer,creates a new transfer and inserts into the database
+
 
 
 
