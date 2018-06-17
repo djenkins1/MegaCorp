@@ -144,24 +144,23 @@ Building(Needs BusinessObject)
         CreateBuilding,insert a new building into database
 
 
-
-
-ServerInfo(Needs DAO/JSON sample data/Business Object)
-    Key,Value
-    +++Things like Galactic Star Date...
-
-
 Offer(Needs Business Object)
     ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated,OfferType(Buy/Sell),IsFilled,Priority,Goods: []
 
 
-Transfer(JSON sample data/Business Object)
+
+
+ServerInfo(Needs JSON sample data/Business Object)
+    Key,Value
+    +++Things like Galactic Star Date...
+
+Transfer(Needs JSON sample data/Business Object)
     ID,BuildingFromID,BuildingToID,CompanyID,PlanetID,IsFilled,Priority,Goods: []
 
-RevolveOffer(JSON sample data/Business Object)
+RevolveOffer(Needs JSON sample data/Business Object)
     ID,Offer(OBJ),Frequency(OBJ),Until(OBJ)
 
-RevolveTransfer(JSON sample data/Business Object)
+RevolveTransfer(Needs JSON sample data/Business Object)
     ID,Transfer(OBJ),Frequency(OBJ),Until(OBJ)
 
 
