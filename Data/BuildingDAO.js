@@ -37,10 +37,19 @@ function removeBuilding( buildingObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , buildingObj, onFinish );
 }
 
+function getBuildingsOwnedBy( companyId, onFinish )
+{
+    var query = { "companyId" : companyId };
+    dataAPI.findManyLike( TABLE_NAME , query, onFinish );    
+}
+
 //expose each of the functions to be called externally
 exports.createBuilding = createBuilding;
 exports.getAllBuildings = getAllBuildings;
 exports.getBuilding = getBuilding;
 exports.updateBuilding = updateBuilding;
 exports.removeBuilding = removeBuilding;
+exports.getBuildingsOwnedBy = getBuildingsOwnedBy;
+
+
 
