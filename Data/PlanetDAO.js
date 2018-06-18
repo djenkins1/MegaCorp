@@ -37,10 +37,18 @@ function removePlanet( planetObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , planetObj, onFinish );
 }
 
+function getPlanetsInSystem( systemId, onFinish )
+{
+    var queryObj = { "systemId" : systemId };
+    dataAPI.findManyLike( TABLE_NAME, queryObj, onFinish );
+}
+
 //expose each of the functions to be called externally
 exports.createPlanet = createPlanet;
 exports.getAllPlanets = getAllPlanets;
 exports.getPlanet = getPlanet;
 exports.updatePlanet = updatePlanet;
 exports.removePlanet = removePlanet;
+exports.getPlanetsInSystem = getPlanetsInSystem;
+
 

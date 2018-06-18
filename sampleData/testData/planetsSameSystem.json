@@ -12,35 +12,35 @@
     },
     {
         "_id" : "2",
-        "name" : "Tiberius II",
+        "name" : "Optimus II",
         "taxes" : 0.05,
         "money" : 120000,
         "atmosphere" : "oxygen",
         "composition" : "rocky",
-        "systemId" : "2",
+        "systemId" : "1",
         "population" : 2000,
-        "location" : { "z" : 1 }
+        "location" : { "z" : 2 }
     },
     {
         "_id" : "3",
-        "name" : "Maximus I",
+        "name" : "Optimus III",
         "taxes" : 0.05,
         "money" : 60000,
         "atmosphere" : "none",
         "composition" : "rocky",
-        "systemId" : "3",
+        "systemId" : "1",
         "population" : 100,
-        "location" : { "z" : 1 }
+        "location" : { "z" : 3 }
     },
     {
         "_id" : "4",
-        "name" : "Jovian IV",
+        "name" : "Optimus IV",
         "taxes" : 0.05,
         "money" : 12000,
         "atmosphere" : "helium",
         "composition" : "gas",
-        "systemId" : "4",
+        "systemId" : "1",
         "population" : 10,
-        "location" : { "z" : 1 }
+        "location" : { "z" : 4 }
     }
 ]

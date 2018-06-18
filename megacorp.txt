@@ -84,7 +84,7 @@ Planet(Needs BusinessObject)
 System(Needs BusinessObject)
     ID,Name,Location(OBJ)
     BO:
-        (NEED DAO FUNCTION)GetPlanets,Returns all planets that are part of the system
+        GetPlanets,Returns all planets that are part of the system
         GetShipsTraveling,Returns all ships that are In System but not docked
         GetAllShips,Returns all ships that are In System traveling or docked
         AllSystems,Returns all systems in the database
