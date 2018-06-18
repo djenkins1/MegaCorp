@@ -134,6 +134,117 @@ describe('TestBuildingDAO', function()
         });
     });
 
+    it( 'test getBuildingsOnPlanet after insertMany' , function( done )
+    {
+        assert.ok( mockDataList.length > 0 );
+        dataAPI.insertMany( TABLE_NAME, mockDataList, function( err, insertResults )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error occured from dataAPI.insertMany" );
+                done();
+                return;
+            }
+
+            if ( mockDataList[ 0 ].planetId != mockDataList[ 1 ].planetId )
+            {
+                assert.fail( "MockDataList[0] does not have same planetId as MockDataList[1]" );
+                done();
+                return;                
+            }
+
+            buildingDAO.getBuildingsOnPlanet( mockDataList[ 0 ].planetId, function( err2, foundResults )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error occured from buildingDAO.getBuildingsOnPlanet" );
+                    done();
+                    return;
+                }
+
+                assert.equal( foundResults.length , mockDataList.length );
+                done();
+            });
+        });
+    });
+
+    it( 'test getBuildingsOnPlanet different planets after insertMany' , function( done )
+    {
+        var diffOwnerMockDataList = require( "../sampleData/testData/buildingsDifferentPlanets.json" );
+        assert.ok( diffOwnerMockDataList.length > 0 );
+        dataAPI.insertMany( TABLE_NAME, diffOwnerMockDataList, function( err, insertResults )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error occured from dataAPI.insertMany" );
+                done();
+                return;
+            }
+
+            if ( diffOwnerMockDataList[ 0 ].planetId == diffOwnerMockDataList[ 1 ].planetId )
+            {
+                assert.fail( "diffOwnerMockDataList[0] has same planetId as diffOwnerMockDataList[1]" );
+                done();
+                return;                
+            }
+
+            buildingDAO.getBuildingsOnPlanet( diffOwnerMockDataList[ 0 ].planetId, function( err2, foundResults )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error occured from buildingDAO.getBuildingsOnPlanet" );
+                    done();
+                    return;
+                }
+
+                assert.equal( foundResults.length , 1 );
+                assert.equal( foundResults[ 0 ].planetId , diffOwnerMockDataList[ 0 ].planetId );
+                done();
+            });
+        });
+    });
+
+    it( 'test getBuildingsOnPlanet no results after insertMany' , function( done )
+    {
+        assert.ok( mockDataList.length > 0 );
+        dataAPI.insertMany( TABLE_NAME, mockDataList, function( err, insertResults )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error occured from dataAPI.insertMany" );
+                done();
+                return;
+            }
+
+            var mockTestId = "223";
+            if ( mockTestId == mockDataList[ 0 ].planetId || mockTestId == mockDataList[ 1 ].planetId )
+            {
+                assert.fail( "MockDataList contains the test planet id: " + mockTestId );
+                done();
+                return;                
+            }
+
+            buildingDAO.getBuildingsOnPlanet( mockTestId, function( err2, foundResults )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error occured from buildingDAO.getBuildingsOnPlanet" );
+                    done();
+                    return;
+                }
+
+                assert.equal( foundResults.length , 0 );
+                done();
+            });
+        });
+    });
+
     //after() is run after all tests have completed.
     //close down the database connection
     after( function( done ) 

@@ -43,6 +43,12 @@ function getBuildingsOwnedBy( companyId, onFinish )
     dataAPI.findManyLike( TABLE_NAME , query, onFinish );    
 }
 
+function getBuildingsOnPlanet( planetId, onFinish )
+{
+    var query = { "planetId" : planetId };
+    dataAPI.findManyLike( TABLE_NAME , query, onFinish ); 
+}
+
 //expose each of the functions to be called externally
 exports.createBuilding = createBuilding;
 exports.getAllBuildings = getAllBuildings;
@@ -50,6 +56,7 @@ exports.getBuilding = getBuilding;
 exports.updateBuilding = updateBuilding;
 exports.removeBuilding = removeBuilding;
 exports.getBuildingsOwnedBy = getBuildingsOwnedBy;
+exports.getBuildingsOnPlanet = getBuildingsOnPlanet;
 
 
 

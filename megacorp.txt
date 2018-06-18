@@ -75,7 +75,7 @@ Planet(Needs BusinessObject)
         AddPopulation,Adds population to the planet(NO UPDATE DB YET)
         RemovePopulation,Removes population from the planet(NO UPDATE DB YET)
         GetDockedShips,Returns all ships that are docked on planet(Have Z in location that matches planet's Z)
-        (NEED DAO FUNCTION)GetAllBuildings,Returns all buildings that are on the planet
+        GetAllBuildings,Returns all buildings that are on the planet
         GetCompaniesByHQ,Returns all companies that have headquarters on planet
         SavePlanet,Saves any changes to the planet to the database
         AllPlanets,Returns all planets in the database

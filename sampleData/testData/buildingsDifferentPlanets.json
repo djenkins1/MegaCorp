@@ -1,0 +1,22 @@
+[
+    {
+        "_id" : "1",
+        "name" : "Sandy Smelts",
+        "buildingTypeName" : "Smeltery",
+        "buildingBluePrint" : "1",
+        "planetId" : "1",
+        "companyId" : "4",
+        "inventory" : {"Ore" : 20 }
+    },
+    {
+        "_id" : "2",
+        "name" : "Sandy Oils",
+        "buildingTypeName" : "Refinery",
+        "buildingBluePrint" : "2",
+        "planetId" : "2",
+        "companyId" : "4",
+        "inventory" : {}    
+    }
+]
+
+
