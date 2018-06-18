@@ -38,4 +38,5 @@
         ] 
     }
     ,"DebugMode": false
+    ,"DebugModeBO" : true
 }

@@ -29,24 +29,7 @@ Modules:
 ==============================
 DATA:
 ==============================
-ShipBluePrint(Needs BusinessObject)
-    ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
-    BO:
-        (NEED DAO FUNCTION)GetShips,returns all ships having the type
-        AllBluePrints,returns all ship blue prints in the database
 
-BuildingBluePrint(Needs BusinessObject)
-    ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,ProductionCost: [],Employees,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
-    BO:
-        (NEED DAO FUNCTION)GetBuildings,returns all buildings having the type
-        AllBluePrints,returns all building blueprints in the database
-
-WeaponBluePrint(Needs BusinessObject)
-    ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
-    BO:
-        (NEED DAO FUNCTION)GetShipPrints,returns all ship prints with weapon type
-        (NEED DAO FUNCTION)GetBuildingPrints,returns all building prints with weapon type
-        AllBluePrints,returns all weapon blueprints in the database
 
 Company(Needs BusinessObject)
     ID,Name,Logo,Money,Employees,PlanetID(Headquarters)
@@ -158,28 +141,49 @@ Transfer(Needs Business Object)
         AllTransfers,returns all transfers in the database
         CreateTransfer,creates a new transfer and inserts into the database
 
+ShipBluePrint(Needs BusinessObject)
+    ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
+    BO:
+        (NOT NEEDED)GetShips,returns all ships having the type
+        AllBluePrints,returns all ship blue prints in the database
+
+BuildingBluePrint(Needs BusinessObject)
+    ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,ProductionCost: [],Employees,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
+    BO:
+        (NOT NEEDED)GetBuildings,returns all buildings having the type
+        AllBluePrints,returns all building blueprints in the database
+
+WeaponBluePrint(Needs BusinessObject)
+    ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
+    BO:
+        (NOT NEEDED)GetShipPrints,returns all ship prints with weapon type
+        (NOT NEEDED)GetBuildingPrints,returns all building prints with weapon type
+        AllBluePrints,returns all weapon blueprints in the database
+
+
+
 
 
 
 RevolveOffer(Needs JSON sample data populated/Business Object)
     ID,Offer(OBJ),Frequency(OBJ),Until(OBJ),InEffect(true,false)
     BO:
+        (NOT NEEDED)AllOffers,returns all offers that are in revolve offers table under Offer column
         UpdateFrequency,updates the frequency of the revolve offer(NO UPDATE DB YET)
         UpdateUntil,updates the until field of the revolve offer(NO UPDATE DB YET)
         SetInEffect,updates the InEffect field of the revolve offer(NO UPDATE DB YET)
         SaveRevolveOffer,updates the revolve offer to the database
-        (NEED DAO FUNCTION)AllOffers,returns all offers that are in revolve offers table under Offer column
         AllRevolveOffers,returns all revolve offers in the database
         CreateRevolveOffer,creates a new revolve offer and inserts into the database
 
 RevolveTransfer(Needs JSON sample data populated/Business Object)
     ID,Transfer(OBJ),Frequency(OBJ),Until(OBJ),InEffect(true,false)
     BO:
+        (NOT NEEDED)AllTransfers,returns all transfers that are in revolve transfers table under Transfer column
         UpdateFrequency,updates the frequency of the revolve transfer(NO UPDATE DB YET)
         UpdateUntil,updates the until field of the revolve transfer(NO UPDATE DB YET)
         SetInEffect,updates the InEffect field of the revolve transfer(NO UPDATE DB YET)
         SaveRevolveTransfer,updates the revolve transfer to the database
-        (NEED DAO FUNCTION)AllTransfers,returns all transfers that are in revolve transfers table under Transfer column
         AllRevolveTransfers,returns all revolve transfers in the database
         CreateRevolveTransfer,creates a new revolve transfer and inserts into the database        
 
