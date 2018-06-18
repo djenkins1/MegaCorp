@@ -38,5 +38,5 @@
         ] 
     }
     ,"DebugMode": false
-    ,"DebugModeBO" : true
+    ,"DebugModeBO" : false
 }

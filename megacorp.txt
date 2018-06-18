@@ -31,7 +31,7 @@ DATA:
 ==============================
 
 
-Company(Needs BusinessObject)
+Company(Needs implemented BusinessObject)
     ID,Name,Logo,Money,Employees,PlanetID(Headquarters)
     BO:
         ChangeName,Changes the name of the company(NO UPDATE DB YET)

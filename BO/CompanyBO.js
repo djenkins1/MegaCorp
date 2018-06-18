@@ -37,8 +37,6 @@ function changeName( companyObj , newName )
 
 //Changes the logo of the company(NO UPDATE DB YET)
 //returns the new logo of the company or undefined if not changed
-/*
-//TODO: uncomment when tests are written for it in testCompanyBO.js
 function changeLogo( companyObj, newLogo )
 {
     DEBUG_MODE && console.log( "Calling changeLogo in CompanyBO, new logo:" , newLogo );
@@ -58,8 +56,7 @@ function changeLogo( companyObj, newLogo )
     DEBUG_MODE && console.log( "CompanyBO.changeLogo: changed logo successfully" );
     return newLogo;
 }
-*/
 
 exports.changeName = changeName;
-//exports.changeLogo = changeLogo;
+exports.changeLogo = changeLogo;
 

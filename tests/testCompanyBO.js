@@ -65,7 +65,7 @@ describe('TestCompanyBO', function()
         done();
     });
 
-    it( 'test changeName newName old name undefined without saving' , function( done )
+    it( 'test changeName old name undefined without saving' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
@@ -91,6 +91,76 @@ describe('TestCompanyBO', function()
             assert.fail( "mockDataList[0] now has defined name: " + mockDataList[ 0 ].name );
         }
 
+        done();
+    });
+
+    it( 'test changeLogo without saving' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var newTestLogo = "aviato";
+        if ( newTestLogo == mockDataList[ 0 ].logo )
+        {
+            assert.fail( "mockDataList[0] already has test logo: " + newTestLogo );
+            done();
+            return;
+        }
+
+        assert.equal( companyBO.changeLogo( mockDataList[ 0 ] , newTestLogo ) , newTestLogo );
+        assert.equal( mockDataList[ 0 ].logo, newTestLogo );
+        done();
+    });
+
+    it( 'test changeLogo newLogo not string without saving' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var newTestLogo = 104;
+        var oldLogo = mockDataList[ 0 ].logo;
+        if ( newTestLogo == oldLogo )
+        {
+            assert.fail( "mockDataList[0] already has test logo: " + newTestLogo );
+            done();
+            return;
+        }
+
+        var resultLogo = companyBO.changeLogo( mockDataList[ 0 ] , newTestLogo );
+        if ( resultLogo )
+        {
+            assert.fail( "mockDataList[0] changed logo to non string value: " + resultLogo );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].logo, oldLogo );
+        done();
+    });
+
+    it( 'test changeLogo old logo undefined without saving' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var newTestLogo = "aviato";
+        if ( newTestLogo == mockDataList[ 0 ].logo )
+        {
+            assert.fail( "mockDataList[0] already has test logo: " + newTestLogo );
+            done();
+            return;
+        }
+
+        mockDataList[ 0 ].logo = undefined;
+        var resultLogo = companyBO.changeLogo( mockDataList[ 0 ] , newTestLogo );
+        if ( resultLogo )
+        {
+            assert.fail( "mockDataList[0] changed logo to non string value: " + resultLogo );
+            done();
+            return;
+        }
+
+        if ( mockDataList[ 0 ].logo )
+        {
+            assert.fail( "mockDataList[0] now has defined logo: " + mockDataList[ 0 ].logo );
+        }
         done();
     });
 
