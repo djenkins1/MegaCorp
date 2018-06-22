@@ -43,6 +43,8 @@ Company(Needs implemented BusinessObject)
         ChangeHQ,Changes the headquarters of the company(NO UPDATE DB YET)
         GetAllBuildings,Returns all buildings owned by the company
         GetAllShips,Returns all ships owned by the company
+        (NEED DAO)GetAllOffers,Returns all offers from the company
+        (NEED DAO)GetAllTransfers,Returns all transfers from the company
         SaveCompany,Saves any changes made to the company to the database
         AllCompanies,Returns all companies in the database
         CreateCompany,Creates a new company and adds it to the database
@@ -158,8 +160,19 @@ WeaponBluePrint(Needs BusinessObject)
     BO:
         (NOT NEEDED)GetShipPrints,returns all ship prints with weapon type
         (NOT NEEDED)GetBuildingPrints,returns all building prints with weapon type
-        AllBluePrints,returns all weapon blueprints in the database
+        AllBluePrints,returns all weapon blueprints in the database       
 
+Price(Needs Business Object)
+    Prices table for goods which is updated every turn based on fulfilled offers
+    ID,good,low,high,lastUpdate
+    BO:
+        UpdateLow,updates the low price of a particular good(NO UPDATE DB YET)
+        UpdateHigh,updates the high price of a particular good(NO UPDATE DB YET)
+        SetLastUpdate,sets the star date that the good's price was updated last(NO UPDATE DB YET)
+        SavePrice,updates the price to the database
+        AllPrices,returns all prices in the database
+        GetPriceOfGood,returns the price object of the good specified
+        CreatePrice,creates a new price and inserts into the database
 
 
 
@@ -185,7 +198,20 @@ RevolveTransfer(Needs JSON sample data populated/Business Object)
         SetInEffect,updates the InEffect field of the revolve transfer(NO UPDATE DB YET)
         SaveRevolveTransfer,updates the revolve transfer to the database
         AllRevolveTransfers,returns all revolve transfers in the database
-        CreateRevolveTransfer,creates a new revolve transfer and inserts into the database        
+        CreateRevolveTransfer,creates a new revolve transfer and inserts into the database 
+
+
+
+MoneyTransact(Needs DAO/JSON sample data populated/Business Object)
+    ID,FromCompany,ToCompany,Amount,StarDate,Reason
+    BO:
+        CreateMoneyTransact
+        AllMoneyTransact
+
+GoodTransact(Needs DAO/JSON sample data populated/Business Object)
+    ID,FromId,ToId,FromType,ToType,StarDate,Reason
+
+
 
 
 NOTES:

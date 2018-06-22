@@ -8,6 +8,8 @@ const DEBUG_MODE = require('config').get('DebugModeBO');
         ChangeHQ,Changes the headquarters of the company(NO UPDATE DB YET)
         GetAllBuildings,Returns all buildings owned by the company
         GetAllShips,Returns all ships owned by the company
+        GetAllOffers,Returns all offers from the company
+        GetAllTransfers,Returns all transfers from the company
         SaveCompany,Saves any changes made to the company to the database
         AllCompanies,Returns all companies in the database
         CreateCompany,Creates a new company and adds it to the database

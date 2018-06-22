@@ -20,6 +20,7 @@
         ,"RevolveOffer" : "revoffers"
         ,"RevolveTransfer" : "revtransfers"
         ,"ServerInfo" : "serverinfo"
+        ,"Price" : "prices"
         ,"listed" :
         [
              "Company"
@@ -35,6 +36,7 @@
             ,"RevolveOffer"
             ,"RevolveTransfer"
             ,"ServerInfo"
+            ,"Price"
         ] 
     }
     ,"DebugMode": false
