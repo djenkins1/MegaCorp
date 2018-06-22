@@ -16,10 +16,13 @@ describe('TestCompanyBO', function()
     //Clean and setup the database. 
     beforeEach( function( done )
     {
+        /*
         dataAPI.cleanDatabase( function()
         {
             dataAPI.setupDatabase( done );
         });
+        */
+        done();
     });
 
     it( 'test changeName success without saving' , function( done )
@@ -280,12 +283,156 @@ describe('TestCompanyBO', function()
         var resultMoney = companyBO.addMoney( mockDataList[ 0 ] , amountToAdd );
         if ( resultMoney )
         {
-            assert.fail( "Attempt to add to undefined money returned: " + resultMoney );
+            assert.fail( "Attempt to add to non integer money returned: " + resultMoney );
             done();
             return;
         }
 
         assert.equal( mockDataList[ 0 ].money, badMoney );
+        done();
+    });
+
+    it( 'test removeMoney success without saving' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = 5;
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.removeMoney( mockDataList[ 0 ] , amountToAdd );
+        assert.equal( resultMoney, oldAmount - amountToAdd );
+        assert.equal( mockDataList[ 0 ].money, resultMoney );
+        done();
+    });
+
+    it( 'test removeMoney failure addAmount undefined' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = undefined;
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.removeMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to remove undefined to money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, oldAmount );
+        done();
+    });
+
+    it( 'test removeMoney failure addAmount not integer' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = "str";
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.removeMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to remove non integer to money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, oldAmount );
+        done();
+    });
+
+    it( 'test removeMoney failure addAmount negative' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = -5;
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.removeMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to remove negative integer to money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, oldAmount );
+        done();
+    });
+
+    it( 'test removeMoney failure addAmount zero' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = 0;
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.removeMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to remove zero to money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, oldAmount );
+        done();
+    });
+
+    it( 'test removeMoney failure oldAmount undefined' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = 5;
+        mockDataList[ 0 ].money = undefined;
+        var resultMoney = companyBO.removeMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to remove to undefined money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        if ( mockDataList[ 0 ].money )
+        {
+            assert.fail( "Attempt to remove to undefined money resulted in money: " + mockDataList[ 0 ].money );
+            done();
+            return;
+        }
+        done();
+    });
+
+    it( 'test removeMoney failure oldAmount non integer' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = 5;
+        var badMoney = "bad";
+        mockDataList[ 0 ].money = badMoney;
+        var resultMoney = companyBO.removeMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to remove to non integer money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, badMoney );
+        done();
+    });
+
+    it( 'test removeMoney failure oldAmount not enough' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = mockDataList[ 0 ].money + 1;
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.removeMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to remove to too much money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, oldAmount );
         done();
     });
 
