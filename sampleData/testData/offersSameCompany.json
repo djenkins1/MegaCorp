@@ -1,0 +1,27 @@
+[
+    {
+        "_id" : "1",
+        "buildingId" : "2",
+        "companyId" : "4",
+        "planetId" : "2",
+        "price" : 1000,
+        "starDateCreated" : "1234.5",
+        "offerType" : "buy",
+        "isFilled" : false,
+        "priority" : 1,
+        "goods" : { "@Power" : 50 }
+    },
+    {
+        "_id" : "2",
+        "buildingId" : "1",
+        "companyId" : "4",
+        "planetId" : "2",
+        "price" : 1200,
+        "starDateCreated" : "1234.5",
+        "offerType" : "sell",
+        "isFilled" : true,
+        "priority" : 1,
+        "goods" : {"Steel" : 10}
+    }
+]
+

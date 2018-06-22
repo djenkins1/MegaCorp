@@ -43,7 +43,7 @@ Company(Needs implemented BusinessObject)
         ChangeHQ,Changes the headquarters of the company(NO UPDATE DB YET)
         GetAllBuildings,Returns all buildings owned by the company
         GetAllShips,Returns all ships owned by the company
-        (NEED DAO)GetAllOffers,Returns all offers from the company
+        GetAllOffers,Returns all offers from the company
         (NEED DAO)GetAllTransfers,Returns all transfers from the company
         SaveCompany,Saves any changes made to the company to the database
         AllCompanies,Returns all companies in the database

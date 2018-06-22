@@ -37,10 +37,17 @@ function removeOffer( offerObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , offerObj, onFinish );
 }
 
+function getAllFromCompany( companyId, onFinish )
+{
+    var queryObj = { "companyId" : companyId };
+    dataAPI.findManyLike( TABLE_NAME, queryObj, onFinish );    
+}
+
 //expose each of the functions to be called externally
 exports.createOffer = createOffer;
 exports.getAllOffers = getAllOffers;
 exports.getOffer = getOffer;
 exports.updateOffer = updateOffer;
 exports.removeOffer = removeOffer;
+exports.getAllFromCompany = getAllFromCompany;
 
