@@ -37,10 +37,17 @@ function removeTransfer( transferObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , transferObj, onFinish );
 }
 
+function getAllFromCompany( companyId, onFinish )
+{
+    var queryObj = { "companyId" : companyId };
+    dataAPI.findManyLike( TABLE_NAME, queryObj, onFinish );    
+}
+
 //expose each of the functions to be called externally
 exports.createTransfer = createTransfer;
 exports.getAllTransfers = getAllTransfers;
 exports.getTransfer = getTransfer;
 exports.updateTransfer = updateTransfer;
 exports.removeTransfer = removeTransfer;
+exports.getAllFromCompany = getAllFromCompany;
 
