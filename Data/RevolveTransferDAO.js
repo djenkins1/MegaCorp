@@ -37,6 +37,9 @@ function removeRevolveTransfer( revolveTransferObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , revolveTransferObj, onFinish );
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createRevolveTransfer = createRevolveTransfer;
 exports.getAllRevolveTransfers = getAllRevolveTransfers;

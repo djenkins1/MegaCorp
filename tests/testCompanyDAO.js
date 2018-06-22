@@ -1,8 +1,7 @@
 const assert = require('assert');
 const dataAPI = require( '../Data/DataAPI' );
 const companyDAO = require( '../Data/CompanyDAO' );
-const tableConfig = require('config').get('Tables');
-const TABLE_NAME = tableConfig[ "Company" ];
+const TABLE_NAME = companyDAO.tableName;
 var mockDataList = require( "../sampleData/testData/companiesAllSamePlanetHq.json" );
 var totalCreated = 0;
 

@@ -1,8 +1,7 @@
 const assert = require('assert');
 const dataAPI = require( '../Data/DataAPI' );
 const offerDAO = require( '../Data/OfferDAO' );
-const tableConfig = require('config').get('Tables');
-const TABLE_NAME = tableConfig[ "Offer" ];
+const TABLE_NAME = offerDAO.tableName;
 var mockDataList = require( "../sampleData/testData/offersSameCompany.json" );
 
 describe('TestOfferDAO', function() 

@@ -37,6 +37,9 @@ function removeWeaponBluePrint( weaponBluePrintObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , weaponBluePrintObj, onFinish );
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createWeaponBluePrint = createWeaponBluePrint;
 exports.getAllWeaponBluePrints = getAllWeaponBluePrints;

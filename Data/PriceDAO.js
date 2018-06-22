@@ -43,6 +43,9 @@ function getPriceByGood( goodName, onFinish )
     dataAPI.findOneLike( TABLE_NAME, queryObj, onFinish );    
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createPrice = createPrice;
 exports.getAllPrices = getAllPrices;

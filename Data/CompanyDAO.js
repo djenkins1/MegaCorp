@@ -45,6 +45,9 @@ function getCompaniesByHq( planetId, onFinish )
     dataAPI.findManyLike( TABLE_NAME, queryObj, onFinish );
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createCompany = createCompany;
 exports.getAllCompanies = getAllCompanies;

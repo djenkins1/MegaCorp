@@ -43,6 +43,9 @@ function getPlanetsInSystem( systemId, onFinish )
     dataAPI.findManyLike( TABLE_NAME, queryObj, onFinish );
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createPlanet = createPlanet;
 exports.getAllPlanets = getAllPlanets;

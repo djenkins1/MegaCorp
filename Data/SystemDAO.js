@@ -37,6 +37,9 @@ function removeSystem( systemObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , systemObj, onFinish );
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createSystem = createSystem;
 exports.getAllSystems = getAllSystems;

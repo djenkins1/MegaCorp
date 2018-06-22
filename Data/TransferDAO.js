@@ -43,6 +43,9 @@ function getAllFromCompany( companyId, onFinish )
     dataAPI.findManyLike( TABLE_NAME, queryObj, onFinish );    
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createTransfer = createTransfer;
 exports.getAllTransfers = getAllTransfers;
@@ -50,4 +53,5 @@ exports.getTransfer = getTransfer;
 exports.updateTransfer = updateTransfer;
 exports.removeTransfer = removeTransfer;
 exports.getAllFromCompany = getAllFromCompany;
+
 

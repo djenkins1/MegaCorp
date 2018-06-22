@@ -1,8 +1,7 @@
 const assert = require('assert');
 const dataAPI = require( '../Data/DataAPI' );
 const shipDAO = require( '../Data/ShipDAO' );
-const tableConfig = require('config').get('Tables');
-const TABLE_NAME = tableConfig[ "Ship" ];
+const TABLE_NAME = shipDAO.tableName;
 var mockDataList = require( "../sampleData/testData/shipsDockedAndTravel.json" );
 
 describe('TestShipDAO', function() 

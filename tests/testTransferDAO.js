@@ -1,8 +1,7 @@
 const assert = require('assert');
 const dataAPI = require( '../Data/DataAPI' );
 const transferDAO = require( '../Data/TransferDAO' );
-const tableConfig = require('config').get('Tables');
-const TABLE_NAME = tableConfig[ "Transfer" ];
+const TABLE_NAME = transferDAO.tableName;
 var mockDataList = require( "../sampleData/testData/transfersSameCompany.json" );
 
 describe('TestTransferDAO', function() 

@@ -44,7 +44,7 @@ Company(Needs implemented BusinessObject)
         GetAllBuildings,Returns all buildings owned by the company
         GetAllShips,Returns all ships owned by the company
         GetAllOffers,Returns all offers from the company
-        (NEED DAO)GetAllTransfers,Returns all transfers from the company
+        GetAllTransfers,Returns all transfers from the company
         SaveCompany,Saves any changes made to the company to the database
         AllCompanies,Returns all companies in the database
         CreateCompany,Creates a new company and adds it to the database
@@ -222,7 +222,6 @@ NOTES:
     How to construct buildings/ships from specific buildings?
         @Building/@Ship for produced good?
 
-    NEED TO TEST ShipDAO getShipsAtLocation for both on planet and in system
 
 https://mongodb.github.io/node-mongodb-native/markdown-docs/queries.html
 

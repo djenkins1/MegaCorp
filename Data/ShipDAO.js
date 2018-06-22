@@ -55,6 +55,9 @@ function getShipsOwnedBy( companyId, onFinish )
     dataAPI.findManyLike( TABLE_NAME , query, onFinish );
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createShip = createShip;
 exports.getAllShips = getAllShips;

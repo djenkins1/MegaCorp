@@ -1,8 +1,7 @@
 const assert = require('assert');
 const dataAPI = require( '../Data/DataAPI' );
 const planetDAO = require( '../Data/PlanetDAO' );
-const tableConfig = require('config').get('Tables');
-const TABLE_NAME = tableConfig[ "Planet" ];
+const TABLE_NAME = planetDAO.tableName;
 var mockDataList = require( "../sampleData/testData/planetsDifferentSystems.json" );
 
 describe('TestPlanetDAO', function() 

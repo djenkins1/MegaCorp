@@ -37,6 +37,9 @@ function removeBuildingBluePrint( buildingBluePrintObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , buildingBluePrintObj, onFinish );
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createBuildingBluePrint = createBuildingBluePrint;
 exports.getAllBuildingBluePrints = getAllBuildingBluePrints;

@@ -37,6 +37,9 @@ function removeShipBluePrint( shipBluePrintObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , shipBluePrintObj, onFinish );
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createShipBluePrint = createShipBluePrint;
 exports.getAllShipBluePrints = getAllShipBluePrints;

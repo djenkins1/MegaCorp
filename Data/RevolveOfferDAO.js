@@ -37,6 +37,9 @@ function removeRevolveOffer( revolveOfferObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , revolveOfferObj, onFinish );
 }
 
+//expose the table name
+exports.tableName = TABLE_NAME;
+
 //expose each of the functions to be called externally
 exports.createRevolveOffer = createRevolveOffer;
 exports.getAllRevolveOffers = getAllRevolveOffers;
