@@ -22,7 +22,7 @@ describe('TestCompanyBO', function()
         });
     });
 
-    it( 'test changeName without saving' , function( done )
+    it( 'test changeName success without saving' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
@@ -39,7 +39,7 @@ describe('TestCompanyBO', function()
         done();
     });
 
-    it( 'test changeName newName not string without saving' , function( done )
+    it( 'test changeName failure newName not string' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
@@ -64,7 +64,7 @@ describe('TestCompanyBO', function()
         done();
     });
 
-    it( 'test changeName old name undefined without saving' , function( done )
+    it( 'test changeName failure old name undefined' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
@@ -93,7 +93,7 @@ describe('TestCompanyBO', function()
         done();
     });
 
-    it( 'test changeLogo without saving' , function( done )
+    it( 'test changeLogo success without saving' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
@@ -110,7 +110,7 @@ describe('TestCompanyBO', function()
         done();
     });
 
-    it( 'test changeLogo newLogo not string without saving' , function( done )
+    it( 'test changeLogo failure newLogo not string' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
@@ -135,7 +135,7 @@ describe('TestCompanyBO', function()
         done();
     });
 
-    it( 'test changeLogo old logo undefined without saving' , function( done )
+    it( 'test changeLogo failure old logo undefined' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
@@ -160,6 +160,132 @@ describe('TestCompanyBO', function()
         {
             assert.fail( "mockDataList[0] now has defined logo: " + mockDataList[ 0 ].logo );
         }
+        done();
+    });
+
+    it( 'test addMoney success without saving' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = 5;
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.addMoney( mockDataList[ 0 ] , amountToAdd );
+        assert.equal( resultMoney, amountToAdd + oldAmount );
+        assert.equal( mockDataList[ 0 ].money, resultMoney );
+        done();
+    });
+
+    it( 'test addMoney failure addAmount undefined' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = undefined;
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.addMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to add undefined to money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, oldAmount );
+        done();
+    });
+
+    it( 'test addMoney failure addAmount not integer' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = "str";
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.addMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to add non integer to money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, oldAmount );
+        done();
+    });
+
+    it( 'test addMoney failure addAmount negative' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = -5;
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.addMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to add negative integer to money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, oldAmount );
+        done();
+    });
+
+    it( 'test addMoney failure addAmount zero' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = 0;
+        var oldAmount = mockDataList[ 0 ].money;
+        var resultMoney = companyBO.addMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to add zero to money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, oldAmount );
+        done();
+    });
+
+    it( 'test addMoney failure oldAmount undefined' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = 5;
+        mockDataList[ 0 ].money = undefined;
+        var resultMoney = companyBO.addMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to add to undefined money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        if ( mockDataList[ 0 ].money )
+        {
+            assert.fail( "Attempt to add to undefined money resulted in money: " + mockDataList[ 0 ].money );
+            done();
+            return;
+        }
+        done();
+    });
+
+    it( 'test addMoney failure oldAmount non integer' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+        var amountToAdd = 5;
+        var badMoney = "bad";
+        mockDataList[ 0 ].money = badMoney;
+        var resultMoney = companyBO.addMoney( mockDataList[ 0 ] , amountToAdd );
+        if ( resultMoney )
+        {
+            assert.fail( "Attempt to add to undefined money returned: " + resultMoney );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].money, badMoney );
         done();
     });
 

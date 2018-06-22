@@ -1,7 +1,6 @@
 const companyDAO = require( "../Data/CompanyDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 /*
-        AddMoney,Adds money to the company(NO UPDATE DB YET)
         RemoveMoney,Removes money from the company(NO UPDATE DB YET)
         AddEmployees,Adds employees to the company(NO UPDATE DB YET)
         RemoveEmployees,Removes employees from the company(NO UPDATE DB YET)
@@ -59,6 +58,48 @@ function changeLogo( companyObj, newLogo )
     return newLogo;
 }
 
+//Adds money to the company(NO UPDATE DB YET)
+//returns the new money amount of the company or undefined if not changed
+function addMoney( companyObj, amount )
+{
+    DEBUG_MODE && console.log( "Calling addMoney in CompanyBO, add amount:" , amount );
+
+    if ( amount == undefined )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.addMoney: amount is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( amount ) )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.addMoney: amount is not an integer" );
+        return undefined;
+    }
+
+    amount = parseInt( amount, 10 );
+    if ( amount <= 0 )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.addMoney: amount must be greater than zero" );
+        return undefined;
+    }
+
+    if ( companyObj.money == undefined )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.changeLogo: companyObj.money is undefined" );
+        return undefined;
+    }  
+
+    if ( !Number.isInteger( companyObj.money ) )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.addMoney: companyObj.money is not an integer" );
+        return undefined;
+    }
+
+    companyObj.money += amount;
+    return companyObj.money;
+}
+
 exports.changeName = changeName;
 exports.changeLogo = changeLogo;
+exports.addMoney = addMoney;
 
