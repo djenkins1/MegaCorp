@@ -41,4 +41,5 @@
     }
     ,"DebugMode": false
     ,"DebugModeBO" : false
+    ,"ID_KEY" : "_id"
 }
