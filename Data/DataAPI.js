@@ -499,7 +499,7 @@ function findOneLike( tableName, queryObj, onFinish )
     if ( typeof queryObj._id === "string" && ObjectId.isValid( queryObj._id ) )
     {
         queryObj._id = ObjectId( queryObj._id );
-        DEBUG_MODE && console.log( "DataAPI.findOne: id is a string changed to ObjectId," , queryObj._id );
+        DEBUG_MODE && console.log( "DataAPI.findOneLike: id is a string changed to ObjectId," , queryObj._id );
     }
 
     getDefaultConn( function( db ) 
