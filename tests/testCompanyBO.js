@@ -436,6 +436,125 @@ describe('TestCompanyBO', function()
         done();
     });
 
+    it( 'test addEmployees success without saving' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = 10;
+        var oldAmount = mockDataList[ 0 ].employees;
+        assert.ok( oldAmount );
+
+        var resultEmployees = companyBO.addEmployees( mockDataList[ 0 ], amountToAdd );
+        assert.equal( resultEmployees, oldAmount + amountToAdd );
+        assert.equal( mockDataList[ 0 ].employees, resultEmployees );
+        done();
+    });
+
+    it( 'test addEmployees failure amount undefined' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = undefined;
+        var oldAmount = mockDataList[ 0 ].employees;
+        assert.ok( oldAmount );
+
+        var resultEmployees = companyBO.addEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to add employees for undefined amount returned: ' + resultEmployees );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].employees, oldAmount );
+        done();        
+    });
+
+    it( 'test addEmployees failure amount not integer' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = "str";
+        var oldAmount = mockDataList[ 0 ].employees;
+        assert.ok( oldAmount );
+
+        var resultEmployees = companyBO.addEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to add employees for non integer amount returned: ' + resultEmployees );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].employees, oldAmount );
+        done();        
+    });
+
+    it( 'test addEmployees failure amount negative' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = -5;
+        var oldAmount = mockDataList[ 0 ].employees;
+        assert.ok( oldAmount );
+
+        var resultEmployees = companyBO.addEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to add employees for negative amount returned: ' + resultEmployees );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].employees, oldAmount );
+        done();        
+    });
+
+    it( 'test addEmployees failure old employees undefined' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = 5;
+        mockDataList[ 0 ].employees = undefined;
+
+        var resultEmployees = companyBO.addEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to add employees for undefined employees returned: ' + resultEmployees );
+        }
+
+        if ( mockDataList[ 0 ].employees )
+        {
+            assert.fail( 'Attempt to add employees for undefined employees resulted in change: ' + mockDataList[ 0 ].employees );
+        }
+
+        done();        
+    });    
+
+    it( 'test addEmployees failure old employees not integer' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = 5;
+        var testValue = "str";
+        mockDataList[ 0 ].employees = testValue;
+
+        var resultEmployees = companyBO.addEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to add employees for non integer employees returned: ' + resultEmployees );
+        }
+
+        assert.equal( mockDataList[ 0 ].employees, testValue );
+        done();        
+    }); 
+
     //after() is run after all tests have completed.
     //close down the database connection
     after( function( done ) 
