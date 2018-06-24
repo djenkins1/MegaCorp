@@ -1,7 +1,7 @@
 const companyDAO = require( "../Data/CompanyDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
+const ObjectId = require('mongodb').ObjectID;
 /*
-        ChangeHQ,Changes the headquarters of the company(NO UPDATE DB YET)
         GetAllBuildings,Returns all buildings owned by the company
         GetAllShips,Returns all ships owned by the company
         GetAllOffers,Returns all offers from the company
@@ -235,11 +235,35 @@ function removeEmployees( companyObj, amount )
     return companyObj.employees;  
 }
 
+//Changes the headquarters of the company(NO UPDATE DB YET)
+//returns the new planetHq of the company or undefined if not changed
+function changeHq( companyObj, newHq )
+{
+    DEBUG_MODE && console.log( "Calling changeHQ in CompanyBO, newHq:" , newHq );
+
+    if ( newHq == undefined )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.changeHQ: newHq is undefined" );   
+        return undefined; 
+    }
+
+    if ( typeof newHq != "string" )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.changeHQ: newHq is not a string" );   
+        return undefined;     
+    }    
+
+    companyObj.planetHq = newHq;
+    DEBUG_MODE && console.log( "CompanyBO.changeHQ: changed planetHq successfully" );
+    return companyObj.planetHq;
+}
+
 exports.changeName = changeName;
 exports.changeLogo = changeLogo;
 exports.addMoney = addMoney;
 exports.removeMoney = removeMoney;
 exports.addEmployees = addEmployees;
 exports.removeEmployees = removeEmployees;
+exports.changeHq = changeHq;
 
 

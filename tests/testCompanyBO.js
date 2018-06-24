@@ -727,6 +727,76 @@ describe('TestCompanyBO', function()
         done();        
     }); 
 
+    /*
+    ===========
+    ChangeHQ testing begins
+    ===========
+    */
+    it( 'test changeHQ success without saving' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var testPlanetId = "1";
+        if ( testPlanetId == mockDataList[ 0 ].planetHq )
+        {
+            assert.fail( "mockDataList[ 0 ] already has planetHq: " + testPlanetId );
+            done();
+            return;
+        }
+
+        var resultHq = companyBO.changeHq( mockDataList[ 0 ] , testPlanetId );
+        assert.ok( resultHq );
+        assert.equal( resultHq, testPlanetId );
+        assert.equal( mockDataList[ 0 ].planetHq, resultHq );
+        done();
+    });
+
+    it( 'test changeHQ failure newHq undefined' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var testPlanetId = undefined;
+        var oldPlanetHq = mockDataList[ 0 ].planetHq;
+        assert.ok( oldPlanetHq );
+
+        var resultHq = companyBO.changeHq( mockDataList[ 0 ] , testPlanetId );
+        if ( resultHq )
+        {
+            assert.fail( "Attempt to change HQ to undefined returned: " + resultHq );
+        }
+
+        assert.equal( mockDataList[ 0 ].planetHq, oldPlanetHq );
+        done();
+    });
+
+    it( 'test changeHQ failure newHq not string' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var testPlanetId = 123.5;
+        var oldPlanetHq = mockDataList[ 0 ].planetHq;
+        assert.ok( oldPlanetHq );
+
+        var resultHq = companyBO.changeHq( mockDataList[ 0 ] , testPlanetId );
+        if ( resultHq )
+        {
+            assert.fail( "Attempt to change HQ to non string returned: " + resultHq );
+        }
+
+        assert.equal( mockDataList[ 0 ].planetHq, oldPlanetHq );
+        done();
+    });
+
+    /*
+    ===========
+    ____ testing begins
+    ===========
+    */
+
+
     //after() is run after all tests have completed.
     //close down the database connection
     after( function( done ) 
