@@ -40,7 +40,7 @@ Company(Needs implemented BusinessObject)
         RemoveMoney,Removes money from the company(NO UPDATE DB YET)
         AddEmployees,Adds employees to the company(NO UPDATE DB YET)
         RemoveEmployees,Removes employees from the company(NO UPDATE DB YET)
-        ChangeHQ,Changes the headquarters of the company(NO UPDATE DB YET)
+        ChangeHq,Changes the headquarters of the company(NO UPDATE DB YET)
         GetAllBuildings,Returns all buildings owned by the company
         GetAllShips,Returns all ships owned by the company
         GetAllOffers,Returns all offers from the company
@@ -48,6 +48,7 @@ Company(Needs implemented BusinessObject)
         SaveCompany,Saves any changes made to the company to the database
         AllCompanies,Returns all companies in the database
         CreateCompany,Creates a new company and adds it to the database
+        DefaultObj,Returns the default prototype for a new object
 
 Planet(Needs BusinessObject)
     ID,Name,Taxes,Money,Atmosphere,Composition,SystemID,Population,Location(OBJ)
@@ -65,6 +66,7 @@ Planet(Needs BusinessObject)
         SavePlanet,Saves any changes to the planet to the database
         AllPlanets,Returns all planets in the database
         CreatePlanet,Creates a new planet and adds it to the database
+        DefaultObj,Returns the default prototype for a new object
 
 System(Needs BusinessObject)
     ID,Name,Location(OBJ)
@@ -74,6 +76,7 @@ System(Needs BusinessObject)
         GetAllShips,Returns all ships that are In System traveling or docked
         AllSystems,Returns all systems in the database
         CreateSystem,Creates a new system and adds it to the database
+        DefaultObj,Returns the default prototype for a new object
 
 Ship(Needs BusinessObject)
     ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Destination(OBJ),Inventory: []
@@ -95,6 +98,7 @@ Ship(Needs BusinessObject)
         SaveShip,Saves the changes made to the ship into the database
         AllShips,Returns all ships in the database
         CreateShip,Creates a new ship and adds it to the database
+        DefaultObj,Returns the default prototype for a new object
     
 Building(Needs BusinessObject)
     ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
@@ -113,6 +117,7 @@ Building(Needs BusinessObject)
         SaveBuilding,save the changes made to the building object to the database
         AllBuildings,return all buildings in the database
         CreateBuilding,insert a new building into database
+        DefaultObj,Returns the default prototype for a new object
 
 
 ServerInfo(Needs Business Object)
@@ -123,6 +128,7 @@ ServerInfo(Needs Business Object)
         SaveInfo,Saves the changes made to the info object to the database
         AllInfo,return all info in the database
         CreateInfo,insert a new info object into the database
+        DefaultObj,Returns the default prototype for a new object
 
 Offer(Needs Business Object)
     ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated,OfferType(Buy/Sell),IsFilled,Priority,Goods: []
@@ -133,6 +139,7 @@ Offer(Needs Business Object)
         SaveOffer,updates the offer in the database
         AllOffers,returns all offers in the database
         CreateOffer,creates a new offer and inserts into the database
+        DefaultObj,Returns the default prototype for a new object
 
 Transfer(Needs Business Object)
     ID,BuildingFromID,BuildingToID,CompanyID,PlanetID,IsFilled,StarDateCreated,Priority,Goods: []
@@ -142,18 +149,21 @@ Transfer(Needs Business Object)
         SaveTransfer,updates the transfer in the database
         AllTransfers,returns all transfers in the database
         CreateTransfer,creates a new transfer and inserts into the database
+        DefaultObj,Returns the default prototype for a new object
 
 ShipBluePrint(Needs BusinessObject)
     ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
     BO:
         (NOT NEEDED)GetShips,returns all ships having the type
         AllBluePrints,returns all ship blue prints in the database
+        DefaultObj,Returns the default prototype for a new object
 
 BuildingBluePrint(Needs BusinessObject)
     ID,Name,MaxInventory,MaxDamage,Speed,Size,LaborCost,ProductionCost: [],Employees,WeaponTypeName,WeaponBluePrint(OBJ),Produces: [],ResourceCost(CONSTRUCT): []
     BO:
         (NOT NEEDED)GetBuildings,returns all buildings having the type
         AllBluePrints,returns all building blueprints in the database
+        DefaultObj,Returns the default prototype for a new object
 
 WeaponBluePrint(Needs BusinessObject)
     ID,Name,DamageLow,DamageHigh,HitRatio,Speed,AmmoCost: []
@@ -161,6 +171,7 @@ WeaponBluePrint(Needs BusinessObject)
         (NOT NEEDED)GetShipPrints,returns all ship prints with weapon type
         (NOT NEEDED)GetBuildingPrints,returns all building prints with weapon type
         AllBluePrints,returns all weapon blueprints in the database       
+        DefaultObj,Returns the default prototype for a new object
 
 Price(Needs Business Object)
     Prices table for goods which is updated every turn based on fulfilled offers
@@ -173,6 +184,7 @@ Price(Needs Business Object)
         AllPrices,returns all prices in the database
         GetPriceOfGood,returns the price object of the good specified
         CreatePrice,creates a new price and inserts into the database
+        DefaultObj,Returns the default prototype for a new object
 
 
 
@@ -188,6 +200,7 @@ RevolveOffer(Needs JSON sample data populated/Business Object)
         SaveRevolveOffer,updates the revolve offer to the database
         AllRevolveOffers,returns all revolve offers in the database
         CreateRevolveOffer,creates a new revolve offer and inserts into the database
+        DefaultObj,Returns the default prototype for a new object
 
 RevolveTransfer(Needs JSON sample data populated/Business Object)
     ID,Transfer(OBJ),Frequency(OBJ),Until(OBJ),InEffect(true,false)
@@ -199,6 +212,7 @@ RevolveTransfer(Needs JSON sample data populated/Business Object)
         SaveRevolveTransfer,updates the revolve transfer to the database
         AllRevolveTransfers,returns all revolve transfers in the database
         CreateRevolveTransfer,creates a new revolve transfer and inserts into the database 
+        DefaultObj,Returns the default prototype for a new object
 
 
 
@@ -207,6 +221,7 @@ MoneyTransact(Needs DAO/JSON sample data populated/Business Object)
     BO:
         CreateMoneyTransact
         AllMoneyTransact
+        DefaultObj,Returns the default prototype for a new object
 
 GoodTransact(Needs DAO/JSON sample data populated/Business Object)
     ID,FromId,ToId,FromType,ToType,StarDate,Reason
