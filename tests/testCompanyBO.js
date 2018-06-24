@@ -25,6 +25,12 @@ describe('TestCompanyBO', function()
         done();
     });
 
+    /*
+    ===========
+    ChangeName testing begins
+    ===========
+    */
+
     it( 'test changeName success without saving' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
@@ -96,6 +102,12 @@ describe('TestCompanyBO', function()
         done();
     });
 
+    /*
+    ===========
+    ChangeLogo testing begins
+    ===========
+    */
+
     it( 'test changeLogo success without saving' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
@@ -165,6 +177,12 @@ describe('TestCompanyBO', function()
         }
         done();
     });
+
+    /*
+    ===========
+    AddMoney testing begins
+    ===========
+    */
 
     it( 'test addMoney success without saving' , function( done )
     {
@@ -291,6 +309,12 @@ describe('TestCompanyBO', function()
         assert.equal( mockDataList[ 0 ].money, badMoney );
         done();
     });
+
+    /*
+    ===========
+    RemoveMoney testing begins
+    ===========
+    */
 
     it( 'test removeMoney success without saving' , function( done )
     {
@@ -436,6 +460,12 @@ describe('TestCompanyBO', function()
         done();
     });
 
+    /*
+    ===========
+    AddEmployees testing begins
+    ===========
+    */
+
     it( 'test addEmployees success without saving' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
@@ -552,6 +582,148 @@ describe('TestCompanyBO', function()
         }
 
         assert.equal( mockDataList[ 0 ].employees, testValue );
+        done();        
+    }); 
+
+    /*
+    ===========
+    RemoveEmployees testing begins
+    ===========
+    */
+    it( 'test removeEmployees success without saving' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = 10;
+        var oldAmount = mockDataList[ 0 ].employees;
+        assert.ok( oldAmount );
+
+        var resultEmployees = companyBO.removeEmployees( mockDataList[ 0 ], amountToAdd );
+        assert.equal( resultEmployees, oldAmount - amountToAdd );
+        assert.equal( mockDataList[ 0 ].employees, resultEmployees );
+        done();
+    });
+
+    it( 'test removeEmployees failure amount undefined' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = undefined;
+        var oldAmount = mockDataList[ 0 ].employees;
+        assert.ok( oldAmount );
+
+        var resultEmployees = companyBO.removeEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to remove employees for undefined amount returned: ' + resultEmployees );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].employees, oldAmount );
+        done();        
+    });
+
+    it( 'test removeEmployees failure amount not integer' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = "str";
+        var oldAmount = mockDataList[ 0 ].employees;
+        assert.ok( oldAmount );
+
+        var resultEmployees = companyBO.removeEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to remove employees for non integer amount returned: ' + resultEmployees );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].employees, oldAmount );
+        done();        
+    });
+
+    it( 'test removeEmployees failure amount negative' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = -5;
+        var oldAmount = mockDataList[ 0 ].employees;
+        assert.ok( oldAmount );
+
+        var resultEmployees = companyBO.removeEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to remove employees for negative amount returned: ' + resultEmployees );
+            done();
+            return;
+        }
+
+        assert.equal( mockDataList[ 0 ].employees, oldAmount );
+        done();        
+    });
+
+    it( 'test removeEmployees failure old employees undefined' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = 5;
+        mockDataList[ 0 ].employees = undefined;
+
+        var resultEmployees = companyBO.removeEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to remove employees for undefined employees returned: ' + resultEmployees );
+        }
+
+        if ( mockDataList[ 0 ].employees )
+        {
+            assert.fail( 'Attempt to remove employees for undefined employees resulted in change: ' + mockDataList[ 0 ].employees );
+        }
+
+        done();        
+    });    
+
+    it( 'test removeEmployees failure old employees not integer' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = 5;
+        var testValue = "str";
+        mockDataList[ 0 ].employees = testValue;
+
+        var resultEmployees = companyBO.removeEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to remove employees for non integer employees returned: ' + resultEmployees );
+        }
+
+        assert.equal( mockDataList[ 0 ].employees, testValue );
+        done();        
+    }); 
+
+    it( 'test removeEmployees failure old employees not enough' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        var amountToAdd = mockDataList[ 0 ].employees + 1;
+        var oldAmount = mockDataList[ 0 ].employees;
+
+        var resultEmployees = companyBO.removeEmployees( mockDataList[ 0 ], amountToAdd );
+        if ( resultEmployees )
+        {
+            assert.fail( 'Attempt to remove employees for not enough employees returned: ' + resultEmployees );
+        }
+
+        assert.equal( mockDataList[ 0 ].employees, oldAmount );
         done();        
     }); 
 

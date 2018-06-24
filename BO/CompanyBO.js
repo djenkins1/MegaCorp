@@ -1,7 +1,6 @@
 const companyDAO = require( "../Data/CompanyDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 /*
-        RemoveEmployees,Removes employees from the company(NO UPDATE DB YET)
         ChangeHQ,Changes the headquarters of the company(NO UPDATE DB YET)
         GetAllBuildings,Returns all buildings owned by the company
         GetAllShips,Returns all ships owned by the company
@@ -188,10 +187,59 @@ function addEmployees( companyObj, amount )
     return companyObj.employees;    
 }
 
+//Removes employees from the company(NO UPDATE DB YET)
+//returns the new number of employees for the company or undefined if not changed
+function removeEmployees( companyObj, amount )
+{
+    DEBUG_MODE && console.log( "Calling removeEmployees in CompanyBO, add amount:" , amount );
+
+    if ( amount == undefined )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.removeEmployees: amount is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( amount ) )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.removeEmployees: amount is not an integer" );
+        return undefined;
+    }
+
+    amount = parseInt( amount, 10 );
+    if ( amount <= 0 )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.removeEmployees: amount must be greater than zero" );
+        return undefined;
+    }
+
+    if ( companyObj.employees == undefined )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.removeEmployees: companyObj.employees is undefined" );
+        return undefined;
+    }  
+
+    if ( !Number.isInteger( companyObj.employees ) )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.removeEmployees: companyObj.employees is not an integer" );
+        return undefined;
+    }
+
+    if ( companyObj.employees < amount )
+    {
+        DEBUG_MODE && console.log( "CompanyBO.removeEmployees: companyObj.employees does not have enough to remove" );
+        return undefined;
+    }
+
+    companyObj.employees -= amount;
+    DEBUG_MODE && console.log( "CompanyBO.removeEmployees: removed employees successfully" );
+    return companyObj.employees;  
+}
+
 exports.changeName = changeName;
 exports.changeLogo = changeLogo;
 exports.addMoney = addMoney;
 exports.removeMoney = removeMoney;
 exports.addEmployees = addEmployees;
+exports.removeEmployees = removeEmployees;
 
 
