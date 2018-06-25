@@ -4,6 +4,8 @@ const companyDAO = require( '../Data/CompanyDAO' );
 const companyBO = require( '../BO/CompanyBO' );
 const TABLE_NAME = companyDAO.tableName;
 
+//This test file does not test database functionality
+
 describe('TestCompanyBO', function() 
 {
     //The before() callback gets run before all tests in the suite.
@@ -13,15 +15,8 @@ describe('TestCompanyBO', function()
     });
 
     //The beforeEach() callback gets run before each test in the suite.
-    //Clean and setup the database. 
     beforeEach( function( done )
     {
-        /*
-        dataAPI.cleanDatabase( function()
-        {
-            dataAPI.setupDatabase( done );
-        });
-        */
         done();
     });
 
@@ -790,17 +785,10 @@ describe('TestCompanyBO', function()
         done();
     });
 
-    /*
-    ===========
-    ____ testing begins
-    ===========
-    */
-
-
     //after() is run after all tests have completed.
     //close down the database connection
     after( function( done ) 
     {
-        dataAPI.closeConnection( done );
+        done();
     });
 });

@@ -1,15 +1,6 @@
 const companyDAO = require( "../Data/CompanyDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
-const ObjectId = require('mongodb').ObjectID;
-/*
-        GetAllBuildings,Returns all buildings owned by the company
-        GetAllShips,Returns all ships owned by the company
-        GetAllOffers,Returns all offers from the company
-        GetAllTransfers,Returns all transfers from the company
-        SaveCompany,Saves any changes made to the company to the database
-        AllCompanies,Returns all companies in the database
-        CreateCompany,Creates a new company and adds it to the database
-*/
+const ID_KEY = require('config').get('ID_KEY');
 
 //Changes the name of the company(NO UPDATE DB YET)
 //returns the new name of the company or undefined if not changed
@@ -258,6 +249,82 @@ function changeHq( companyObj, newHq )
     return companyObj.planetHq;
 }
 
+//returns a default object for a new company
+function defaultObj()
+{
+    return {
+        "name" : "",
+        "logo" : "",
+        "money" : 0,
+        "employees" : 0,
+        "planetHq" : ""
+    };
+}
+
+//Saves any changes made to the company to the database
+//when the changes have been saved the onFinish function is called
+//this function ignores any other properties in the companyObj parameter
+//  other then those which are in the defaultObj(as well as _id)
+function saveCompany( companyObj, onFinish )
+{
+    //create a new company object
+    var protoObj = defaultObj();
+
+    //assign each of the properties to the one in companyObj parameter
+    for ( var prop in protoObj )
+    {
+        protoObj[ prop ] = companyObj[ prop ];
+    }
+    
+    //assign the id field of the new company object to the companyObj parameter id
+    protoObj[ ID_KEY ] = companyObj[ ID_KEY ];
+
+    companyDAO.updateCompany( protoObj , function( err , result )
+    {
+        onFinish( err , protoObj );
+    });
+}
+
+
+/*
+//Returns all buildings owned by the company
+function getAllBuildings( companyObj )
+{
+    
+}
+
+//Returns all ships owned by the company
+function getAllShips( companyObj )
+{
+
+}
+
+//Returns all offers from the company
+function getAllOffers( companyObj )
+{
+
+}
+
+//Returns all transfers from the company
+function getAllTransfers( companyObj )
+{
+
+}
+
+//Returns all companies in the database
+function allCompanies( onFinish )
+{
+
+}
+
+//Creates a new company and adds it to the database
+function createCompany( companyObj , onFinish )
+{
+
+}
+*/
+
+
 exports.changeName = changeName;
 exports.changeLogo = changeLogo;
 exports.addMoney = addMoney;
@@ -265,5 +332,6 @@ exports.removeMoney = removeMoney;
 exports.addEmployees = addEmployees;
 exports.removeEmployees = removeEmployees;
 exports.changeHq = changeHq;
-
+exports.defaultObj = defaultObj;
+exports.saveCompany = saveCompany;
 
