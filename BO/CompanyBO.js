@@ -1,4 +1,8 @@
 const companyDAO = require( "../Data/CompanyDAO" );
+const buildingDAO = require( "../Data/BuildingDAO" );
+const shipDAO = require( "../Data/ShipDAO" );
+const offerDAO = require( "../Data/OfferDAO" );
+const transferDAO = require( "../Data/TransferDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 
@@ -285,44 +289,58 @@ function saveCompany( companyObj, onFinish )
     });
 }
 
-
-/*
-//Returns all buildings owned by the company
-function getAllBuildings( companyObj )
+//Passes along all buildings owned by the company to the onFinish function
+function getAllBuildings( companyObj , onFinish )
 {
-    
+    buildingDAO.getBuildingsOwnedBy( companyObj[ ID_KEY ] , onFinish );
 }
 
-//Returns all ships owned by the company
-function getAllShips( companyObj )
+//Passes along all ships owned by the company to the onFinish function
+function getAllShips( companyObj, onFinish )
 {
-
+    shipDAO.getShipsOwnedBy( companyObj[ ID_KEY ] , onFinish );
 }
 
-//Returns all offers from the company
-function getAllOffers( companyObj )
-{
-
-}
-
-//Returns all transfers from the company
-function getAllTransfers( companyObj )
-{
-
-}
-
-//Returns all companies in the database
+//Passes along all companies in the database to the onFinish function
 function allCompanies( onFinish )
 {
+    companyDAO.getAllCompanies( onFinish );
+}
 
+
+//Passes along all offers from the company to the onFinish function
+function getAllOffers( companyObj, onFinish )
+{
+    offerDAO.getAllFromCompany( companyObj[ ID_KEY ] , onFinish );
+}
+
+//Passes along all transfers from the company to the onFinish function
+function getAllTransfers( companyObj, onFinish )
+{
+    transferDAO.getAllFromCompany( companyObj[ ID_KEY ] , onFinish );
 }
 
 //Creates a new company and adds it to the database
 function createCompany( companyObj , onFinish )
 {
+    //create a new company object
+    var protoObj = defaultObj();
 
+    //assign each of the properties to the one in companyObj parameter
+    for ( var prop in protoObj )
+    {
+        protoObj[ prop ] = companyObj[ prop ];
+    }
+    
+    //assign the id field of the new company object to the companyObj parameter id
+    if ( companyObj[ ID_KEY ] )
+    {
+        protoObj[ ID_KEY ] = companyObj[ ID_KEY ];
+    }
+
+    companyDAO.createCompany( protoObj , onFinish );
 }
-*/
+
 
 
 exports.changeName = changeName;
@@ -332,6 +350,16 @@ exports.removeMoney = removeMoney;
 exports.addEmployees = addEmployees;
 exports.removeEmployees = removeEmployees;
 exports.changeHq = changeHq;
-exports.defaultObj = defaultObj;
 exports.saveCompany = saveCompany;
+exports.createCompany = createCompany;
+//NO TESTING NEEDED:
+exports.defaultObj = defaultObj;
+exports.getAllBuildings = getAllBuildings;
+exports.getAllShips = getAllShips;
+exports.allCompanies = allCompanies;
+exports.getAllOffers = getAllOffers;
+exports.getAllTransfers = getAllTransfers;
+
+
+
 

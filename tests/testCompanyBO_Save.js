@@ -175,7 +175,79 @@ describe('TestCompanyBO_Save', function()
         updateCommands.push( { "updateKey" : "employees" , "updateValue" : 5 , "updateFunc" : companyBO.removeEmployees } );
         updateCommands.push( { "updateKey" : "planetHq" , "updateValue" : "20" , "updateFunc" : companyBO.changeHq } );
         updateCommands.push( { "updateKey" : "money" , "updateValue" : 10 , "updateFunc" : companyBO.removeMoney } );
-        testValueUpdates( companyObj, updateCommands, done )
+        testValueUpdates( companyObj, updateCommands, done );
+    });
+
+    it( 'test createCompany success with custom id' , function(done)
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        assert.ok( mockDataList.length >= 1 );
+        var companyObj = mockDataList[ 0 ];
+
+        companyBO.createCompany( companyObj, function( err, insertedObj )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error with companyBO.createCompany" );
+            }
+
+            assert.ok( insertedObj );
+            assert.equal( insertedObj[ ID_KEY ] , companyObj[ ID_KEY ] );
+            assert.deepEqual( insertedObj, companyObj );
+            companyDAO.getCompany( insertedObj[ ID_KEY ] , function( err2, foundResult )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error with companyDAO.getCompany" );
+                }
+
+                assert.ok( foundResult );
+                assert.deepEqual( foundResult, insertedObj );
+                done();
+            });
+        });
+    });
+
+    it( 'test createCompany success with db generated id' , function(done)
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/companiesAllSamePlanetHq.json" ) ) );
+
+        assert.ok( mockDataList.length >= 1 );
+        var companyObj = mockDataList[ 0 ];
+        delete companyObj[ ID_KEY ];
+
+        companyBO.createCompany( companyObj, function( err, insertedObj )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error with companyBO.createCompany" );
+            }
+
+            assert.ok( insertedObj );
+            assert.ok( insertedObj[ ID_KEY ] );
+            assert.equal( insertedObj.name, companyObj.name );
+            assert.equal( insertedObj.money, companyObj.money );
+            assert.equal( insertedObj.employees, companyObj.employees );
+            assert.equal( insertedObj.planetHq, companyObj.planetHq );
+            companyDAO.getCompany( insertedObj[ ID_KEY ] , function( err2, foundResult )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error with companyDAO.getCompany" );
+                }
+
+                assert.ok( foundResult );
+                assert.deepEqual( foundResult, insertedObj );
+                done();
+            });
+        });
     });
 
     //after() is run after all tests have completed.
