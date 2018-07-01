@@ -31,7 +31,7 @@ DATA:
 ==============================
 
 
-Company(Needs implemented BusinessObject)
+Company(DONE)
     ID,Name,Logo,Money,Employees,PlanetID(Headquarters)
     BO:
         ChangeName,Changes the name of the company(NO UPDATE DB YET)
@@ -48,6 +48,28 @@ Company(Needs implemented BusinessObject)
         SaveCompany,Saves any changes made to the company to the database
         AllCompanies,Returns all companies in the database
         CreateCompany,Creates a new company and adds it to the database
+        DefaultObj,Returns the default prototype for a new object
+
+Ship(Needs Implemented BusinessObject)
+    ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Destination(OBJ),Inventory: []
+    BO:
+        ChangeDestination,Change the destination of the ship(NO UPDATE DB YET)
+        MoveShip,Move the ship to the location given(NO UPDATE DB YET)
+        UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
+        RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
+        AddGoods,Adds goods to the ships inventory(NO UPDATE DB YET)
+        ChangeName,Change the name of the ship(NO UPDATE DB YET)
+        ChangeCompany,Change the company that owns the ship(NO UPDATE DB YET)
+        AddDamage,Add damage to the ship(NO UPDATE DB YET)
+        FixDamage,Remove damage from the ship(NO UPDATE DB YET)
+        IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
+        IsFull,Returns true if the ship's inventory is completely maxed out
+        HasFuel,Returns true if the ship has the fuel needed to travel 1 square
+        LocationFuelCost,returns the amount of fuel needed to travel to the location given
+        HasGoods,Returns true if the ship has the goods specified
+        SaveShip,Saves the changes made to the ship into the database
+        AllShips,Returns all ships in the database
+        CreateShip,Creates a new ship and adds it to the database
         DefaultObj,Returns the default prototype for a new object
 
 Planet(Needs BusinessObject)
@@ -76,28 +98,6 @@ System(Needs BusinessObject)
         GetAllShips,Returns all ships that are In System traveling or docked
         AllSystems,Returns all systems in the database
         CreateSystem,Creates a new system and adds it to the database
-        DefaultObj,Returns the default prototype for a new object
-
-Ship(Needs BusinessObject)
-    ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Destination(OBJ),Inventory: []
-    BO:
-        ChangeDestination,Change the destination of the ship(NO UPDATE DB YET)
-        MoveShip,Move the ship to the location given(NO UPDATE DB YET)
-        UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
-        RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
-        AddGoods,Adds goods to the ships inventory(NO UPDATE DB YET)
-        ChangeName,Change the name of the ship(NO UPDATE DB YET)
-        ChangeCompany,Change the company that owns the ship(NO UPDATE DB YET)
-        AddDamage,Add damage to the ship(NO UPDATE DB YET)
-        FixDamage,Remove damage from the ship(NO UPDATE DB YET)
-        IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
-        IsFull,Returns true if the ship's inventory is completely maxed out
-        HasFuel,Returns true if the ship has the fuel needed to travel 1 square
-        LocationFuelCost,returns the amount of fuel needed to travel to the location given
-        HasGoods,Returns true if the ship has the goods specified
-        SaveShip,Saves the changes made to the ship into the database
-        AllShips,Returns all ships in the database
-        CreateShip,Creates a new ship and adds it to the database
         DefaultObj,Returns the default prototype for a new object
     
 Building(Needs BusinessObject)
@@ -230,12 +230,56 @@ GoodTransact(Needs DAO/JSON sample data populated/Business Object)
 
 
 NOTES:
-    Need to update tables having locations so that x,y,z are all numeric and not strings
+    Need to add planet id to prices table to make prices based on location
+
+    Maybe limit types of buildings based on planet atmosphere?
 
     Resources that start with @ in their name do not take up inventory space
 
     How to construct buildings/ships from specific buildings?
         @Building/@Ship for produced good?
+
+Resource Ideas:
+    Ore -> (
+        Steel
+        Copper
+        Gold
+        Silver
+        Aluminum
+        Titanium
+    )
+    Clay ->
+        Bricks
+    Stone ->
+        Concrete
+    Crystal ->
+        Glass
+    Crops -> (
+        Oil(vegetable)
+        Rations
+        Wine
+        Meat
+    )
+    Fruit
+    Lumber
+    Spice
+    Cotton ->
+        Cloth
+    Rubber ->
+        Plastic
+    @Power
+    Low-Grade Fuel
+    Mid-Grade Fuel
+    High-Grade Fuel
+    Chemicals
+    Circuitry
+    Technology
+    Battery
+    Machinery
+    Wood Furniture
+    Furniture
+
+
 
 
 https://mongodb.github.io/node-mongodb-native/markdown-docs/queries.html
