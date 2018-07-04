@@ -466,6 +466,202 @@ describe('TestShipBO', function()
         done();
     });
 
+    it( 'test locationFuelCost failure invalid location' , function( done )
+    {
+        let sampleLocation = { "x" : 5 };
+        let sampleDestination = { "x" : 0 , "y" : 2 };
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination );
+        if ( returnVal )
+        {
+            assert.fail( "locationFuelCost for invalid location returned: " + locationFuelCost );
+        }
+
+        done();
+    });
+
+    it( 'test locationFuelCost failure invalid destination' , function( done )
+    {
+        let sampleLocation = { "x" : 5, "y" : 2};
+        let sampleDestination = { "x" : 0  };
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination );
+        if ( returnVal )
+        {
+            assert.fail( "locationFuelCost for invalid destination returned: " + locationFuelCost );
+        }
+
+        done();
+    });
+
+    /*
+    ===========
+    DestinationFuelCost testing begins
+    ===========
+    */
+    it( 'test destinationFuelCost same location returns 0' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+        
+        let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], mockDataList[ 0 ].location );
+        assert.equal( shipBO.destinationFuelCost( mockDataList[ 0 ], mockDataList[ 0 ].location ) , 0 );
+        assert.equal( shipBO.locationFuelCost( mockDataList[ 0 ].location, mockDataList[ 0 ].location ) , 0 );
+        done();
+    });
+
+    it( 'test destinationFuelCost mock destination distance 1' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+
+        let sampleDestination = {};
+        sampleDestination.x = mockDataList[ 0 ].location.x + 1;
+        sampleDestination.y = mockDataList[ 0 ].location.y;
+        let fuelPerSquare = require('config').get('fuelPerSquare');   
+        
+        let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
+        assert.equal( returnVal , fuelPerSquare );
+        assert.equal( shipBO.locationFuelCost( mockDataList[ 0 ].location, sampleDestination ) , returnVal );
+        done();
+    });
+
+    it( 'test destinationFuelCost mock destination reversed distance 1' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+
+        let sampleDestination = {};
+        sampleDestination.x = mockDataList[ 0 ].location.x - 1;
+        sampleDestination.y = mockDataList[ 0 ].location.y;
+        let fuelPerSquare = require('config').get('fuelPerSquare');   
+        
+        let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
+        assert.equal( returnVal, fuelPerSquare );
+        assert.equal( shipBO.locationFuelCost( mockDataList[ 0 ].location, sampleDestination ) , returnVal );
+        done();
+    });
+
+    it( 'test destinationFuelCost mock destination distance 2' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+
+        let sampleDestination = {};
+        sampleDestination.x = mockDataList[ 0 ].location.x - 1;
+        sampleDestination.y = mockDataList[ 0 ].location.y + 1;
+        let fuelPerSquare = require('config').get('fuelPerSquare');   
+        
+        let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
+        assert.equal( returnVal, fuelPerSquare * 2 );
+        assert.equal( shipBO.locationFuelCost( mockDataList[ 0 ].location, sampleDestination ), returnVal );
+        done();
+    });
+
+    it( 'test destinationFuelCost mock destination reversed distance 2' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+
+        let sampleDestination = {};
+        sampleDestination.x = mockDataList[ 0 ].location.x + 1;
+        sampleDestination.y = mockDataList[ 0 ].location.y - 1;
+        let fuelPerSquare = require('config').get('fuelPerSquare');   
+        
+        let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
+        assert.equal( returnVal, fuelPerSquare * 2 );
+        assert.equal( shipBO.locationFuelCost( mockDataList[ 0 ].location, sampleDestination ), returnVal );
+        done();
+    });
+
+    it( 'test destinationFuelCost failure shipObj undefined' , function( done )
+    {
+        let sampleDestination = { "x" : 0 , "y" : 5 };
+        let returnVal = shipBO.destinationFuelCost( undefined, sampleDestination );
+        if ( returnVal )
+        {
+            assert.fail( "destinationFuelCost for undefined shipObj returned: " + returnVal );
+        }
+      
+        done();
+    });
+
+    it( 'test destinationFuelCost failure shipObj location undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 0 ].location = undefined;
+
+        let sampleDestination = { "x" : 0 , "y" : 5 };
+        let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
+        if ( returnVal )
+        {
+            assert.fail( "destinationFuelCost for undefined shipObj.location returned: " + returnVal );
+        }
+      
+        done();
+    });
+
+    it( 'test destinationFuelCost failure destination undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+
+        let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], undefined );
+        if ( returnVal )
+        {
+            assert.fail( "destinationFuelCost for undefined destination returned: " + returnVal );
+        }
+      
+        done();
+    });
+
+    it( 'test destinationFuelCost failure destination invalid' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+
+        let sampleDestination = { "x" : 0 };
+        let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
+        if ( returnVal )
+        {
+            assert.fail( "destinationFuelCost for invalid destination returned: " + returnVal );
+        }
+      
+        done();
+    });
+
+    it( 'test destinationFuelCost failure location invalid' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+        delete mockDataList[ 0 ].location.x;
+
+        let sampleDestination = { "x" : 0 , "y" : 0 };
+        let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
+        if ( returnVal )
+        {
+            assert.fail( "destinationFuelCost for invalid location returned: " + returnVal );
+        }
+      
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done ) 
     {

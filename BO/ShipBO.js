@@ -207,8 +207,6 @@ function locationFuelCost( currentLocation, destination )
 
 //DestinationFuelCost,returns the amount of fuel needed to travel to the location given
 //shorthand function for shipObj passed
-//TODO: uncomment after tests written
-/*
 function destinationFuelCost( shipObj, destination )
 {
     DEBUG_MODE && console.log( "Calling destinationFuelCost in ShipBO, destination:" , destination );
@@ -233,7 +231,7 @@ function destinationFuelCost( shipObj, destination )
     DEBUG_MODE && console.log( "ShipBO.destinationFuelCost: returning value from locationFuelCost call" );
     return locationFuelCost( shipObj.location , destination );
 }
-*/
+
 
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
@@ -241,6 +239,6 @@ exports.changeDestination = changeDestination;
 exports.moveShip = moveShip;
 exports.changeName = changeName;
 exports.locationFuelCost = locationFuelCost;
-//TODO: uncomment after tests written: exports.destinationFuelCost = destinationFuelCost;
+exports.destinationFuelCost = destinationFuelCost;
 
 
