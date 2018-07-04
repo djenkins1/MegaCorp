@@ -15,6 +15,35 @@ CreateShip,Creates a new ship and adds it to the database
 DefaultObj,Returns the default prototype for a new object
 */
 
+//returns the sum total of all the goods in the inventory given(Not including @ goods)
+function sumGoodsInventory( inventory )
+{
+    DEBUG_MODE && console.log( "Calling sumGoodsInventory in ShipBO, inventory:" , inventory );
+    if ( inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.sumGoodsInventory: inventory undefined" ); 
+        return undefined;
+    }
+
+    var good = undefined;
+    var returnSum = 0;
+    for ( good in inventory )
+    {
+        if ( good.charAt( 0 ) === "@" )
+        {
+            DEBUG_MODE && console.log( "ShipBO.sumGoodsInventory: skipping over good" , good );
+            continue;
+        }
+
+        let amount = inventory[ good ];
+        DEBUG_MODE && console.log( "ShipBO.sumGoodsInventory: adding" ,amount, "to sum for good" , good );
+        returnSum += amount;
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.sumGoodsInventory: returning sum" , returnSum );
+    return returnSum;
+}
+
 //returns the sum total of all the goods in the ship inventory(Not including @ goods)
 function sumGoods( shipObj )
 {
@@ -31,23 +60,8 @@ function sumGoods( shipObj )
         return undefined;
     }
 
-    var good = undefined;
-    var returnSum = 0;
-    for ( good in shipObj.inventory )
-    {
-        if ( good.charAt( 0 ) === "@" )
-        {
-            DEBUG_MODE && console.log( "ShipBO.sumGoods: skipping over good" , good );
-            continue;
-        }
-
-        let amount = shipObj.inventory[ good ];
-        DEBUG_MODE && console.log( "ShipBO.sumGoods: adding" ,amount, "to sum for good" , good );
-        returnSum += amount;
-    }
-
-    DEBUG_MODE && console.log( "ShipBO.sumGoods: returning sum" , returnSum );
-    return returnSum;
+    DEBUG_MODE && console.log( "ShipBO.sumGoods: returning from sumGoodsInventory call"  );
+    return sumGoodsInventory( shipObj.inventory );
 }
 
 function isValidLocation( location )
@@ -531,5 +545,5 @@ exports.addGoods = addGoods;
 exports.hasGoods = hasGoods;
 exports.hasFuel = hasFuel;
 exports.sumGoods = sumGoods;
-
+exports.sumGoodsInventory = sumGoodsInventory;
 

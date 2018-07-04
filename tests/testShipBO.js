@@ -1588,6 +1588,56 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    SumGoodsInventory testing begins
+    ===========
+    */
+    it( 'test sumGoodsInventory success for single good inventory' , function( done )
+    {
+        let inventory = { "Test" : 10 };
+        assert.equal( shipBO.sumGoodsInventory( inventory ) , 10 );
+        done();
+    });
+
+    it( 'test sumGoodsInventory success for multiple good inventory' , function( done )
+    {
+        let inventory = { "Test" : 10 , "Other" : 25 };
+        assert.equal( shipBO.sumGoodsInventory( inventory ) , 35 );
+        done();
+    });
+
+    it( 'test sumGoodsInventory success for empty inventory' , function( done )
+    {
+        let inventory = {};
+        assert.equal( shipBO.sumGoodsInventory( inventory ) , 0 );
+        done();
+    });
+
+    it( 'test sumGoodsInventory success for single @good' , function( done )
+    {
+        let inventory = { "@Power" : 10 };
+        assert.equal( shipBO.sumGoodsInventory( inventory ) , 0 );
+        done();
+    });
+
+    it( 'test sumGoodsInventory success for multiple and @good' , function( done )
+    {
+        let inventory = { "@Power" : 10 , "Saddle" : 12 };
+        assert.equal( shipBO.sumGoodsInventory( inventory ) , 12 );
+        done();
+    });
+
+    it( 'test sumGoodsInventory failure inventory undefiend' , function( done )
+    {
+        let returnVal = shipBO.sumGoodsInventory( undefined );
+        if ( returnVal )
+        {
+            assert.fail( "sumGoodsInventory returned for undefined inventory: " + returnVal );
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done ) 
     {
