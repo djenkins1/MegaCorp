@@ -55,6 +55,7 @@ Ship(Needs Implemented BusinessObject)
     BO:
         ChangeDestination,Change the destination of the ship(NO UPDATE DB YET)
         MoveShip,Move the ship to the location given(NO UPDATE DB YET)
+        DestinationFuelCost,returns the amount of fuel needed to travel to the location given(from shipObj passed)
         UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
         RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
         AddGoods,Adds goods to the ships inventory(NO UPDATE DB YET)

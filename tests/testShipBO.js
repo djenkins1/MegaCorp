@@ -405,6 +405,67 @@ describe('TestShipBO', function()
         done(); 
     });
 
+    /*
+    ===========
+    LocationFuelCost testing begins
+    ===========
+    */
+    it( 'test locationFuelCost same location returns 0' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+        
+        assert.equal( shipBO.locationFuelCost( mockDataList[ 0 ].location, mockDataList[ 0 ].location ) , 0 );
+        done();
+    });
+
+    it( 'test locationFuelCost mock locations distance 1' , function( done )
+    {
+        let sampleLocation = { "x" : 1, "y" : 2 };
+        let sampleDestination = { "x" : 2 , "y" : 2 };
+        let fuelPerSquare = require('config').get('fuelPerSquare');   
+        assert.equal( shipBO.locationFuelCost( sampleLocation, sampleDestination ) , fuelPerSquare );
+        done();
+    });
+
+    it( 'test locationFuelCost mock reversed locations distance 1' , function( done )
+    {
+        let sampleLocation = { "x" : 2, "y" : 2 };
+        let sampleDestination = { "x" : 1 , "y" : 2 };
+        let fuelPerSquare = require('config').get('fuelPerSquare');   
+        assert.equal( shipBO.locationFuelCost( sampleLocation, sampleDestination ) , fuelPerSquare );
+        done();
+    });
+
+    it( 'test locationFuelCost mock locations distance 2' , function( done )
+    {
+        let sampleLocation = { "x" : 2, "y" : 2 };
+        let sampleDestination = { "x" : 1 , "y" : 3 };
+        let fuelPerSquare = require('config').get('fuelPerSquare');   
+        assert.equal( shipBO.locationFuelCost( sampleLocation, sampleDestination ) , fuelPerSquare * 2 );
+        done();
+    });
+
+    it( 'test locationFuelCost mock locations distance 2 reversed' , function( done )
+    {
+        let sampleLocation = { "x" : 2, "y" : 3 };
+        let sampleDestination = { "x" : 1 , "y" : 2 };
+        let fuelPerSquare = require('config').get('fuelPerSquare');   
+        assert.equal( shipBO.locationFuelCost( sampleLocation, sampleDestination ) , fuelPerSquare * 2 );
+        done();
+    });
+
+    it( 'test locationFuelCost mock locations negative distance 2' , function( done )
+    {
+        let sampleLocation = { "x" : -2, "y" : 2 };
+        let sampleDestination = { "x" : 0 , "y" : 2 };
+        let fuelPerSquare = require('config').get('fuelPerSquare');   
+        assert.equal( shipBO.locationFuelCost( sampleLocation, sampleDestination ) , fuelPerSquare * 2 );
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done ) 
     {

@@ -1,6 +1,7 @@
 const shipDAO = require( "../Data/ShipDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
+const FUEL_PER_SQUARE = require('config').get('fuelPerSquare');
 /*
 UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
 RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
@@ -11,7 +12,6 @@ FixDamage,Remove damage from the ship(NO UPDATE DB YET)
 IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
 IsFull,Returns true if the ship's inventory is completely maxed out
 HasFuel,Returns true if the ship has the fuel needed to travel 1 square
-LocationFuelCost,returns the amount of fuel needed to travel to the location given
 HasGoods,Returns true if the ship has the goods specified
 SaveShip,Saves the changes made to the ship into the database
 AllShips,Returns all ships in the database
@@ -178,10 +178,69 @@ function changeName( shipObj, newName )
     return newName;
 }
 
+//LocationFuelCost,returns the amount of fuel needed to travel to the location given
+//returns the amount of fuel needed or undefined if not able to calculate
+//uses taxicab distance and ignores z coordinate(inner system travel costs no fuel)
+function locationFuelCost( currentLocation, destination )
+{
+    DEBUG_MODE && console.log( "Calling locationFuelCost in ShipBO, currentLocation:" , newName , "destination:" , destination );
+    if ( !isValidLocation( currentLocation ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.locationFuelCost: currentLocation is not a valid location" );
+        return undefined;
+    }    
+
+    if ( !isValidLocation( destination ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.locationFuelCost: destination is not a valid location" );
+        return undefined;
+    }
+
+    let xDist = Math.abs( destination.x - currentLocation.x );
+    let yDist = Math.abs( destination.y - currentLocation.y );
+    let totalDist = xDist + yDist;
+    let totalCost = totalDist * FUEL_PER_SQUARE;
+
+    DEBUG_MODE && console.log( "ShipBO.locationFuelCost: total distance," , totalDist, "and calculated fuel cost," , totalCost );
+    return totalCost;
+}
+
+//DestinationFuelCost,returns the amount of fuel needed to travel to the location given
+//shorthand function for shipObj passed
+//TODO: uncomment after tests written
+/*
+function destinationFuelCost( shipObj, destination )
+{
+    DEBUG_MODE && console.log( "Calling destinationFuelCost in ShipBO, destination:" , destination );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.destinationFuelCost: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.location == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.destinationFuelCost: shipObj.location is undefined" );
+        return undefined;
+    }
+
+    if ( destination == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.destinationFuelCost: destination undefined" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.destinationFuelCost: returning value from locationFuelCost call" );
+    return locationFuelCost( shipObj.location , destination );
+}
+*/
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
 exports.moveShip = moveShip;
 exports.changeName = changeName;
+exports.locationFuelCost = locationFuelCost;
+//TODO: uncomment after tests written: exports.destinationFuelCost = destinationFuelCost;
 
 
