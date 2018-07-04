@@ -1101,6 +1101,140 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    LocationFuelCost testing begins
+    ===========
+    */
+    it( 'test locationFuelCost same location returns 0' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+        let fuelCost = { "test" : 1 };
+        
+        let returnVal = shipBO.locationFuelCost( mockDataList[ 0 ].location, mockDataList[ 0 ].location , fuelCost );
+        assert.ok( returnVal );
+        assert.equal( returnVal[ "test" ] , 0 );
+        done();
+    });
+
+    it( 'test locationFuelCost mock locations distance 1' , function( done )
+    {
+        let sampleLocation = { "x" : 1, "y" : 2 };
+        let sampleDestination = { "x" : 2 , "y" : 2 };
+        let fuelCost = { "test" : 1 };
+ 
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination ,fuelCost );
+        assert.ok( returnVal );
+        assert.equal( returnVal[ "test" ] , 1 );
+        done();
+    });
+
+    it( 'test locationFuelCost mock locations distance 1 multiple fuel cost' , function( done )
+    {
+        let sampleLocation = { "x" : 1, "y" : 2 };
+        let sampleDestination = { "x" : 2 , "y" : 2 };
+        let fuelCost = { "test" : 1 , "packing" : 1 };
+ 
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination ,fuelCost );
+        assert.ok( returnVal );
+        assert.deepEqual( returnVal , fuelCost );
+        done();
+    });
+
+    it( 'test locationFuelCost mock reversed locations distance 1' , function( done )
+    {
+        let sampleLocation = { "x" : 2, "y" : 2 };
+        let sampleDestination = { "x" : 1 , "y" : 2 };
+        let fuelCost = { "test" : 1 };
+ 
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination ,fuelCost );
+        assert.ok( returnVal );
+        assert.equal( returnVal[ "test" ] , 1 );
+        done();
+    });
+
+
+    it( 'test locationFuelCost mock locations distance 2' , function( done )
+    {
+        let sampleLocation = { "x" : 2, "y" : 2 };
+        let sampleDestination = { "x" : 1 , "y" : 3 };
+        let fuelCost = { "test" : 1 };
+
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination ,fuelCost );
+        assert.ok( returnVal );
+        assert.equal( returnVal[ "test" ] , 2 );
+        done();
+    });
+
+    it( 'test locationFuelCost mock locations distance 2 reversed' , function( done )
+    {
+        let sampleLocation = { "x" : 2, "y" : 3 };
+        let sampleDestination = { "x" : 1 , "y" : 2 };
+        let fuelCost = { "test" : 1 };
+
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination ,fuelCost );
+        assert.ok( returnVal );
+        assert.equal( returnVal[ "test" ] , 2 );
+        done();
+    });
+
+    it( 'test locationFuelCost mock locations negative distance 2' , function( done )
+    {
+        let sampleLocation = { "x" : -2, "y" : 2 };
+        let sampleDestination = { "x" : 0 , "y" : 2 };
+        let fuelCost = { "test" : 1 };
+
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination ,fuelCost );
+        assert.ok( returnVal );
+        assert.equal( returnVal[ "test" ] , 2 );
+        done();
+    });
+
+    it( 'test locationFuelCost failure invalid location' , function( done )
+    {
+        let sampleLocation = { "x" : 5 };
+        let sampleDestination = { "x" : 0 , "y" : 2 };
+        let fuelCost = { "test" : 1 };
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination, fuelCost );
+        if ( returnVal )
+        {
+            assert.fail( "locationFuelCost for invalid location returned: " + returnVal );
+        }
+
+        done();
+    });
+
+    it( 'test locationFuelCost failure invalid destination' , function( done )
+    {
+        let sampleLocation = { "x" : 5, "y" : 2};
+        let sampleDestination = { "x" : 0  };
+        let fuelCost = { "test" : 1 };
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination, fuelCost );
+        if ( returnVal )
+        {
+            assert.fail( "locationFuelCost for invalid destination returned: " + returnVal );
+        }
+
+        done();
+    });
+
+    it( 'test locationFuelCost failure invalid fuelCost empty' , function( done )
+    {
+        let sampleLocation = { "x" : 5, "y" : 2};
+        let sampleDestination = { "x" : 0  };
+        let fuelCost = {};
+        let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination, fuelCost );
+        if ( returnVal )
+        {
+            assert.fail( "locationFuelCost for empty fuelCost returned: " + returnVal );
+        }
+
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done ) 
     {
