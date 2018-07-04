@@ -1236,6 +1236,128 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    HasFuel testing begins
+    ===========
+    */
+    it( 'test hasFuel success' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        assert.ok( shipBO.hasFuel( mockDataList[ 1 ] ) );
+        done();
+    });
+
+
+
+    it( 'test hasFuel failure shipObj undefined' , function( done )
+    {
+        if ( shipBO.hasFuel( undefined ) )
+        {
+            assert.fail( "hasFuel returned true for undefined shipObj" );
+        }
+        done();
+    });
+
+    it( 'test hasFuel failure inventory undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        mockDataList[ 1 ].inventory = undefined;
+
+        if ( shipBO.hasFuel( mockDataList[ 1 ] ) )
+        {
+            assert.fail( "hasFuel returned true for undefined inventory" );
+        }
+        done();
+    });
+
+    it( 'test hasFuel failure shipBluePrint undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        mockDataList[ 1 ].shipBluePrint = undefined;
+
+        if ( shipBO.hasFuel( mockDataList[ 1 ] ) )
+        {
+            assert.fail( "hasFuel returned true for undefined shipBluePrint" );
+        }
+        done();
+    });
+
+    it( 'test hasFuel failure fuelCost undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        mockDataList[ 1 ].shipBluePrint.fuelCost = undefined;
+
+        if ( shipBO.hasFuel( mockDataList[ 1 ] ) )
+        {
+            assert.fail( "hasFuel returned true for undefined fuelCost" );
+        }
+        done();
+    });
+
+    it( 'test hasFuel failure invalid fuelCost empty' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        mockDataList[ 1 ].shipBluePrint.fuelCost = {};
+
+        if ( shipBO.hasFuel( mockDataList[ 1 ] ) )
+        {
+            assert.fail( "hasFuel returned true for empty fuelCost" );
+        }
+        done();
+    });
+
+    it( 'test hasFuel failure invalid fuelCost string value' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        mockDataList[ 1 ].shipBluePrint.fuelCost = { "Mid-Grade Fuel" : "str" };
+
+        if ( shipBO.hasFuel( mockDataList[ 1 ] ) )
+        {
+            assert.fail( "hasFuel returned true for fuelCost with string value" );
+        }
+        done();
+    });
+
+    it( 'test hasFuel failure not enough fuel' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].inventory );
+
+        let goodName = "Low-Grade Fuel";
+        assert.ok( mockDataList[ 0 ].inventory[ goodName ] );
+        mockDataList[ 0 ].shipBluePrint.fuelCost = {};
+        mockDataList[ 0 ].shipBluePrint.fuelCost[ goodName ] = mockDataList[ 0 ].inventory[ goodName ] + 1;
+
+        if ( shipBO.hasFuel( mockDataList[ 0 ] ) )
+        {
+            assert.fail( "hasFuel returned true for not enough fuel inventory" );
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done ) 
     {

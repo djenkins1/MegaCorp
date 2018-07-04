@@ -240,6 +240,10 @@ NOTES:
 
     Need to convert everything to integer when adding/removing(goods/money...)
 
+    Need to redo locationFuelCost and destinationFuelCost in ShipBO
+        should be based on shipBluePrint.fuelCost and not configuration value
+        also need to redo tests
+
     Resources that start with @ in their name do not take up inventory space
 
     Construction table for ships/buildings????

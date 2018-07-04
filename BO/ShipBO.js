@@ -10,7 +10,6 @@ AddDamage,Add damage to the ship(NO UPDATE DB YET)
 FixDamage,Remove damage from the ship(NO UPDATE DB YET)
 IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
 IsFull,Returns true if the ship's inventory is completely maxed out
-HasFuel,Returns true if the ship has the fuel needed to travel 1 square
 SaveShip,Saves the changes made to the ship into the database
 AllShips,Returns all ships in the database
 CreateShip,Creates a new ship and adds it to the database
@@ -439,6 +438,38 @@ function hasGoods( shipObj, goods )
     return true;
 }
 
+//Returns true if the ship has the fuel needed to travel 1 square
+function hasFuel( shipObj )
+{
+    DEBUG_MODE && console.log( "Calling hasFuel in ShipBO, goods:" , goods );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasFuel: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasFuel: shipObj.inventory is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasFuel: shipObj.shipBluePrint is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint.fuelCost == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasFuel: shipBluePrint.fuelCost is undefined" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.hasFuel: calling hasGoods with shipBluePrint.fuelCost as goods" );
+    return hasGoods( shipObj, shipObj.shipBluePrint.fuelCost );
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -450,6 +481,6 @@ exports.checkValidGoods = checkValidGoods;
 exports.hasSpaceForGoods = hasSpaceForGoods;
 exports.addGoods = addGoods;
 exports.hasGoods = hasGoods;
-
+exports.hasFuel = hasFuel;
 
 
