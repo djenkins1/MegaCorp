@@ -362,16 +362,9 @@ function hasSpaceForGoods( shipObj, goods )
         return undefined; 
     }
 
-    var good = undefined;
-    var currentInventorySum = 0;
-    for ( good in shipObj.inventory )
-    {
-        let amount = shipObj.inventory[ good ];
-        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: adding" ,amount, "to old sum for good" , good );
-        currentInventorySum += amount;
-    }
-
+    var currentInventorySum = sumGoods( shipObj );
     var newGoodSum = 0;
+    var good = undefined;
     for ( good in goods )
     {
         let amount = goods[ good ];
