@@ -5,7 +5,6 @@ const ID_KEY = require('config').get('ID_KEY');
 UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
 RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
 AddGoods,Adds goods to the ships inventory(NO UPDATE DB YET)
-ChangeName,Change the name of the ship(NO UPDATE DB YET)
 ChangeCompany,Change the company that owns the ship(NO UPDATE DB YET)
 AddDamage,Add damage to the ship(NO UPDATE DB YET)
 FixDamage,Remove damage from the ship(NO UPDATE DB YET)
@@ -145,9 +144,44 @@ function moveShip( shipObj, newLocation )
     return newLocation;
 }
 
+//ChangeName,Change the name of the ship(NO UPDATE DB YET)
+//Returns new name if updated successfully or undefined otherwise
+function changeName( shipObj, newName )
+{
+    DEBUG_MODE && console.log( "Calling changeName in ShipBO, new name:" , newName );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.changeName: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( newName == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.changeName: newName is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.name == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.changeName: old name is undefined" );
+        return undefined;
+    }
+
+    if ( typeof newName != 'string' )
+    {
+        DEBUG_MODE && console.log( "ShipBO.changeName: newName is not a string" );
+        return undefined;
+    }
+
+    shipObj.name = newName;
+    DEBUG_MODE && console.log( "ShipBO.changeName: changed name successfully" );
+    return newName;
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
 exports.moveShip = moveShip;
+exports.changeName = changeName;
 
 

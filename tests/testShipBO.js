@@ -320,6 +320,91 @@ describe('TestShipBO', function()
         done();
     }); 
 
+    /*
+    ===========
+    ChangeName testing begins
+    ===========
+    */
+    it( 'test changeName success without saving' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].name );
+
+        const nameConst = "Red Rover";
+        assert.equal( shipBO.changeName( mockDataList[ 0 ], nameConst ) , nameConst );
+        assert.equal( mockDataList[ 0 ].name, nameConst );
+        done(); 
+    });
+
+    it( 'test changeName failure shipObj undefined' , function( done )
+    {
+        const nameConst = "Red Rover";
+        let returnVal = shipBO.changeName( undefined,  nameConst );
+        if ( returnVal )
+        {
+            assert.fail( "changeName for undefined shipObj returned: " + returnVal );
+        }
+
+        done(); 
+    });
+
+    it( 'test changeName failure newName undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].name );
+
+        let oldName = mockDataList[ 0 ].name;
+        const nameConst = undefined;
+        let returnVal = shipBO.changeName( mockDataList[ 0 ], nameConst );
+        if ( returnVal )
+        {
+            assert.fail( "changeName for undefined new name returned: " + returnVal );
+        }
+        assert.equal( mockDataList[ 0 ].name, oldName );
+
+        done(); 
+    });
+
+    it( 'test changeName failure old name undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 0 ].name = undefined;
+
+        const nameConst = "Red Rover";
+        let returnVal = shipBO.changeName( mockDataList[ 0 ], nameConst );
+        if ( returnVal )
+        {
+            assert.fail( "changeName for undefined old name returned: " + returnVal );
+        }
+
+        done(); 
+    });
+
+    it( 'test changeName failure newName not string' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].name );
+
+        let oldName = mockDataList[ 0 ].name;
+        const nameConst = 123.5;
+        let returnVal = shipBO.changeName( mockDataList[ 0 ], nameConst );
+        if ( returnVal )
+        {
+            assert.fail( "changeName for non-string new name returned: " + returnVal );
+        }
+        assert.equal( mockDataList[ 0 ].name, oldName );
+
+        done(); 
+    });
+
     //after() is run after all tests have completed.
     after( function( done ) 
     {
