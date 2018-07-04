@@ -18,7 +18,7 @@
         "shipTypeName" : "Freighter",
         "shipBluePrint" : "2",
         "location" : {"x" : 5, "y" : 3 },
-        "destination" : { "x" : "4" , "y" : "6" , "z" : "1" },
+        "destination" : { "x" : 4 , "y" : 6 , "z" : 1 },
         "inventory" : {"Mid-Grade Fuel" : 50 , "Food" : 50 , "Forks" : 50 }
     }
 ]

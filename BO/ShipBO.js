@@ -86,8 +86,6 @@ function clearDestination( shipObj )
 
 //Change the destination of the ship(NO UPDATE DB YET)
 //Returns new destination if updated successfully or undefined otherwise
-//TODO: uncomment after tests are written
-/*
 function changeDestination( shipObj, newDestination )
 {
     DEBUG_MODE && console.log( "Calling changeDestination in ShipBO, new destination:" , newDestination );
@@ -103,20 +101,19 @@ function changeDestination( shipObj, newDestination )
         return undefined;
     }
 
-    if ( companyObj.destination == undefined )
+    if ( shipObj.destination == undefined )
     {
         DEBUG_MODE && console.log( "ShipBO.changeDestination: old destination is undefined" );
         return undefined;
     }
 
-    companyObj.destination = newDestination;
+    shipObj.destination = newDestination;
     DEBUG_MODE && console.log( "ShipBO.changeDestination: changed destination successfully" );
     return newDestination;    
 }
-*/
 
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
-//exports.changeDestination = changeDestination;
+exports.changeDestination = changeDestination;
 
 

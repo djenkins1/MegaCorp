@@ -165,25 +165,64 @@ describe('TestShipBO', function()
     */
     it( 'test changeDestination success without saving' , function( done )
     {
-        //TODO:
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].destination );
+
+        assert.ok( shipBO.changeDestination( mockDataList[ 0 ] , mockDataList[ 1 ].destination ) );
+        assert.deepEqual( mockDataList[ 0 ].destination, mockDataList[ 1 ].destination );
         done();
     });
 
     it( 'test changeDestination failure newDestination undefined' , function( done )
     {
-        //TODO:
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        let oldDestination = mockDataList[ 0 ].destination;
+        let returnVal = shipBO.changeDestination( mockDataList[ 0 ] , undefined );
+        if ( returnVal )
+        {
+            assert.fail( "changeDestination for undefined new destination returned: " + returnVal );
+        }
+
+        assert.deepEqual( mockDataList[ 0 ].destination , oldDestination );
         done();
     });
 
     it( 'test changeDestination failure newDestination invalid location' , function( done )
     {
-        //TODO:
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        let oldDestination = mockDataList[ 0 ].destination;
+        let newDestination = { "x" : 5 };
+
+        let returnVal = shipBO.changeDestination( mockDataList[ 0 ] , newDestination );
+        if ( returnVal )
+        {
+            assert.fail( "changeDestination for invalid new destination returned: " + returnVal );
+        }
+
+        assert.deepEqual( mockDataList[ 0 ].destination , oldDestination );
         done();
     });    
 
     it( 'test changeDestination failure old destination undefined' , function( done )
     {
-        //TODO:
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        let newDestination = { "x" : 5 , "y" : 5 };
+        mockDataList[ 0 ].destination = undefined;
+
+        let returnVal = shipBO.changeDestination( mockDataList[ 0 ] , newDestination );
+        if ( returnVal )
+        {
+            assert.fail( "changeDestination for undefined old destination returned: " + returnVal );
+        }
+
         done();
     }); 
 
