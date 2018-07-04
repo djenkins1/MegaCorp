@@ -1508,6 +1508,86 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    SumGoods testing begins
+    ===========
+    */
+    it( 'test sumGoods success for single good inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 0 ].inventory = { "Test" : 10 };
+        assert.equal( shipBO.sumGoods( mockDataList[ 0 ] ) , 10 );
+        done();
+    });
+
+    it( 'test sumGoods success for multiple good inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 0 ].inventory = { "Test" : 10 , "Other" : 25 };
+        assert.equal( shipBO.sumGoods( mockDataList[ 0 ] ) , 35 );
+        done();
+    });
+
+    it( 'test sumGoods success for empty inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 0 ].inventory = {};
+        assert.equal( shipBO.sumGoods( mockDataList[ 0 ] ) , 0 );
+        done();
+    });
+
+    it( 'test sumGoods success for single @good' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 0 ].inventory = { "@Power" : 10 };
+        assert.equal( shipBO.sumGoods( mockDataList[ 0 ] ) , 0 );
+        done();
+    });
+
+    it( 'test sumGoods success for multiple and @good' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 0 ].inventory = { "@Power" : 10 , "Saddle" : 12 };
+        assert.equal( shipBO.sumGoods( mockDataList[ 0 ] ) , 12 );
+        done();
+    });
+
+    it( 'test sumGoods failure shipObj undefined' , function( done )
+    {
+        let returnVal = shipBO.sumGoods( undefined );
+        if ( returnVal )
+        {
+            assert.fail( "sumGoods returned for undefined shipObj: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test sumGoods failure inventory undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 0 ].inventory = undefined;
+
+        let returnVal = shipBO.sumGoods( mockDataList[ 0 ] );
+        if ( returnVal )
+        {
+            assert.fail( "sumGoods returned for undefined inventory: " + returnVal );
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done ) 
     {

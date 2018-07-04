@@ -15,10 +15,44 @@ CreateShip,Creates a new ship and adds it to the database
 DefaultObj,Returns the default prototype for a new object
 */
 
+//returns the sum total of all the goods in the ship inventory(Not including @ goods)
+function sumGoods( shipObj )
+{
+    DEBUG_MODE && console.log( "Calling sumGoods in ShipBO, shipObj:" , shipObj );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.sumGoods: shipObj undefined" );
+        return undefined;
+    }
+    
+    if ( shipObj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.sumGoods: inventory undefined" );
+        return undefined;
+    }
+
+    var good = undefined;
+    var returnSum = 0;
+    for ( good in shipObj.inventory )
+    {
+        if ( good.charAt( 0 ) === "@" )
+        {
+            DEBUG_MODE && console.log( "ShipBO.sumGoods: skipping over good" , good );
+            continue;
+        }
+
+        let amount = shipObj.inventory[ good ];
+        DEBUG_MODE && console.log( "ShipBO.sumGoods: adding" ,amount, "to sum for good" , good );
+        returnSum += amount;
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.sumGoods: returning sum" , returnSum );
+    return returnSum;
+}
+
 function isValidLocation( location )
 {
     DEBUG_MODE && console.log( "Calling isValidLocation in ShipBO, location:" , location );
-
     if ( location == undefined )
     {
         DEBUG_MODE && console.log( "ShipBO.isValidLocation: location is undefined" );
@@ -503,5 +537,6 @@ exports.hasSpaceForGoods = hasSpaceForGoods;
 exports.addGoods = addGoods;
 exports.hasGoods = hasGoods;
 exports.hasFuel = hasFuel;
+exports.sumGoods = sumGoods;
 
 

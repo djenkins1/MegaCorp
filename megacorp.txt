@@ -53,6 +53,7 @@ Company(DONE)
 Ship(Needs Implemented BusinessObject)
     ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Destination(OBJ),Inventory: []
     BO:
+        SumGoods,returns the sum total of all the goods in the ship inventory(Not including @ goods)
         ChangeDestination,Change the destination of the ship(NO UPDATE DB YET)
         MoveShip,Move the ship to the location given(NO UPDATE DB YET)
         DestinationFuelCost,returns the amount of fuel needed to travel to the location given(from shipObj passed)
@@ -105,6 +106,7 @@ System(Needs BusinessObject)
 Building(Needs BusinessObject)
     ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
     BO:
+        SumGoods,returns the sum total of all the goods in the building inventory(Not including @ goods)
         ChangeName,change name(NO UPDATE DB YET)
         ChangeCompany,change company that owns(NO UPDATE DB YET)
         AddGoods,add goods to inventory(NO UPDATE DB YET)
@@ -240,9 +242,9 @@ NOTES:
 
     Need to convert everything to integer when adding/removing(goods/money...)
 
-    Need to redo locationFuelCost and destinationFuelCost in ShipBO
-        should be based on shipBluePrint.fuelCost and not configuration value
-        also need to redo tests
+    (DONE)Need to redo locationFuelCost and destinationFuelCost in ShipBO
+        (DONE)should be based on shipBluePrint.fuelCost and not configuration value
+        (DONE)also need to redo tests
 
     Resources that start with @ in their name do not take up inventory space
 
