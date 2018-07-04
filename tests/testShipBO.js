@@ -871,7 +871,7 @@ describe('TestShipBO', function()
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
-        assert.ok( mockDataList.length );
+        assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
 
         const goodName = "Bread";
@@ -894,7 +894,7 @@ describe('TestShipBO', function()
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
-        assert.ok( mockDataList.length );
+        assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         assert.ok( mockDataList[ 1 ].inventory );
 
@@ -915,7 +915,7 @@ describe('TestShipBO', function()
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
-        assert.ok( mockDataList.length );
+        assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         assert.ok( mockDataList[ 1 ].inventory );
 
@@ -938,7 +938,7 @@ describe('TestShipBO', function()
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
-        assert.ok( mockDataList.length );
+        assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         assert.ok( mockDataList[ 1 ].inventory );
 
@@ -969,7 +969,7 @@ describe('TestShipBO', function()
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
-        assert.ok( mockDataList.length );
+        assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         assert.ok( mockDataList[ 1 ].inventory );
 
@@ -986,7 +986,7 @@ describe('TestShipBO', function()
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
-        assert.ok( mockDataList.length );
+        assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         mockDataList[ 1 ].inventory = undefined;
 
@@ -1003,7 +1003,7 @@ describe('TestShipBO', function()
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
-        assert.ok( mockDataList.length );
+        assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         assert.ok( mockDataList[ 1 ].inventory );
 
@@ -1020,7 +1020,7 @@ describe('TestShipBO', function()
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
-        assert.ok( mockDataList.length );
+        assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         assert.ok( mockDataList[ 1 ].inventory );
 
@@ -1037,7 +1037,7 @@ describe('TestShipBO', function()
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
-        assert.ok( mockDataList.length );
+        assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         assert.ok( mockDataList[ 1 ].inventory );
 
@@ -1054,7 +1054,7 @@ describe('TestShipBO', function()
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
-        assert.ok( mockDataList.length );
+        assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         assert.ok( mockDataList[ 1 ].inventory );
 
@@ -1063,6 +1063,175 @@ describe('TestShipBO', function()
         if ( returnVal )
         {
             assert.fail( "addGoods for multiple goods not enough space returned: " + returnVal );
+        }
+        done();
+    });
+
+    /*
+    ===========
+    HasGoods testing begins
+    ===========
+    */
+    it( 'test hasGoods success single good' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let goodName = "Food";
+        assert.ok( mockDataList[ 1 ].inventory[ goodName ] );
+        let sampleGoods = {};
+        sampleGoods[ goodName ] = 10;
+        assert.ok( mockDataList[ 1 ].inventory[ goodName ] >= sampleGoods[ goodName ] );
+
+        assert.ok( shipBO.hasGoods( mockDataList[ 1 ] , sampleGoods ) );
+        done();
+    });
+
+    it( 'test hasGoods success multiple goods' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let sampleGoods = JSON.parse( JSON.stringify( mockDataList[ 1 ].inventory ) );
+        assert.ok( shipBO.hasGoods( mockDataList[ 1 ] , sampleGoods ) );
+        done();
+    });
+
+    it( 'test hasGoods success single good not enough' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let goodName = "Food";
+        assert.ok( mockDataList[ 1 ].inventory[ goodName ] );
+        let sampleGoods = {};
+        sampleGoods[ goodName ] = mockDataList[ 1 ].inventory[ goodName ] + 1;
+        if ( shipBO.hasGoods( mockDataList[ 1 ] , sampleGoods ) )
+        {
+            assert.fail( "hasGoods returned true for too many goods" );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure multiple goods not enough' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let goodName = "Food";
+        assert.ok( mockDataList[ 1 ].inventory[ goodName ] );
+        let sampleGoods = JSON.parse(JSON.stringify( mockDataList[ 1 ].inventory ) );
+        sampleGoods[ goodName ] = mockDataList[ 1 ].inventory[ goodName ] + 1;
+        if ( shipBO.hasGoods( mockDataList[ 1 ] , sampleGoods ) )
+        {
+            assert.fail( "hasGoods returned true for too many goods" );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure single good missing' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let goodName = "Chow Mein";
+        if ( mockDataList[ 1 ].inventory[ goodName ] )
+        {
+            assert.fail( goodName + " should not be within inventory for this test" );
+        }
+
+        let sampleGoods = {};
+        sampleGoods[ goodName ] = 10;
+
+        if ( shipBO.hasGoods( mockDataList[ 1 ] , sampleGoods ) )
+        {
+            assert.fail( "hasGoods returned true for missing good" );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure shipObj undefined' , function( done )
+    {
+        let goodName = "Chow Mein";
+        let sampleGoods = {};
+        sampleGoods[ goodName ] = 10;
+
+        if ( shipBO.hasGoods( undefined , sampleGoods ) )
+        {
+            assert.fail( "hasGoods returned true for undefined shipObj" );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure goods undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let sampleGoods = undefined;
+        if ( shipBO.hasGoods( mockDataList , sampleGoods ) )
+        {
+            assert.fail( "hasGoods returned true for undefined goods" );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure inventory undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        mockDataList[ 1 ].inventory = undefined;
+
+        let goodName = "Food";
+        let sampleGoods = {};
+        sampleGoods[ goodName ] = 10;
+
+        if ( shipBO.hasGoods( mockDataList , sampleGoods ) )
+        {
+            assert.fail( "hasGoods returned true for undefined inventory" );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure invalid goods empty' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let sampleGoods = {};
+        if ( shipBO.hasGoods( mockDataList , sampleGoods ) )
+        {
+            assert.fail( "hasGoods returned true for empty goods" );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure invalid goods string value' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let sampleGoods = { "Food" : "str" };
+        if ( shipBO.hasGoods( mockDataList , sampleGoods ) )
+        {
+            assert.fail( "hasGoods returned true for string value in goods" );
         }
         done();
     });

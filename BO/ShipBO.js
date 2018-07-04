@@ -11,7 +11,6 @@ FixDamage,Remove damage from the ship(NO UPDATE DB YET)
 IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
 IsFull,Returns true if the ship's inventory is completely maxed out
 HasFuel,Returns true if the ship has the fuel needed to travel 1 square
-HasGoods,Returns true if the ship has the goods specified
 SaveShip,Saves the changes made to the ship into the database
 AllShips,Returns all ships in the database
 CreateShip,Creates a new ship and adds it to the database
@@ -392,6 +391,54 @@ function addGoods( shipObj, goods )
     return shipObj.inventory;
 }
 
+//Returns true if the ship has the goods specified
+function hasGoods( shipObj, goods )
+{
+    DEBUG_MODE && console.log( "Calling hasGoods in ShipBO, goods:" , goods );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasGoods: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( goods == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasGoods: goods is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasGoods: shipObj.inventory is undefined" );
+        return undefined;
+    }
+
+    if ( !checkValidGoods( goods ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasGoods: checkValidGoods returned false" );
+        return undefined;
+    }
+
+    for ( good in goods )
+    {
+        if ( shipObj.inventory[ good ] == undefined )
+        {
+            DEBUG_MODE && console.log( "ShipBO.hasGoods: inventory does not contain any of" , good );
+            return undefined;        
+        }
+
+        if ( shipObj.inventory[ good ] < goods[ good ] )
+        {
+            DEBUG_MODE && console.log( "ShipBO.hasGoods: inventory does not contain enough of" , good 
+                , "has" , shipObj.inventory[ good ] , "/" , goods[ good ] );
+            return undefined;
+        }
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.hasGoods: ship has enough of all goods specified" );
+    return true;
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -402,7 +449,7 @@ exports.destinationFuelCost = destinationFuelCost;
 exports.checkValidGoods = checkValidGoods;
 exports.hasSpaceForGoods = hasSpaceForGoods;
 exports.addGoods = addGoods;
-
+exports.hasGoods = hasGoods;
 
 
 
