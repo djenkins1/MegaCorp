@@ -234,9 +234,15 @@ GoodTransact(Needs DAO/JSON sample data populated/Business Object)
 NOTES:
     Need to add planet id to prices table to make prices based on location
 
-    Maybe limit types of buildings based on planet atmosphere?
+    Maybe limit types of buildings based on planet atmosphere/composition?
+
+    Need to verify that goods are > 0 for ShipBO.checkValidGoods
+
+    Need to convert everything to integer when adding/removing(goods/money...)
 
     Resources that start with @ in their name do not take up inventory space
+
+    Construction table for ships/buildings????
 
     How to construct buildings/ships from specific buildings?
         @Building/@Ship for produced good?
