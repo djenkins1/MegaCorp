@@ -1,0 +1,53 @@
+[
+    {
+        "_id" : "1",
+        "name" : "Gentleman Caller",
+        "companyId" : "2",
+        "damage" : 0,
+        "shipTypeName" : "Cruiser",
+        "shipBluePrint" : {
+            "_id" : "1",
+            "name" : "Cruiser",
+            "maxInventory" : 50,
+            "maxDamage" : 10,
+            "speed" : 1,
+            "range" : 1,
+            "size" : 1,
+            "employees" : 5,
+            "laborCost" : 5,
+            "weaponTypeName" : "",
+            "weaponBluePrint" : {},
+            "fuelCost" : { "Low-Grade Fuel" : 1},
+            "resourceCost" : { "Steel" : 20, "Crystal" : 10 }
+        },
+        "location" : {"x" : 5, "y" : 3 , "z" : 1 },
+        "destination" : {},
+        "inventory" : {"Low-Grade Fuel" : 20 , "Spice" : 30 }
+    },
+    {
+        "_id" : "2",
+        "name" : "Dining Philosopher",
+        "companyId" : "1",
+        "damage" : 0,
+        "shipTypeName" : "Freighter",
+        "shipBluePrint" : {
+            "_id" : "2",
+            "name" : "Freighter",
+            "maxInventory" : 200,
+            "maxDamage" : 20,
+            "speed" : 2,
+            "range" : 2,
+            "size" : 3,
+            "employees" : 20,
+            "laborCost" : 10,
+            "weaponTypeName" : "",
+            "weaponBluePrint" : {},
+            "fuelCost" : { "Mid-Grade Fuel" : 1},
+            "resourceCost" : { "Steel" : 60, "Crystal" : 35 }
+        },
+        "location" : {"x" : 5, "y" : 3 },
+        "destination" : { "x" : 4 , "y" : 6 , "z" : 1 },
+        "inventory" : {"Mid-Grade Fuel" : 50 , "Food" : 50 , "Forks" : 50 }
+    }
+]
+

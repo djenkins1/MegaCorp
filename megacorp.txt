@@ -68,6 +68,7 @@ Ship(Needs Implemented BusinessObject)
         HasFuel,Returns true if the ship has the fuel needed to travel 1 square
         LocationFuelCost,returns the amount of fuel needed to travel to the location given
         HasGoods,Returns true if the ship has the goods specified
+        HasSpaceForGoods,returns true if the ship has enough inventory space for the goods specified or undefined otherwise
         SaveShip,Saves the changes made to the ship into the database
         AllShips,Returns all ships in the database
         CreateShip,Creates a new ship and adds it to the database

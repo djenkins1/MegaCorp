@@ -5,7 +5,6 @@ const FUEL_PER_SQUARE = require('config').get('fuelPerSquare');
 /*
 UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
 RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
-AddGoods,Adds goods to the ships inventory(NO UPDATE DB YET)
 ChangeCompany,Change the company that owns the ship(NO UPDATE DB YET)
 AddDamage,Add damage to the ship(NO UPDATE DB YET)
 FixDamage,Remove damage from the ship(NO UPDATE DB YET)
@@ -232,6 +231,169 @@ function destinationFuelCost( shipObj, destination )
     return locationFuelCost( shipObj.location , destination );
 }
 
+//returns true if the goods are valid or undefined otherwise
+function checkValidGoods( goods )
+{
+    DEBUG_MODE && console.log( "Calling checkValidGoods in ShipBO, goods:" , goods );
+    if ( goods == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.checkValidGoods: goods undefined" );
+        return undefined;
+    }
+
+    var good = undefined;
+    for ( good in goods )
+    {
+        if ( !Number.isInteger( goods[ good ] ) )
+        {
+            DEBUG_MODE && console.log( "ShipBO.checkValidGoods: good " , good , "has non integer value" , goods[ good ] );
+            return undefined;
+        }
+    }
+
+    if ( good == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.checkValidGoods: goods is empty" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.checkValidGoods: returning true" );
+    return true;
+}
+
+//returns true if the ship has enough inventory space for the goods specified or undefined otherwise
+function hasSpaceForGoods( shipObj, goods )
+{
+    DEBUG_MODE && console.log( "Calling hasSpaceForGoods in ShipBO, goods:" , goods );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( goods == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: goods is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj.inventory is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj.shipBluePrint is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint.maxInventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj.shipBluePrint.maxInventory is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( shipObj.shipBluePrint.maxInventory ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj.shipBluePrint.maxInventory is non-integer" );
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj.shipBluePrint.maxInventory is" 
+            , shipObj.shipBluePrint.maxInventory );
+        return undefined;
+    }
+
+    if ( !checkValidGoods( goods ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: checkValidGoods returned false" );
+        return undefined; 
+    }
+
+    var good = undefined;
+    var currentInventorySum = 0;
+    for ( good in shipObj.inventory )
+    {
+        let amount = shipObj.inventory[ good ];
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: adding" ,amount, "to old sum for good" , good );
+        currentInventorySum += amount;
+    }
+
+    var newGoodSum = 0;
+    for ( good in goods )
+    {
+        let amount = goods[ good ];
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: adding" ,amount, "to new sum for good" , good );
+        newGoodSum += amount;
+    }
+
+    var maxSpace = shipObj.shipBluePrint.maxInventory;
+    if ( maxSpace >= currentInventorySum + newGoodSum )
+    {
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: returning true" );
+        return true;
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: returning undefined for sums" , currentInventorySum, "and", newGoodSum );
+    return undefined;
+}
+
+//Adds goods to the ships inventory(NO UPDATE DB YET)
+//returns the new inventory of the ship if updated or undefined otherwise
+//TODO: uncomment after tests written:
+/*
+function addGoods( shipObj, goods )
+{
+    DEBUG_MODE && console.log( "Calling addGoods in ShipBO, goods:" , goods );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addGoods: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( goods == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addGoods: goods is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addGoods: shipObj.inventory is undefined" );
+        return undefined;
+    }
+
+    if ( !checkValidGoods( goods ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addGoods: checkValidGoods returned false" );
+        return undefined;
+    }
+
+    if ( !hasSpaceForGoods( shipObj, goods ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addGoods: ship does not have space for goods" );
+        return undefined;        
+    }
+
+    for ( good in goods )
+    {
+        if ( shipObj.inventory[ good ] )
+        {
+            DEBUG_MODE && console.log( "ShipBO.addGoods: adding" , goods[ good ], "of good" 
+                , good , "to existing amount" , shipObj.inventory[ good ] );
+            shipObj.inventory[ good ] += goods[ good ];
+        }
+        else
+        {
+            DEBUG_MODE && console.log( "ShipBO.addGoods: adding" , goods[ good ], "of good" 
+                , good , "to empty space" );
+            shipObj.inventory[ good ] = goods[ good ];
+        }
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.addGoods: added goods successfully" );
+    return shipObj.inventory;
+}
+*/
 
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
@@ -240,5 +402,10 @@ exports.moveShip = moveShip;
 exports.changeName = changeName;
 exports.locationFuelCost = locationFuelCost;
 exports.destinationFuelCost = destinationFuelCost;
+exports.checkValidGoods = checkValidGoods;
+exports.hasSpaceForGoods = hasSpaceForGoods;
+//TODO: uncomment after tests written: exports.addGoods = addGoods;
+
+
 
 

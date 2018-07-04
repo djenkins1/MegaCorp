@@ -662,6 +662,213 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    CheckValidGoods testing begins
+    ===========
+    */
+    it( 'test checkValidGoods success for valid single good' , function( done )
+    {
+        let sampleGoods = { "bread" : 10 };
+        assert.ok( shipBO.checkValidGoods( sampleGoods ) );
+        done();
+    });
+
+    it( 'test checkValidGoods success for valid multiple goods' , function( done )
+    {
+        let sampleGoods = { "bread" : 10 , "meat" : 20 };
+        assert.ok( shipBO.checkValidGoods( sampleGoods ) );
+        done();
+    });
+
+    it( 'test checkValidGoods failure for undefined goods' , function( done )
+    {
+        let sampleGoods = undefined;
+        let returnVal = shipBO.checkValidGoods( sampleGoods );
+        if ( returnVal )
+        {
+            assert.fail( "checkValidGoods returned for undefined goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test checkValidGoods failure for empty goods' , function( done )
+    {
+        let sampleGoods = {};
+        let returnVal = shipBO.checkValidGoods( sampleGoods );
+        if ( returnVal )
+        {
+            assert.fail( "checkValidGoods returned for empty goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test checkValidGoods failure for string value in goods' , function( done )
+    {
+        let sampleGoods = { "bread" : "bad" };
+        let returnVal = shipBO.checkValidGoods( sampleGoods );
+        if ( returnVal )
+        {
+            assert.fail( "checkValidGoods returned for invalid goods: " + returnVal );
+        }
+        done();
+    });
+
+    /*
+    ===========
+    HasSpaceForGoods testing begins
+    ===========
+    */
+    it( 'test hasSpaceForGoods success' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        let sampleGoods = { "bread" : 10 };
+        assert.ok( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) );
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure shipObj undefined' , function( done )
+    {
+        let sampleGoods = { "bread" : 10 };
+        if ( shipBO.hasSpaceForGoods( undefined, sampleGoods ) )
+        {
+            assert.fail( "hasSpaceForGoods returned true for undefined shipObj" );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure inventory undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        mockDataList[ 1 ].inventory = undefined;
+        
+        let sampleGoods = { "bread" : 10 };
+        if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
+        {
+            assert.fail( "hasSpaceForGoods returned true for undefined shipObj inventory" );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure goods undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        
+        let sampleGoods = undefined;
+        if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
+        {
+            assert.fail( "hasSpaceForGoods returned true for undefined goods" );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure blueprint undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        mockDataList[ 1 ].shipBluePrint = undefined;
+        
+        let sampleGoods = { "bread" : 10 };
+        if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
+        {
+            assert.fail( "hasSpaceForGoods returned true for undefined shipBluePrint" );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure maxInventory undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        mockDataList[ 1 ].shipBluePrint.maxInventory = undefined;
+        
+        let sampleGoods = { "bread" : 10 };
+        if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
+        {
+            assert.fail( "hasSpaceForGoods returned true for undefined maxInventory" );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure maxInventory non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        mockDataList[ 1 ].shipBluePrint.maxInventory = "str";
+        
+        let sampleGoods = { "bread" : 10 };
+        if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
+        {
+            assert.fail( "hasSpaceForGoods returned true for non-integer maxInventory" );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure invalid goods empty' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        
+        let sampleGoods = {};
+        if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
+        {
+            assert.fail( "hasSpaceForGoods returned true for empty goods" );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure invalid goods with string value' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        
+        let sampleGoods = { "bread" : "str" };
+        if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
+        {
+            assert.fail( "hasSpaceForGoods returned true for goods with string value" );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure not enough space' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        let sampleGoods = { "bread" : 10 };
+        if ( shipBO.hasSpaceForGoods( mockDataList[ 0 ], sampleGoods ) )
+        {
+            assert.fail( "hasSpaceForGoods returned true but not enough space" );
+        }
+        done();
+    });
+
+    /*
+    ===========
+    AddGoods testing begins
+    ===========
+    */
+    //TODO: tests need writing
+
     //after() is run after all tests have completed.
     after( function( done ) 
     {
