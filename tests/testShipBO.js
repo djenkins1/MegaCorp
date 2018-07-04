@@ -226,6 +226,100 @@ describe('TestShipBO', function()
         done();
     }); 
 
+    /*
+    ===========
+    MoveShip testing begins
+    ===========
+    */
+    it( 'test moveShip to destination success without saving' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].destination );
+
+        assert.ok( shipBO.moveShip( mockDataList[ 1 ] , mockDataList[ 1 ].destination ) );
+        assert.deepEqual( mockDataList[ 1 ].location, mockDataList[ 1 ].destination );
+        done();
+    });
+
+    it( 'test moveShip success without saving' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 0 ].location );
+
+        assert.ok( shipBO.moveShip( mockDataList[ 1 ] , mockDataList[ 0 ].location ) );
+        assert.deepEqual( mockDataList[ 1 ].location, mockDataList[ 0 ].location );
+        done();
+    });
+
+    it( 'test moveShip failure shipObj undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+        let returnVal = shipBO.moveShip( undefined , mockDataList[ 0 ].location );
+        if ( returnVal )
+        {
+            assert.fail( "moveShip for undefined shipObj returned: " + returnVal );
+        }
+
+        done();
+    });
+
+    it( 'test moveShip failure new location undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        let oldLocation = mockDataList[ 0 ].location;
+        let returnVal = shipBO.moveShip( mockDataList[ 0 ] , undefined );
+        if ( returnVal )
+        {
+            assert.fail( "moveShip for undefined new location returned: " + returnVal );
+        }
+
+        assert.deepEqual( mockDataList[ 0 ].location , oldLocation );
+        done();
+    });
+
+    it( 'test moveShip failure new location invalid' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        let oldLocation = mockDataList[ 0 ].location;
+        let newLocation = { "x" : 5 };
+        let returnVal = shipBO.moveShip( mockDataList[ 0 ] , newLocation );
+        if ( returnVal )
+        {
+            assert.fail( "moveShip for undefined new location returned: " + returnVal );
+        }
+
+        assert.deepEqual( mockDataList[ 0 ].location , oldLocation );
+        done();
+    });
+
+    it( 'test moveShip failure old location undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsDockedAndTravel.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        let newLocation = { "x" : 5 , "y" : 5 };
+        mockDataList[ 0 ].location = undefined;
+
+        let returnVal = shipBO.moveShip( mockDataList[ 0 ] , newLocation );
+        if ( returnVal )
+        {
+            assert.fail( "moveShip for undefined old location returned: " + returnVal );
+        }
+
+        done();
+    }); 
+
     //after() is run after all tests have completed.
     after( function( done ) 
     {

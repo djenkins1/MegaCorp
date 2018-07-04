@@ -2,7 +2,6 @@ const shipDAO = require( "../Data/ShipDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 /*
-MoveShip,Move the ship to the location given(NO UPDATE DB YET)
 UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
 RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
 AddGoods,Adds goods to the ships inventory(NO UPDATE DB YET)
@@ -97,7 +96,7 @@ function changeDestination( shipObj, newDestination )
 
     if ( !isValidLocation( newDestination ) )
     {
-        DEBUG_MODE && console.log( "ShipBO.changeDestination: new destination is not a valid destination" );
+        DEBUG_MODE && console.log( "ShipBO.changeDestination: new destination is not a valid location" );
         return undefined;
     }
 
@@ -112,8 +111,43 @@ function changeDestination( shipObj, newDestination )
     return newDestination;    
 }
 
+//MoveShip,Move the ship to the location given(NO UPDATE DB YET)
+//Returns new location if updated successfully or undefined otherwise
+function moveShip( shipObj, newLocation )
+{
+    DEBUG_MODE && console.log( "Calling moveShip in ShipBO, new location:" , newLocation );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.moveShip: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( newLocation == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.moveShip: new location is undefined" );
+        return undefined;
+    }    
+
+    if ( !isValidLocation( newLocation ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.moveShip: new location is not a valid location" );
+        return undefined;
+    }
+
+    if ( shipObj.location == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.moveShip: old location is undefined" );
+        return undefined;
+    }
+
+    shipObj.location = newLocation;
+    DEBUG_MODE && console.log( "ShipBO.moveShip: changed location successfully" );
+    return newLocation;
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
+exports.moveShip = moveShip;
 
 
