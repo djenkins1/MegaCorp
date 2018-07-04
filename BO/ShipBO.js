@@ -339,8 +339,6 @@ function hasSpaceForGoods( shipObj, goods )
 
 //Adds goods to the ships inventory(NO UPDATE DB YET)
 //returns the new inventory of the ship if updated or undefined otherwise
-//TODO: uncomment after tests written:
-/*
 function addGoods( shipObj, goods )
 {
     DEBUG_MODE && console.log( "Calling addGoods in ShipBO, goods:" , goods );
@@ -393,7 +391,6 @@ function addGoods( shipObj, goods )
     DEBUG_MODE && console.log( "ShipBO.addGoods: added goods successfully" );
     return shipObj.inventory;
 }
-*/
 
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
@@ -404,7 +401,7 @@ exports.locationFuelCost = locationFuelCost;
 exports.destinationFuelCost = destinationFuelCost;
 exports.checkValidGoods = checkValidGoods;
 exports.hasSpaceForGoods = hasSpaceForGoods;
-//TODO: uncomment after tests written: exports.addGoods = addGoods;
+exports.addGoods = addGoods;
 
 
 

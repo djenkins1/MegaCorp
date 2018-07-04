@@ -867,7 +867,205 @@ describe('TestShipBO', function()
     AddGoods testing begins
     ===========
     */
-    //TODO: tests need writing
+    it( 'test addGoods success added new good to inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+
+        const goodName = "Bread";
+        let sampleGoods = {};
+        sampleGoods[ goodName ] = 10;
+
+        if ( mockDataList[ 1 ].inventory[ goodName ] )
+        {
+            assert.fail( goodName + " should not be inside ship inventory for this test" );
+        }
+
+        let returnVal = shipBO.addGoods( mockDataList[ 1 ], sampleGoods );
+        assert.deepEqual( returnVal, mockDataList[ 1 ].inventory );
+        assert.ok( mockDataList[ 1 ].inventory[ goodName ] );
+        assert.equal( mockDataList[ 1 ].inventory[ goodName ], sampleGoods[ goodName ] );
+        done();
+    });
+
+    it( 'test addGoods success added to existing good in inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        const goodName = "Food";
+        assert.ok( mockDataList[ 1 ].inventory[ goodName ] );
+
+        let oldValue = mockDataList[ 1 ].inventory[ goodName ];
+        let sampleGoods = {};
+        sampleGoods[ goodName ] = 10;
+
+        let returnVal = shipBO.addGoods( mockDataList[ 1 ], sampleGoods );
+        assert.deepEqual( returnVal, mockDataList[ 1 ].inventory );
+        assert.equal( mockDataList[ 1 ].inventory[ goodName ], oldValue + sampleGoods[ goodName ] );
+        done();
+    });
+
+    it( 'test addGoods success added multiple goods' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        const goodName = "Food";
+        const otherGood = "Sheep";
+        let oldValue = mockDataList[ 1 ].inventory[ goodName ];
+
+        let sampleGoods = {};
+        sampleGoods[ goodName ] = 10;
+        sampleGoods[ otherGood ] = 20;
+
+        let returnVal = shipBO.addGoods( mockDataList[ 1 ], sampleGoods );
+        assert.deepEqual( returnVal, mockDataList[ 1 ].inventory );
+        assert.equal( mockDataList[ 1 ].inventory[ goodName ], oldValue + sampleGoods[ goodName ] );
+        assert.equal( mockDataList[ 1 ].inventory[ otherGood ] , sampleGoods[ otherGood ] );
+        done();
+    });
+
+    it( 'test addGoods success added single good max out' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        const goodName = "Food";
+        assert.ok( mockDataList[ 1 ].inventory[ goodName ] );
+        let oldValue = mockDataList[ 1 ].inventory[ goodName ];
+        let sampleGoods = {};
+        sampleGoods[ goodName ] = 50;
+
+        let returnVal = shipBO.addGoods( mockDataList[ 1 ], sampleGoods );
+        assert.deepEqual( returnVal, mockDataList[ 1 ].inventory );
+        assert.equal( mockDataList[ 1 ].inventory[ goodName ], oldValue + sampleGoods[ goodName ] );
+        done();
+    });
+
+    it( 'test addGoods failure shipObj undefined' , function( done )
+    {
+        let sampleGoods = { "Bread" : 10 };
+        let returnVal = shipBO.addGoods( undefined, sampleGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods for undefined shipObj returned: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure goods undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let sampleGoods = undefined;
+        let returnVal = shipBO.addGoods( mockDataList[ 1 ], sampleGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods for undefined goods returned: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure inventory undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        mockDataList[ 1 ].inventory = undefined;
+
+        let sampleGoods = { "Bread" : 10 };
+        let returnVal = shipBO.addGoods( mockDataList[ 1 ], sampleGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods for undefined inventory returned: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure invalid goods empty' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let sampleGoods = {};
+        let returnVal = shipBO.addGoods( mockDataList[ 1 ], sampleGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods for empty goods returned: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure invalid goods with string value' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let sampleGoods = { "Bread" : "badStr" };
+        let returnVal = shipBO.addGoods( mockDataList[ 1 ], sampleGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods for invalid goods returned: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure not enough space' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let sampleGoods = { "Bread" : 100 };
+        let returnVal = shipBO.addGoods( mockDataList[ 1 ], sampleGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods for not enough space returned: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure not enough space multiple goods' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        assert.ok( mockDataList[ 1 ].inventory );
+
+        let sampleGoods = { "Bread" : 40 , "Eggs" : 40 , "Food" : 20 };
+        let returnVal = shipBO.addGoods( mockDataList[ 1 ], sampleGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods for multiple goods not enough space returned: " + returnVal );
+        }
+        done();
+    });
 
     //after() is run after all tests have completed.
     after( function( done ) 
