@@ -376,15 +376,8 @@ function hasSpaceForGoods( shipObj, goods )
         return undefined; 
     }
 
-    var currentInventorySum = sumGoods( shipObj );
-    var newGoodSum = 0;
-    var good = undefined;
-    for ( good in goods )
-    {
-        let amount = goods[ good ];
-        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: adding" ,amount, "to new sum for good" , good );
-        newGoodSum += amount;
-    }
+    var currentInventorySum = sumGoodsInventory( shipObj.inventory );
+    let newGoodSum = sumGoodsInventory( goods );
 
     var maxSpace = shipObj.shipBluePrint.maxInventory;
     if ( maxSpace >= currentInventorySum + newGoodSum )
