@@ -4,7 +4,6 @@ const ID_KEY = require('config').get('ID_KEY');
 /*
 UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
 RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
-ChangeCompany,Change the company that owns the ship(NO UPDATE DB YET)
 AddDamage,Add damage to the ship(NO UPDATE DB YET)
 FixDamage,Remove damage from the ship(NO UPDATE DB YET)
 IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
@@ -21,7 +20,7 @@ function sumGoodsInventory( inventory )
     DEBUG_MODE && console.log( "Calling sumGoodsInventory in ShipBO, inventory:" , inventory );
     if ( inventory == undefined )
     {
-        DEBUG_MODE && console.log( "ShipBO.sumGoodsInventory: inventory undefined" ); 
+        DEBUG_MODE && console.log( "ShipBO.sumGoodsInventory: inventory undefined" );
         return undefined;
     }
 
@@ -53,7 +52,7 @@ function sumGoods( shipObj )
         DEBUG_MODE && console.log( "ShipBO.sumGoods: shipObj undefined" );
         return undefined;
     }
-    
+
     if ( shipObj.inventory == undefined )
     {
         DEBUG_MODE && console.log( "ShipBO.sumGoods: inventory undefined" );
@@ -151,7 +150,7 @@ function changeDestination( shipObj, newDestination )
 
     shipObj.destination = newDestination;
     DEBUG_MODE && console.log( "ShipBO.changeDestination: changed destination successfully" );
-    return newDestination;    
+    return newDestination;
 }
 
 //MoveShip,Move the ship to the location given(NO UPDATE DB YET)
@@ -169,7 +168,7 @@ function moveShip( shipObj, newLocation )
     {
         DEBUG_MODE && console.log( "ShipBO.moveShip: new location is undefined" );
         return undefined;
-    }    
+    }
 
     if ( !isValidLocation( newLocation ) )
     {
@@ -232,7 +231,7 @@ function locationFuelCost( currentLocation, destination, fuelCostBySquare )
     {
         DEBUG_MODE && console.log( "ShipBO.locationFuelCost: currentLocation is not a valid location" );
         return undefined;
-    }    
+    }
 
     if ( !isValidLocation( destination ) )
     {
@@ -365,7 +364,7 @@ function hasSpaceForGoods( shipObj, goods )
     if ( !Number.isInteger( shipObj.shipBluePrint.maxInventory ) )
     {
         DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj.shipBluePrint.maxInventory is non-integer" );
-        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj.shipBluePrint.maxInventory is" 
+        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj.shipBluePrint.maxInventory is"
             , shipObj.shipBluePrint.maxInventory );
         return undefined;
     }
@@ -373,7 +372,7 @@ function hasSpaceForGoods( shipObj, goods )
     if ( !checkValidGoods( goods ) )
     {
         DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: checkValidGoods returned false" );
-        return undefined; 
+        return undefined;
     }
 
     var currentInventorySum = sumGoodsInventory( shipObj.inventory );
@@ -422,20 +421,20 @@ function addGoods( shipObj, goods )
     if ( !hasSpaceForGoods( shipObj, goods ) )
     {
         DEBUG_MODE && console.log( "ShipBO.addGoods: ship does not have space for goods" );
-        return undefined;        
+        return undefined;
     }
 
     for ( good in goods )
     {
         if ( shipObj.inventory[ good ] )
         {
-            DEBUG_MODE && console.log( "ShipBO.addGoods: adding" , goods[ good ], "of good" 
+            DEBUG_MODE && console.log( "ShipBO.addGoods: adding" , goods[ good ], "of good"
                 , good , "to existing amount" , shipObj.inventory[ good ] );
             shipObj.inventory[ good ] += goods[ good ];
         }
         else
         {
-            DEBUG_MODE && console.log( "ShipBO.addGoods: adding" , goods[ good ], "of good" 
+            DEBUG_MODE && console.log( "ShipBO.addGoods: adding" , goods[ good ], "of good"
                 , good , "to empty space" );
             shipObj.inventory[ good ] = goods[ good ];
         }
@@ -478,12 +477,12 @@ function hasGoods( shipObj, goods )
         if ( shipObj.inventory[ good ] == undefined )
         {
             DEBUG_MODE && console.log( "ShipBO.hasGoods: inventory does not contain any of" , good );
-            return undefined;        
+            return undefined;
         }
 
         if ( shipObj.inventory[ good ] < goods[ good ] )
         {
-            DEBUG_MODE && console.log( "ShipBO.hasGoods: inventory does not contain enough of" , good 
+            DEBUG_MODE && console.log( "ShipBO.hasGoods: inventory does not contain enough of" , good
                 , "has" , shipObj.inventory[ good ] , "/" , goods[ good ] );
             return undefined;
         }
@@ -525,6 +524,46 @@ function hasFuel( shipObj )
     return hasGoods( shipObj, shipObj.shipBluePrint.fuelCost );
 }
 
+//Change the company that owns the ship(NO UPDATE DB YET)
+//returns the id of the new owner or undefined otherwise
+function changeCompany( shipObj , newCompanyId )
+{
+    DEBUG_MODE && console.log( "Calling changeCompany in ShipBO, newCompanyId:" , newCompanyId );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.changeCompany: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( newCompanyId == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.changeCompany: newCompanyId is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.companyId == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.changeCompany: shipObj.companyId is undefined" );
+        return undefined;
+    }
+
+    if ( typeof newCompanyId != "string" )
+    {
+        DEBUG_MODE && console.log( "ShipBO.changeCompany: newCompanyId is not a string" );
+        return undefined;
+    }
+
+    if ( newCompanyId == shipObj.companyId )
+    {
+        DEBUG_MODE && console.log( "ShipBO.changeCompany: newCompanyId is same as old" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.changeCompany: changing companyId to" , newCompanyId , "from" , shipObj.companyId );
+    shipObj.companyId = newCompanyId;
+    return newCompanyId;
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -539,4 +578,4 @@ exports.hasGoods = hasGoods;
 exports.hasFuel = hasFuel;
 exports.sumGoods = sumGoods;
 exports.sumGoodsInventory = sumGoodsInventory;
-
+exports.changeCompany = changeCompany;

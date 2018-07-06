@@ -6,7 +6,7 @@ const TABLE_NAME = shipDAO.tableName;
 
 //This test file does not test database functionality
 
-describe('TestShipBO', function() 
+describe('TestShipBO', function()
 {
     //The before() callback gets run before all tests in the suite.
     before( function( done )
@@ -154,7 +154,7 @@ describe('TestShipBO', function()
         {
             assert.fail( "clearDestination returned true for undefined shipObj" );
         }
-        
+
         done();
     });
 
@@ -207,7 +207,7 @@ describe('TestShipBO', function()
 
         assert.deepEqual( mockDataList[ 0 ].destination , oldDestination );
         done();
-    });    
+    });
 
     it( 'test changeDestination failure old destination undefined' , function( done )
     {
@@ -224,7 +224,7 @@ describe('TestShipBO', function()
         }
 
         done();
-    }); 
+    });
 
     /*
     ===========
@@ -318,7 +318,7 @@ describe('TestShipBO', function()
         }
 
         done();
-    }); 
+    });
 
     /*
     ===========
@@ -335,7 +335,7 @@ describe('TestShipBO', function()
         const nameConst = "Red Rover";
         assert.equal( shipBO.changeName( mockDataList[ 0 ], nameConst ) , nameConst );
         assert.equal( mockDataList[ 0 ].name, nameConst );
-        done(); 
+        done();
     });
 
     it( 'test changeName failure shipObj undefined' , function( done )
@@ -347,7 +347,7 @@ describe('TestShipBO', function()
             assert.fail( "changeName for undefined shipObj returned: " + returnVal );
         }
 
-        done(); 
+        done();
     });
 
     it( 'test changeName failure newName undefined' , function( done )
@@ -366,7 +366,7 @@ describe('TestShipBO', function()
         }
         assert.equal( mockDataList[ 0 ].name, oldName );
 
-        done(); 
+        done();
     });
 
     it( 'test changeName failure old name undefined' , function( done )
@@ -383,7 +383,7 @@ describe('TestShipBO', function()
             assert.fail( "changeName for undefined old name returned: " + returnVal );
         }
 
-        done(); 
+        done();
     });
 
     it( 'test changeName failure newName not string' , function( done )
@@ -402,7 +402,7 @@ describe('TestShipBO', function()
         }
         assert.equal( mockDataList[ 0 ].name, oldName );
 
-        done(); 
+        done();
     });
 
     /*
@@ -490,7 +490,7 @@ describe('TestShipBO', function()
         assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         mockDataList[ 1 ].inventory = undefined;
-        
+
         let sampleGoods = { "bread" : 10 };
         if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
         {
@@ -505,7 +505,7 @@ describe('TestShipBO', function()
         assert.ok( mockDataList );
         assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
-        
+
         let sampleGoods = undefined;
         if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
         {
@@ -520,7 +520,7 @@ describe('TestShipBO', function()
         assert.ok( mockDataList );
         assert.ok( mockDataList.length > 1 );
         mockDataList[ 1 ].shipBluePrint = undefined;
-        
+
         let sampleGoods = { "bread" : 10 };
         if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
         {
@@ -536,7 +536,7 @@ describe('TestShipBO', function()
         assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         mockDataList[ 1 ].shipBluePrint.maxInventory = undefined;
-        
+
         let sampleGoods = { "bread" : 10 };
         if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
         {
@@ -552,7 +552,7 @@ describe('TestShipBO', function()
         assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
         mockDataList[ 1 ].shipBluePrint.maxInventory = "str";
-        
+
         let sampleGoods = { "bread" : 10 };
         if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
         {
@@ -567,7 +567,7 @@ describe('TestShipBO', function()
         assert.ok( mockDataList );
         assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
-        
+
         let sampleGoods = {};
         if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
         {
@@ -582,7 +582,7 @@ describe('TestShipBO', function()
         assert.ok( mockDataList );
         assert.ok( mockDataList.length > 1 );
         assert.ok( mockDataList[ 1 ].shipBluePrint );
-        
+
         let sampleGoods = { "bread" : "str" };
         if ( shipBO.hasSpaceForGoods( mockDataList[ 1 ], sampleGoods ) )
         {
@@ -1113,7 +1113,7 @@ describe('TestShipBO', function()
         assert.ok( mockDataList.length );
         assert.ok( mockDataList[ 0 ].location );
         let fuelCost = { "test" : 1 };
-        
+
         let returnVal = shipBO.locationFuelCost( mockDataList[ 0 ].location, mockDataList[ 0 ].location , fuelCost );
         assert.ok( returnVal );
         assert.equal( returnVal[ "test" ] , 0 );
@@ -1125,7 +1125,7 @@ describe('TestShipBO', function()
         let sampleLocation = { "x" : 1, "y" : 2 };
         let sampleDestination = { "x" : 2 , "y" : 2 };
         let fuelCost = { "test" : 1 };
- 
+
         let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination ,fuelCost );
         assert.ok( returnVal );
         assert.equal( returnVal[ "test" ] , 1 );
@@ -1137,7 +1137,7 @@ describe('TestShipBO', function()
         let sampleLocation = { "x" : 1, "y" : 2 };
         let sampleDestination = { "x" : 2 , "y" : 2 };
         let fuelCost = { "test" : 1 , "packing" : 1 };
- 
+
         let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination ,fuelCost );
         assert.ok( returnVal );
         assert.deepEqual( returnVal , fuelCost );
@@ -1149,7 +1149,7 @@ describe('TestShipBO', function()
         let sampleLocation = { "x" : 2, "y" : 2 };
         let sampleDestination = { "x" : 1 , "y" : 2 };
         let fuelCost = { "test" : 1 };
- 
+
         let returnVal = shipBO.locationFuelCost( sampleLocation, sampleDestination ,fuelCost );
         assert.ok( returnVal );
         assert.equal( returnVal[ "test" ] , 1 );
@@ -1248,7 +1248,7 @@ describe('TestShipBO', function()
         assert.ok( mockDataList[ 0 ].location );
         assert.ok( mockDataList[ 0 ].shipBluePrint );
         let fuelCost = mockDataList[ 0 ].shipBluePrint.fuelCost;
-        
+
         let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], mockDataList[ 0 ].location );
         assert.ok( returnVal );
         for ( var fuelGood in fuelCost )
@@ -1277,7 +1277,7 @@ describe('TestShipBO', function()
         sampleDestination.x = mockDataList[ 0 ].location.x + 1;
         sampleDestination.y = mockDataList[ 0 ].location.y;
         let fuelCost = mockDataList[ 0 ].shipBluePrint.fuelCost;
-        
+
         let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
         assert.deepEqual( returnVal , fuelCost );
 
@@ -1299,7 +1299,7 @@ describe('TestShipBO', function()
         sampleDestination.x = mockDataList[ 0 ].location.x;
         sampleDestination.y = mockDataList[ 0 ].location.y - 1;
         let fuelCost = mockDataList[ 0 ].shipBluePrint.fuelCost;
-        
+
         let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
         assert.deepEqual( returnVal , fuelCost );
 
@@ -1321,7 +1321,7 @@ describe('TestShipBO', function()
         sampleDestination.x = mockDataList[ 0 ].location.x + 1;
         sampleDestination.y = mockDataList[ 0 ].location.y - 1;
         let fuelCost = mockDataList[ 0 ].shipBluePrint.fuelCost;
-        
+
         let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
         for ( var fuelGood in fuelCost )
         {
@@ -1346,7 +1346,7 @@ describe('TestShipBO', function()
         sampleDestination.x = mockDataList[ 0 ].location.x + 2;
         sampleDestination.y = mockDataList[ 0 ].location.y;
         let fuelCost = mockDataList[ 0 ].shipBluePrint.fuelCost;
-        
+
         let returnVal = shipBO.destinationFuelCost( mockDataList[ 0 ], sampleDestination );
         for ( var fuelGood in fuelCost )
         {
@@ -1367,7 +1367,7 @@ describe('TestShipBO', function()
         {
             assert.fail( "destinationFuelCost for undefined shipObj returned: " + returnVal );
         }
-      
+
         done();
     });
 
@@ -1385,7 +1385,7 @@ describe('TestShipBO', function()
         {
             assert.fail( "destinationFuelCost for undefined shipObj.location returned: " + returnVal );
         }
-      
+
         done();
     });
 
@@ -1402,7 +1402,7 @@ describe('TestShipBO', function()
         {
             assert.fail( "destinationFuelCost for undefined shipObj.shipBluePrint returned: " + returnVal );
         }
-      
+
         done();
     });
 
@@ -1419,7 +1419,7 @@ describe('TestShipBO', function()
         {
             assert.fail( "destinationFuelCost for undefined shipBluePrint.fuelCost returned: " + returnVal );
         }
-      
+
         done();
     });
 
@@ -1436,7 +1436,7 @@ describe('TestShipBO', function()
         {
             assert.fail( "destinationFuelCost for empty shipBluePrint.fuelCost returned: " + returnVal );
         }
-      
+
         done();
     });
 
@@ -1453,7 +1453,7 @@ describe('TestShipBO', function()
         {
             assert.fail( "destinationFuelCost for string value in shipBluePrint.fuelCost returned: " + returnVal );
         }
-      
+
         done();
     });
 
@@ -1469,7 +1469,7 @@ describe('TestShipBO', function()
         {
             assert.fail( "destinationFuelCost for undefined destination returned: " + returnVal );
         }
-      
+
         done();
     });
 
@@ -1486,7 +1486,7 @@ describe('TestShipBO', function()
         {
             assert.fail( "destinationFuelCost for invalid destination returned: " + returnVal );
         }
-      
+
         done();
     });
 
@@ -1504,7 +1504,7 @@ describe('TestShipBO', function()
         {
             assert.fail( "destinationFuelCost for invalid location returned: " + returnVal );
         }
-      
+
         done();
     });
 
@@ -1638,8 +1638,101 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    ChangeCompany testing begins
+    ===========
+    */
+
+    it( 'test changeCompany success without saving', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].companyId );
+        let newId = "501";
+        assert.equal( shipBO.changeCompany( mockDataList[ 0 ] , newId ) , newId );
+        assert.equal( mockDataList[ 0 ].companyId , newId );
+        done();
+    });
+
+    it( 'test changeCompany failure shipObj undefined', function(done)
+    {
+        let newId = "501";
+        let returnVal = shipBO.changeCompany( undefined , newId );
+        if ( returnVal )
+        {
+            assert.fail( "changeCompany returned for undefined shipObj: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test changeCompany failure newCompanyId undefined', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].companyId );
+
+        let newId = undefined;
+        let returnVal = shipBO.changeCompany( mockDataList[ 0 ] , newId );
+        if ( returnVal )
+        {
+            assert.fail( "changeCompany returned for undefined newCompanyId: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test changeCompany failure old companyId undefined', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 0 ].companyId = undefined;
+
+        let newId = "501";
+        let returnVal = shipBO.changeCompany( mockDataList[ 0 ] , newId );
+        if ( returnVal )
+        {
+            assert.fail( "changeCompany returned for undefined old companyId: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test changeCompany failure newCompanyId not string', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].companyId );
+
+        let newId = 105;
+        let returnVal = shipBO.changeCompany( mockDataList[ 0 ] , newId );
+        if ( returnVal )
+        {
+            assert.fail( "changeCompany returned for non-string newCompanyId: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test changeCompany failure old companyId same', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].companyId );
+
+        let newId = mockDataList[ 0 ].companyId;
+        let returnVal = shipBO.changeCompany( mockDataList[ 0 ] , newId );
+        if ( returnVal )
+        {
+            assert.fail( "changeCompany returned for same newCompanyId: " + returnVal );
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
-    after( function( done ) 
+    after( function( done )
     {
         done();
     });
