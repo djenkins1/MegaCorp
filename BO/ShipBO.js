@@ -7,7 +7,6 @@ RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
 AddDamage,Add damage to the ship(NO UPDATE DB YET)
 FixDamage,Remove damage from the ship(NO UPDATE DB YET)
 IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
-IsFull,Returns true if the ship's inventory is completely maxed out
 SaveShip,Saves the changes made to the ship into the database
 AllShips,Returns all ships in the database
 CreateShip,Creates a new ship and adds it to the database
@@ -564,6 +563,57 @@ function changeCompany( shipObj , newCompanyId )
     return newCompanyId;
 }
 
+//Returns true if the ship's inventory is completely maxed out or false if not
+//returns undefined if shipObj is undefined or not valid
+function isFull( shipObj )
+{
+    DEBUG_MODE && console.log( "Calling isFull in ShipBO, shipObj:" , shipObj );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isFull: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isFull: shipObj.inventory is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isFull: shipObj.shipBluePrint is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint.maxInventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isFull: shipBluePrint.maxInventory is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( shipObj.shipBluePrint.maxInventory ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isFull: shipBluePrint.maxInventory is not an integer" );
+        return undefined;
+    }
+
+    let maxGoods = parseInt( shipObj.shipBluePrint.maxInventory , 10 );
+    let totalGoods = sumGoodsInventory( shipObj.inventory );
+    DEBUG_MODE && console.log( "ShipBO.isFull: maxGoods is" , maxGoods );
+    DEBUG_MODE && console.log( "ShipBO.isFull: totalGoods is" , totalGoods );
+    if ( totalGoods >= maxGoods )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isFull: returning true as ship has full inventory" );
+        return true;
+    }
+    else
+    {
+        DEBUG_MODE && console.log( "ShipBO.isFull: returning false as ship still has inventory space" );
+        return false;
+    }
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -579,3 +629,4 @@ exports.hasFuel = hasFuel;
 exports.sumGoods = sumGoods;
 exports.sumGoodsInventory = sumGoodsInventory;
 exports.changeCompany = changeCompany;
+exports.isFull = isFull;

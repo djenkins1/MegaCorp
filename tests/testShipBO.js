@@ -1643,7 +1643,6 @@ describe('TestShipBO', function()
     ChangeCompany testing begins
     ===========
     */
-
     it( 'test changeCompany success without saving', function(done)
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
@@ -1727,6 +1726,134 @@ describe('TestShipBO', function()
         if ( returnVal )
         {
             assert.fail( "changeCompany returned for same newCompanyId: " + returnVal );
+        }
+        done();
+    });
+
+    /*
+    ===========
+    IsFull testing begins
+    ===========
+    */
+    it( 'test isFull return true for full inventory single good' , function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxInventory );
+        mockDataList[ 0 ].inventory = { "Food" : mockDataList[ 0 ].shipBluePrint.maxInventory };
+        assert.ok( shipBO.isFull( mockDataList[ 0 ] ) );
+        done();
+    });
+
+    it( 'test isFull return true for full inventory multiple goods' , function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxInventory );
+        mockDataList[ 0 ].inventory = {
+            "Food" : mockDataList[ 0 ].shipBluePrint.maxInventory / 2
+            ,"Iron" : mockDataList[ 0 ].shipBluePrint.maxInventory / 2
+        };
+        assert.ok( shipBO.isFull( mockDataList[ 0 ] ) );
+        done();
+    });
+
+    it( 'test isFull return false for not full inventory' ,function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length > 1 );
+        assert.ok( mockDataList[ 1 ].shipBluePrint );
+        assert.ok( mockDataList[ 1 ].shipBluePrint.maxInventory );
+        assert.ok( mockDataList[ 1 ].inventory );
+        let spaceTaken = shipBO.sumGoodsInventory( mockDataList[ 1 ].inventory );
+        let maxSpace = mockDataList[ 1 ].shipBluePrint.maxInventory;
+        if ( spaceTaken >= maxSpace )
+        {
+            console.log( "maxSpace:" , maxSpace );
+            console.log( "spaceTaken:", spaceTaken );
+            assert.fail( "mockDataList[1].inventory should still have space for this test");
+        }
+
+        if ( shipBO.isFull( mockDataList[ 1 ] ) )
+        {
+            assert.fail( "isFull returned true for not full inventory");
+        }
+        done();
+    });
+
+    it( 'test isFull failure for undefined shipObj' ,function(done)
+    {
+        if ( shipBO.isFull( undefined ) )
+        {
+            assert.fail( "isFull returned true for undefined shipObj" );
+        }
+        done();
+    });
+
+    it( 'test isFull failure for undefined shipObj inventory' ,function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxInventory );
+        mockDataList[ 0 ].inventory = undefined;
+
+        if ( shipBO.isFull( mockDataList[ 0 ] ) )
+        {
+            assert.fail( "isFull returned true for undefined inventory" );
+        }
+        done();
+    });
+
+    it( 'test isFull failure for undefined shipObj shipBluePrint' ,function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        mockDataList[ 0 ].shipBluePrint = undefined;
+
+        if ( shipBO.isFull( mockDataList[ 0 ] ) )
+        {
+            assert.fail( "isFull returned true for undefined shipBluePrint" );
+        }
+        done();
+    });
+
+    it( 'test isFull failure for undefined maxInventory' ,function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        mockDataList[ 0 ].shipBluePrint.maxInventory = undefined;
+
+        if ( shipBO.isFull( mockDataList[ 0 ] ) )
+        {
+            assert.fail( "isFull returned true for undefined maxInventory" );
+        }
+        done();
+    });
+
+    it( 'test isFull failure for non-integer maxInventory' ,function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        mockDataList[ 0 ].shipBluePrint.maxInventory = "str";
+
+        if ( shipBO.isFull( mockDataList[ 0 ] ) )
+        {
+            assert.fail( "isFull returned true for non-integer maxInventory" );
         }
         done();
     });
