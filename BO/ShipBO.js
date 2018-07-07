@@ -2,7 +2,6 @@ const shipDAO = require( "../Data/ShipDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 /*
-AddDamage,Add damage to the ship(NO UPDATE DB YET)
 SaveShip,Saves the changes made to the ship into the database
 AllShips,Returns all ships in the database
 CreateShip,Creates a new ship and adds it to the database
@@ -853,6 +852,80 @@ function isMaxDamaged( shipObj )
     }
 }
 
+//Add damage to the ship(NO UPDATE DB YET)
+//returns damage added or undefined if not successful
+function addDamage( shipObj, addAmount )
+{
+    DEBUG_MODE && console.log( "Calling addDamage in ShipBO, shipObj:" , shipObj );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addDamage: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( addAmount == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addDamage: addAmount is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.damage == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addDamage: shipObj.damage is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( shipObj.damage ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addDamage: shipObj.damage is not an integer" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addDamage: shipObj.shipBluePrint is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint.maxDamage == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addDamage: shipBluePrint.maxDamage is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( shipObj.shipBluePrint.maxDamage ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addDamage: shipBluePrint.maxDamage is not an integer" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( addAmount ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addDamage: addAmount is not an integer" );
+        return undefined;
+    }
+
+    if ( parseInt( addAmount ) <= 0 )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addDamage: addAmount must be > 0" );
+        return undefined;
+    }
+
+    let currentDamage = parseInt( shipObj.damage );
+    let maxDamage = parseInt( shipObj.shipBluePrint.maxDamage );
+    DEBUG_MODE && console.log( "ShipBO.addDamage: current damage is" , currentDamage );
+    DEBUG_MODE && console.log( "ShipBO.addDamage: max damage is" , maxDamage );
+    if ( currentDamage + addAmount > maxDamage )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addDamage: cannot damage beyond max damage" );
+        return undefined;
+    }
+
+    shipObj.damage = currentDamage + addAmount;
+    DEBUG_MODE && console.log( "ShipBO.addDamage: successfully added damage" );
+    return addAmount;
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -874,3 +947,4 @@ exports.useFuel = useFuel;
 exports.isDocked = isDocked;
 exports.fixDamage = fixDamage;
 exports.isMaxDamaged = isMaxDamaged;
+exports.addDamage = addDamage;

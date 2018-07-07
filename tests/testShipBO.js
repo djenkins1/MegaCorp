@@ -2606,6 +2606,252 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    AddDamage testing begins
+    ===========
+    */
+    it( 'test addDamage success from zero without saving' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+        mockDataList[ 0 ].damage = 0;
+
+        let damageAdded = 1;
+        assert.equal( shipBO.addDamage( mockDataList[ 0 ] , damageAdded ) , damageAdded );
+        assert.equal( mockDataList[ 0 ].damage, damageAdded );
+        done();
+    });
+
+    it( 'test addDamage success from non-zero without saving' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+        mockDataList[ 0 ].damage = 2;
+
+        let oldDamage = mockDataList[ 0 ].damage;
+        let damageAdded = 3;
+        assert.equal( shipBO.addDamage( mockDataList[ 0 ] , damageAdded ) , damageAdded );
+        assert.equal( mockDataList[ 0 ].damage, damageAdded + oldDamage );
+        done();
+    });
+
+    it( 'test addDamage failure too much damage' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+        mockDataList[ 0 ].damage = 2;
+
+        let oldDamage = mockDataList[ 0 ].damage;
+        let damageAdded = 1 + mockDataList[ 0 ].shipBluePrint.maxDamage - oldDamage;
+
+        let returnVal = shipBO.addDamage( mockDataList[ 0 ] , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for too much damage added: " + returnVal );
+        }
+        assert.equal( mockDataList[ 0 ].damage, oldDamage );
+        done();
+    });
+
+    it( 'test addDamage failure shipObj undefined' , function( done )
+    {
+        let damageAdded = 1;
+        let returnVal = shipBO.addDamage( undefined , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for undefined shipObj: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addDamage failure addAmount undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+        mockDataList[ 0 ].damage = 2;
+
+        let damageAdded = undefined;
+        let oldDamage = mockDataList[ 0 ].damage;
+
+        let returnVal = shipBO.addDamage( mockDataList[ 0 ] , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for undefined addAmount: " + returnVal );
+        }
+        assert.equal( mockDataList[ 0 ].damage, oldDamage );
+        done();
+    });
+
+    it( 'test addDamage failure shipObj.damage undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+        mockDataList[ 0 ].damage = undefined;
+
+        let damageAdded = 1;
+
+        let returnVal = shipBO.addDamage( mockDataList[ 0 ] , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for undefined shipObj.damage: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addDamage failure shipObj.damage non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+        mockDataList[ 0 ].damage = "badStr";
+
+        let damageAdded = 1;
+
+        let returnVal = shipBO.addDamage( mockDataList[ 0 ] , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for non-integer shipObj.damage: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addDamage failure shipObj.shipBluePrint undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        mockDataList[ 0 ].shipBluePrint = undefined ;
+        let damageAdded = 1;
+        let oldDamage = mockDataList[ 0 ].damage;
+
+        let returnVal = shipBO.addDamage( mockDataList[ 0 ] , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for undefined shipObj.shipBluePrint: " + returnVal );
+        }
+        assert.equal( mockDataList[ 0 ].damage, oldDamage );
+        done();
+    });
+
+    it( 'test addDamage failure shipBluePrint.maxDamage undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+
+        mockDataList[ 0 ].shipBluePrint.maxDamage = undefined ;
+        let damageAdded = 1;
+        let oldDamage = mockDataList[ 0 ].damage;
+
+        let returnVal = shipBO.addDamage( mockDataList[ 0 ] , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for undefined shipBluePrint.maxDamage: " + returnVal );
+        }
+        assert.equal( mockDataList[ 0 ].damage, oldDamage );
+        done();
+    });
+
+    it( 'test addDamage failure shipBluePrint.maxDamage non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+
+        mockDataList[ 0 ].shipBluePrint.maxDamage = "badStr";
+        let damageAdded = 1;
+        let oldDamage = mockDataList[ 0 ].damage;
+
+        let returnVal = shipBO.addDamage( mockDataList[ 0 ] , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for non-integer maxDamage: " + returnVal );
+        }
+        assert.equal( mockDataList[ 0 ].damage, oldDamage );
+        done();
+    });
+
+    it( 'test addDamage failure addAmount non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+
+        let damageAdded = "badStr";
+        let oldDamage = mockDataList[ 0 ].damage;
+
+        let returnVal = shipBO.addDamage( mockDataList[ 0 ] , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for non-integer addAmount: " + returnVal );
+        }
+        assert.equal( mockDataList[ 0 ].damage, oldDamage );
+        done();
+    });
+
+    it( 'test addDamage failure addAmount negative' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+
+        let damageAdded = -1;
+        let oldDamage = mockDataList[ 0 ].damage;
+
+        let returnVal = shipBO.addDamage( mockDataList[ 0 ] , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for negative addAmount: " + returnVal );
+        }
+        assert.equal( mockDataList[ 0 ].damage, oldDamage );
+        done();
+    });
+
+    it( 'test addDamage failure addAmount zero' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+
+        let damageAdded = 0;
+        let oldDamage = mockDataList[ 0 ].damage;
+
+        let returnVal = shipBO.addDamage( mockDataList[ 0 ] , damageAdded );
+        if ( returnVal )
+        {
+            assert.fail( "addDamage returned for zero addAmount: " + returnVal );
+        }
+        assert.equal( mockDataList[ 0 ].damage, oldDamage );
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done )
     {
