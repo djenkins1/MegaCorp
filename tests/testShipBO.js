@@ -1858,6 +1858,234 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    RemoveGoods testing begins
+    ===========
+    */
+    it( 'test removeGoods success single good with leftover', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        let goodName = "Spice";
+        let goodAmount = 20;
+        let removeGoods = {};
+        removeGoods[ goodName ] = goodAmount;
+        assert.ok( mockDataList[ 0 ].inventory[ goodName ] );
+        let oldAmount = mockDataList[ 0 ].inventory[ goodName ];
+        if ( oldAmount <= goodAmount )
+        {
+            assert.fail( "mockDataList[0] should have enough " + goodName + " in inventory for this test" );
+        }
+
+        let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
+        assert.deepEqual( returnVal, removeGoods );
+        assert.ok( mockDataList[ 0 ].inventory[ goodName ] );
+        assert.equal( mockDataList[ 0 ].inventory[ goodName ] , oldAmount - goodAmount );
+        done();
+    });
+
+    it( 'test removeGoods success single good no leftover', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        let goodName = "Spice";
+        assert.ok( mockDataList[ 0 ].inventory[ goodName ] );
+        let goodAmount = mockDataList[ 0 ].inventory[ goodName ];
+        let removeGoods = {};
+        removeGoods[ goodName ] = goodAmount;
+
+        let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
+        assert.deepEqual( returnVal, removeGoods );
+        if ( mockDataList[ 0 ].inventory[ goodName ] )
+        {
+            assert.fail( goodName + " should no longer be in inventory" );
+        }
+        done();
+    });
+
+    it( 'test removeGoods success multiple goods with leftover', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        let removeGoods = {};
+        let oldInventory = {};
+        for ( var goodName in mockDataList[0].inventory )
+        {
+            oldInventory[ goodName ] = mockDataList[ 0 ].inventory[ goodName ];
+            removeGoods[ goodName ] = mockDataList[ 0 ].inventory[ goodName ] / 2;
+        }
+
+        let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
+        assert.deepEqual( returnVal, removeGoods );
+        for ( var goodName in mockDataList[0].inventory )
+        {
+            let newAmount = mockDataList[0].inventory[ goodName ];
+            let oldAmount = oldInventory[ goodName ];
+            assert.equal( newAmount, oldAmount / 2 );
+        }
+        done();
+    });
+
+    it( 'test removeGoods success remove entire inventory', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        let removeGoods = {};
+        for ( var goodName in mockDataList[0].inventory )
+        {
+            removeGoods[ goodName ] = mockDataList[ 0 ].inventory[ goodName ];
+        }
+
+        let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
+        assert.deepEqual( returnVal, removeGoods );
+        for ( var goodName in removeGoods )
+        {
+            if ( mockDataList[ 0 ].inventory[ goodName ] )
+            {
+                assert.fail( goodName + " should not be in inventory after removal" );
+            }
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure shipObj undefined', function(done)
+    {
+        let goodName = "Spice";
+        let goodAmount = 10;
+        let removeGoods = {};
+        removeGoods[ goodName ] = goodAmount;
+
+        let returnVal = shipBO.removeGoods( undefined , removeGoods );
+        if ( returnVal )
+        {
+            assert.fail( "removeGoods returned for undefined shipObj: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure shipObj.inventory undefined', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 0 ].inventory = undefined;
+        let goodName = "Spice";
+        let goodAmount = 10;
+        let removeGoods = {};
+        removeGoods[ goodName ] = goodAmount;
+
+        let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
+        if ( returnVal )
+        {
+            assert.fail( "removeGoods returned for undefined shipObj.inventory: "
+                + returnVal );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure goods undefined', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        let removeGoods = undefined;
+        let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
+        if ( returnVal )
+        {
+            assert.fail( "removeGoods returned for undefined goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure goods invalid empty', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        let removeGoods = {};
+        let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
+        if ( returnVal )
+        {
+            assert.fail( "removeGoods returned for empty goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure goods invalid string value', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+
+        let goodName = "Spice";
+        let removeGoods = {};
+        removeGoods[ goodName ] = "badStr";
+        assert.ok( mockDataList[ 0 ].inventory[ goodName ] );
+
+        let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
+        if ( returnVal )
+        {
+            assert.fail( "removeGoods returned for string value in goods: "
+                + returnVal );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure not enough goods single', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+
+        let goodName = "Spice";
+        assert.ok( mockDataList[ 0 ].inventory[ goodName ] );
+        let goodAmount = mockDataList[ 0 ].inventory[ goodName ] + 1;
+        let removeGoods = {};
+        removeGoods[ goodName ] = goodAmount;
+
+        let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
+        if ( returnVal )
+        {
+            assert.fail( "removeGoods returned for not enough goods: "
+                + returnVal );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure not enough goods multiple', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        let removeGoods = {};
+        for ( var goodName in mockDataList[0].inventory )
+        {
+            removeGoods[ goodName ] = mockDataList[ 0 ].inventory[ goodName ] + 1;
+        }
+
+        let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
+        if ( returnVal )
+        {
+            assert.fail( "removeGoods returned for not enough multiple goods: "
+                + returnVal );
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done )
     {

@@ -3,7 +3,6 @@ const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 /*
 UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
-RemoveGoods,Remove goods from the ships inventory(NO UPDATE DB YET)
 AddDamage,Add damage to the ship(NO UPDATE DB YET)
 FixDamage,Remove damage from the ship(NO UPDATE DB YET)
 IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
@@ -614,6 +613,61 @@ function isFull( shipObj )
     }
 }
 
+//Remove goods from the ships inventory(NO UPDATE DB YET)
+//returns the removed goods if removed successfully or undefined otherwise
+function removeGoods( shipObj , goods )
+{
+    DEBUG_MODE && console.log( "Calling removeGoods in ShipBO, goods:" , goods );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.removeGoods: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.removeGoods: shipObj.inventory is undefined" );
+        return undefined;
+    }
+
+    if ( goods == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.removeGoods: goods is undefined" );
+        return undefined;
+    }
+
+    if ( !checkValidGoods( goods ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.removeGoods: checkValidGoods for goods returned false" );
+        return undefined;
+    }
+
+    if ( !hasGoods( shipObj, goods ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.removeGoods: hasGoods for goods returned false" );
+        return undefined;
+    }
+
+    //remove the goods from the inventory
+    for ( good in goods )
+    {
+        DEBUG_MODE && console.log( "ShipBO.removeGoods: removing" , goods[ good ], "of good"
+            , good , "from existing amount" , shipObj.inventory[ good ] );
+        shipObj.inventory[ good ] -= goods[ good ];
+
+        //if the leftover good is 0 then remove that key from the inventory
+        if ( shipObj.inventory[ good ] == 0 )
+        {
+            DEBUG_MODE && console.log( "ShipBO.removeGoods:"
+                , good, "is now empty,removing key" );
+            delete shipObj.inventory[ good ];
+        }
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.removeGoods: removed goods successfully" );
+    return goods;
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -624,6 +678,7 @@ exports.destinationFuelCost = destinationFuelCost;
 exports.checkValidGoods = checkValidGoods;
 exports.hasSpaceForGoods = hasSpaceForGoods;
 exports.addGoods = addGoods;
+exports.removeGoods = removeGoods;
 exports.hasGoods = hasGoods;
 exports.hasFuel = hasFuel;
 exports.sumGoods = sumGoods;
