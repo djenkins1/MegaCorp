@@ -13,6 +13,7 @@ Future Ideas:
     Contracts for specific dates
     Buyout other companies
     Military aspects
+        combat system between ships,use weapon prints
     Multiplayer?
 
 

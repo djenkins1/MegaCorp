@@ -3,7 +3,6 @@ const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 /*
 AddDamage,Add damage to the ship(NO UPDATE DB YET)
-IsMaxDamaged,returns true if the ship has the maximum possible damage
 SaveShip,Saves the changes made to the ship into the database
 AllShips,Returns all ships in the database
 CreateShip,Creates a new ship and adds it to the database
@@ -792,6 +791,68 @@ function fixDamage( shipObj, fixAmount )
     return fixAmount;
 }
 
+//returns true if the ship has the maximum possible damage
+function isMaxDamaged( shipObj )
+{
+    DEBUG_MODE && console.log( "Calling isMaxDamaged in ShipBO, shipObj:" , shipObj );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.damage == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: shipObj.damage is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( shipObj.damage ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: shipObj.damage is not an integer" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: shipObj.shipBluePrint is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint.maxDamage == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: shipBluePrint.maxDamage is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( shipObj.shipBluePrint.maxDamage ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: shipBluePrint.maxDamage is not an integer" );
+        return undefined;
+    }
+
+    if ( parseInt( shipObj.shipBluePrint.maxDamage ) <= 0 )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: shipBluePrint.maxDamage must be > 0" );
+        return undefined;
+    }
+
+    let currentDamage = parseInt( shipObj.damage );
+    let maxDamage = parseInt( shipObj.shipBluePrint.maxDamage );
+    DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: current damage is" , currentDamage );
+    DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: max damage is" , maxDamage );
+    if ( currentDamage >= maxDamage )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: returning true as ship is damaged to the max" );
+        return true;
+    }
+    else
+    {
+        DEBUG_MODE && console.log( "ShipBO.isMaxDamaged: returning false as ship is not fully damaged" );
+        return false;
+    }
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -812,3 +873,4 @@ exports.isFull = isFull;
 exports.useFuel = useFuel;
 exports.isDocked = isDocked;
 exports.fixDamage = fixDamage;
+exports.isMaxDamaged = isMaxDamaged;

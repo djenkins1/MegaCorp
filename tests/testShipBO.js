@@ -2452,6 +2452,160 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    IsMaxDamaged testing begins
+    ===========
+    */
+    it( 'test isMaxDamaged returns true if maximum damage', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+
+        mockDataList[ 0 ].damage = mockDataList[ 0 ].shipBluePrint.maxDamage;
+        assert.ok( shipBO.isMaxDamaged( mockDataList[ 0 ] ) );
+        done();
+    });
+
+    it( 'test isMaxDamaged returns false if less than maximum damage', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+
+        mockDataList[ 0 ].damage = mockDataList[ 0 ].shipBluePrint.maxDamage - 1;
+        if ( shipBO.isMaxDamaged( mockDataList[ 0 ] ) )
+        {
+            assert.fail( "isMaxDamaged returned true for less than maxDamage");
+        }
+        done();
+    });
+
+    it( 'test isMaxDamaged failure shipObj undefined', function( done )
+    {
+        if ( shipBO.isMaxDamaged( undefined ) != undefined )
+        {
+            assert.fail( "isMaxDamaged returned other than undefined for undefined shipObj");
+        }
+        done();
+    });
+
+    it( 'test isMaxDamaged failure shipObj.damage undefined', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+
+        mockDataList[ 0 ].damage = undefined;
+        if ( shipBO.isMaxDamaged( mockDataList[ 0 ] ) != undefined )
+        {
+            assert.fail( "isMaxDamaged returned other than undefined for undefined shipObj.damage");
+        }
+        done();
+    });
+
+    it( 'test isMaxDamaged failure shipObj.damage non-integer', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.maxDamage );
+
+        mockDataList[ 0 ].damage = "badStr";
+        if ( shipBO.isMaxDamaged( mockDataList[ 0 ] ) != undefined )
+        {
+            assert.fail( "isMaxDamaged returned other than undefined for non-integer shipObj.damage");
+        }
+        done();
+    });
+
+    it( 'test isMaxDamaged failure shipObj.shipBluePrint undefined', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        mockDataList[ 0 ].shipBluePrint = undefined;
+        mockDataList[ 0 ].damage = 1;
+        if ( shipBO.isMaxDamaged( mockDataList[ 0 ] ) != undefined )
+        {
+            assert.fail( "isMaxDamaged returned other than undefined for undefined shipBluePrint");
+        }
+        done();
+    });
+
+    it( 'test isMaxDamaged failure shipBluePrint.maxDamage undefined', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+
+        mockDataList[ 0 ].shipBluePrint.maxDamage = undefined;
+        mockDataList[ 0 ].damage = 1;
+        if ( shipBO.isMaxDamaged( mockDataList[ 0 ] ) != undefined )
+        {
+            assert.fail( "isMaxDamaged returned other than undefined for undefined maxDamage");
+        }
+        done();
+    });
+
+    it( 'test isMaxDamaged failure shipBluePrint.maxDamage non-integer', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+
+        mockDataList[ 0 ].shipBluePrint.maxDamage = undefined;
+        mockDataList[ 0 ].damage = 1;
+        if ( shipBO.isMaxDamaged( mockDataList[ 0 ] ) != undefined )
+        {
+            assert.fail( "isMaxDamaged returned other than undefined for undefined maxDamage");
+        }
+        done();
+    });
+
+    it( 'test isMaxDamaged failure shipBluePrint.maxDamage less than zero', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+
+        mockDataList[ 0 ].shipBluePrint.maxDamage = -1;
+        mockDataList[ 0 ].damage = 1;
+        if ( shipBO.isMaxDamaged( mockDataList[ 0 ] ) != undefined )
+        {
+            assert.fail( "isMaxDamaged returned other than undefined for negative maxDamage");
+        }
+        done();
+    });
+
+    it( 'test isMaxDamaged failure shipBluePrint.maxDamage zero', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+
+        mockDataList[ 0 ].shipBluePrint.maxDamage = 0;
+        mockDataList[ 0 ].damage = 1;
+        if ( shipBO.isMaxDamaged( mockDataList[ 0 ] ) != undefined )
+        {
+            assert.fail( "isMaxDamaged returned other than undefined for zero maxDamage");
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done )
     {
