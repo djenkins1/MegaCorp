@@ -2283,6 +2283,175 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    FixDamage testing begins
+    ===========
+    */
+    it( 'test fixDamage success less than total damage', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        let oldDamage = 5;
+        mockDataList[ 0 ].damage = oldDamage;
+        let toFixAmount = 1;
+
+        let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
+        assert.equal( returnVal, toFixAmount );
+        assert.ok( mockDataList[ 0 ].damage );
+        assert.equal( mockDataList[ 0 ].damage , oldDamage - toFixAmount );
+        done();
+    });
+
+    it( 'test fixDamage success fix all damage', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        let oldDamage = 5;
+        mockDataList[ 0 ].damage = oldDamage;
+        let toFixAmount = oldDamage;
+
+        let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
+        assert.equal( returnVal, toFixAmount );
+        assert.equal( mockDataList[ 0 ].damage , oldDamage - toFixAmount );
+        done();
+    });
+
+    it( 'test fixDamage failure shipObj undefined', function( done )
+    {
+        let toFixAmount = 1;
+
+        let returnVal = shipBO.fixDamage( undefined, toFixAmount );
+        if ( returnVal )
+        {
+            assert.fail( "fixDamage returned for undefined shipObj: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure shipObj.damage undefined', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        mockDataList[ 0 ].damage = undefined;
+        let toFixAmount = 1;
+
+        let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
+        if ( returnVal )
+        {
+            assert.fail( "fixDamage returned for undefined shipObj.damage: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure shipObj.damage non-integer', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        mockDataList[ 0 ].damage = "badStr";
+        let toFixAmount = 1;
+
+        let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
+        if ( returnVal )
+        {
+            assert.fail( "fixDamage returned for non-integer shipObj.damage: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure fixAmount undefined', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        mockDataList[ 0 ].damage = 5;
+        let toFixAmount = undefined;
+
+        let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
+        if ( returnVal )
+        {
+            assert.fail( "fixDamage returned for undefined fixAmount: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure fixAmount non-integer', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        mockDataList[ 0 ].damage = 5;
+        let toFixAmount = "badStr";
+
+        let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
+        if ( returnVal )
+        {
+            assert.fail( "fixDamage returned for non-integer fixAmount: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure fixAmount negative', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        mockDataList[ 0 ].damage = 5;
+        let toFixAmount = -2;
+
+        let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
+        if ( returnVal )
+        {
+            assert.fail( "fixDamage returned for negative fixAmount: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure fixAmount zero', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        mockDataList[ 0 ].damage = 5;
+        let toFixAmount = 0;
+
+        let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
+        if ( returnVal )
+        {
+            assert.fail( "fixDamage returned for zero fixAmount: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure fixAmount greater than total damage', function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+
+        mockDataList[ 0 ].damage = 5;
+        let toFixAmount = mockDataList[ 0 ].damage + 1;
+
+        let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
+        if ( returnVal )
+        {
+            assert.fail( "fixDamage returned for fixAmount > total damage: " + returnVal );
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done )
     {

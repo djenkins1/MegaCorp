@@ -3,7 +3,6 @@ const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 /*
 AddDamage,Add damage to the ship(NO UPDATE DB YET)
-FixDamage,Remove damage from the ship(NO UPDATE DB YET)
 IsMaxDamaged,returns true if the ship has the maximum possible damage
 SaveShip,Saves the changes made to the ship into the database
 AllShips,Returns all ships in the database
@@ -740,6 +739,59 @@ function isDocked( shipObj )
     }
 }
 
+//Remove damage from the ship(NO UPDATE DB YET)
+//returns the total damage removed or undefined otherwise
+function fixDamage( shipObj, fixAmount )
+{
+    DEBUG_MODE && console.log( "Calling fixDamage in ShipBO, shipObj:" , shipObj );
+    DEBUG_MODE && console.log( "ShipBO.fixDamage: fixAmount is" , fixAmount );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.fixDamage: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.damage == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.fixDamage: shipObj.damage is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( shipObj.damage ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.fixDamage: shipObj.damage is not an integer" );
+        return undefined;
+    }
+
+    if ( fixAmount == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.fixDamage: fixAmount is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( fixAmount ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.fixDamage: fixAmount is not an integer" );
+        return undefined;
+    }
+
+    if ( parseInt( fixAmount ) <= 0 )
+    {
+        DEBUG_MODE && console.log( "ShipBO.fixDamage: fixAmount should be > 0" );
+        return undefined;
+    }
+
+    if ( parseInt( fixAmount ) > parseInt( shipObj.damage ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.fixDamage: fixAmount is more than existing damage" );
+        return undefined;
+    }
+
+    shipObj.damage = parseInt( shipObj.damage ) - parseInt( fixAmount );
+    DEBUG_MODE && console.log( "ShipBO.fixDamage: fixed damage successfully" );
+    return fixAmount;
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -759,3 +811,4 @@ exports.changeCompany = changeCompany;
 exports.isFull = isFull;
 exports.useFuel = useFuel;
 exports.isDocked = isDocked;
+exports.fixDamage = fixDamage;
