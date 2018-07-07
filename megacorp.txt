@@ -66,6 +66,7 @@ Ship(Needs Implemented BusinessObject)
         FixDamage,Remove damage from the ship(NO UPDATE DB YET)
         IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
         IsFull,Returns true if the ship's inventory is completely maxed out
+        IsMaxDamaged,returns true if the ship has the maximum possible damage
         HasFuel,Returns true if the ship has the fuel needed to travel 1 square
         LocationFuelCost,returns the amount of fuel needed to travel to the location given
         HasGoods,Returns true if the ship has the goods specified
@@ -102,7 +103,7 @@ System(Needs BusinessObject)
         AllSystems,Returns all systems in the database
         CreateSystem,Creates a new system and adds it to the database
         DefaultObj,Returns the default prototype for a new object
-    
+
 Building(Needs BusinessObject)
     ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
     BO:
@@ -174,7 +175,7 @@ WeaponBluePrint(Needs BusinessObject)
     BO:
         (NOT NEEDED)GetShipPrints,returns all ship prints with weapon type
         (NOT NEEDED)GetBuildingPrints,returns all building prints with weapon type
-        AllBluePrints,returns all weapon blueprints in the database       
+        AllBluePrints,returns all weapon blueprints in the database
         DefaultObj,Returns the default prototype for a new object
 
 Price(Needs Business Object)
@@ -215,7 +216,7 @@ RevolveTransfer(Needs JSON sample data populated/Business Object)
         SetInEffect,updates the InEffect field of the revolve transfer(NO UPDATE DB YET)
         SaveRevolveTransfer,updates the revolve transfer to the database
         AllRevolveTransfers,returns all revolve transfers in the database
-        CreateRevolveTransfer,creates a new revolve transfer and inserts into the database 
+        CreateRevolveTransfer,creates a new revolve transfer and inserts into the database
         DefaultObj,Returns the default prototype for a new object
 
 
@@ -312,5 +313,3 @@ https://mongodb.github.io/node-mongodb-native/markdown-docs/queries.html
   ]
 }
 collection.find({"author.firstname":"Daniel})
-
-

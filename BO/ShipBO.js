@@ -4,6 +4,7 @@ const ID_KEY = require('config').get('ID_KEY');
 /*
 AddDamage,Add damage to the ship(NO UPDATE DB YET)
 FixDamage,Remove damage from the ship(NO UPDATE DB YET)
+IsMaxDamaged,returns true if the ship has the maximum possible damage
 SaveShip,Saves the changes made to the ship into the database
 AllShips,Returns all ships in the database
 CreateShip,Creates a new ship and adds it to the database
