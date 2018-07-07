@@ -2072,7 +2072,7 @@ describe('TestShipBO', function()
         assert.ok( mockDataList.length );
         assert.ok( mockDataList[ 0 ].inventory );
         let removeGoods = {};
-        for ( var goodName in mockDataList[0].inventory )
+        for ( var goodName in mockDataList[ 0 ].inventory )
         {
             removeGoods[ goodName ] = mockDataList[ 0 ].inventory[ goodName ] + 1;
         }
@@ -2081,6 +2081,132 @@ describe('TestShipBO', function()
         if ( returnVal )
         {
             assert.fail( "removeGoods returned for not enough multiple goods: "
+                + returnVal );
+        }
+        done();
+    });
+
+    /*
+    ===========
+    UseFuel testing begins
+    ===========
+    */
+    it( 'test useFuel success without saving' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.fuelCost );
+
+        let oldFuelInventory = {};
+        let totalFuelRemove = mockDataList[ 0 ].shipBluePrint.fuelCost;
+        for ( var goodName in totalFuelRemove )
+        {
+            assert.ok( mockDataList[ 0 ].inventory[ goodName ] );
+            oldFuelInventory[ goodName ] = mockDataList[ 0 ].inventory[ goodName ];
+            assert.ok( oldFuelInventory[ goodName ] >= totalFuelRemove[ goodName ] );
+        }
+
+        let returnVal = shipBO.useFuel( mockDataList[ 0 ] );
+        assert.deepEqual( returnVal, totalFuelRemove );
+        for ( var goodName in totalFuelRemove )
+        {
+            let oldAmount = oldFuelInventory[ goodName ];
+            let newAmount = mockDataList[ 0 ].inventory[ goodName ];
+            let removeAmount = totalFuelRemove[ goodName ];
+            assert.ok( oldAmount );
+            assert.ok( newAmount );
+            assert.ok( removeAmount );
+            assert.equal( newAmount, oldAmount - removeAmount );
+        }
+        done();
+    });
+
+    it( 'test useFuel failure undefined shipObj', function(done)
+    {
+        let returnVal = shipBO.useFuel( undefined );
+        if ( returnVal )
+        {
+            assert.fail( "useFuel returned for undefined shipObj: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test useFuel failure undefined shipObj.inventory', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.fuelCost );
+        mockDataList[ 0 ].inventory = undefined;
+
+        let returnVal = shipBO.useFuel( mockDataList[ 0 ] );
+        if ( returnVal )
+        {
+            assert.fail( "useFuel returned for undefined shipObj.inventory: "
+                + returnVal );
+        }
+        done();
+    });
+
+    it( 'test useFuel failure undefined shipObj.shipBluePrint', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        mockDataList[ 0 ].shipBluePrint = undefined;
+
+        let returnVal = shipBO.useFuel( mockDataList[ 0 ] );
+        if ( returnVal )
+        {
+            assert.fail( "useFuel returned for undefined shipObj.shipBluePrint: "
+                + returnVal );
+        }
+        done();
+    });
+
+    it( 'test useFuel failure undefined shipBluePrint.fuelCost', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        mockDataList[ 0 ].shipBluePrint.fuelCost = undefined;
+
+        let returnVal = shipBO.useFuel( mockDataList[ 0 ] );
+        if ( returnVal )
+        {
+            assert.fail( "useFuel returned for undefined fuelCost: "
+                + returnVal );
+        }
+        done();
+    });
+
+    it( 'test useFuel failure not enough fuel', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].inventory );
+        assert.ok( mockDataList[ 0 ].shipBluePrint );
+        assert.ok( mockDataList[ 0 ].shipBluePrint.fuelCost );
+
+        for ( var goodName in mockDataList[ 0 ].shipBluePrint.fuelCost )
+        {
+            assert.ok( mockDataList[ 0 ].inventory[ goodName ] );
+            mockDataList[ 0 ].shipBluePrint.fuelCost[ goodName ] =
+                mockDataList[ 0 ].inventory[ goodName ] + 1;
+        }
+
+        let returnVal = shipBO.useFuel( mockDataList[ 0 ] );
+        if ( returnVal )
+        {
+            assert.fail( "useFuel returned for not enough fuel: "
                 + returnVal );
         }
         done();

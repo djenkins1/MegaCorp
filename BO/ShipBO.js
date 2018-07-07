@@ -2,7 +2,6 @@ const shipDAO = require( "../Data/ShipDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 /*
-UseFuel,Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
 AddDamage,Add damage to the ship(NO UPDATE DB YET)
 FixDamage,Remove damage from the ship(NO UPDATE DB YET)
 IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
@@ -668,6 +667,45 @@ function removeGoods( shipObj , goods )
     return goods;
 }
 
+//Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
+//returns the fuel removed or undefined otherwise
+function useFuel( shipObj )
+{
+    DEBUG_MODE && console.log( "Calling useFuel in ShipBO, shipObj:" , shipObj );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.useFuel: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.useFuel: shipObj.inventory is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.useFuel: shipObj.shipBluePrint is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint.fuelCost == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.useFuel: shipBluePrint.fuelCost is undefined" );
+        return undefined;
+    }
+
+    if ( !hasFuel( shipObj ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.useFuel: hasFuel returned false" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "ShipBO.useFuel: calling remove goods for fuel" );
+    return removeGoods( shipObj, shipObj.shipBluePrint.fuelCost );
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -685,3 +723,4 @@ exports.sumGoods = sumGoods;
 exports.sumGoodsInventory = sumGoodsInventory;
 exports.changeCompany = changeCompany;
 exports.isFull = isFull;
+exports.useFuel = useFuel;
