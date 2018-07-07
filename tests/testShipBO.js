@@ -2212,6 +2212,77 @@ describe('TestShipBO', function()
         done();
     });
 
+    /*
+    ===========
+    IsDocked testing begins
+    ===========
+    */
+    it( 'test isDocked returns true for docked ship' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ].location );
+        assert.ok( mockDataList[ 0 ].location.z );
+        assert.ok( shipBO.isDocked( mockDataList[ 0 ] ) )
+        done();
+    });
+
+    it( 'test isDocked returns false for traveling ship' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 1 ].location );
+        if ( mockDataList[ 1 ].location.z )
+        {
+            assert.fail( "mockDataList[1].location should not have z value for this test");
+        }
+
+        if ( shipBO.isDocked( mockDataList[ 1 ] ) )
+        {
+            assert.fail( "isDocked returned true for traveling ship");
+        }
+        done();
+    });
+
+    it( 'test isDocked failure shipObj undefined', function(done)
+    {
+        if ( shipBO.isDocked( undefined ) != undefined )
+        {
+            assert.fail( "isDocked returned other than undefined for undefined shipObj");
+        }
+        done();
+    });
+
+    it( 'test isDocked failure shipObj.location undefined', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 1 ].location = undefined;
+
+        if ( shipBO.isDocked( mockDataList[ 1 ] ) != undefined )
+        {
+            assert.fail( "isDocked returned other than undefined for undefined location");
+        }
+        done();
+    });
+
+    it( 'test isDocked failure shipObj.location not valid location', function(done)
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        mockDataList[ 1 ].location = { "x" : 5 };
+
+        if ( shipBO.isDocked( mockDataList[ 1 ] ) != undefined )
+        {
+            assert.fail( "isDocked returned other than undefined for invalid location");
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done )
     {

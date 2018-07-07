@@ -4,7 +4,6 @@ const ID_KEY = require('config').get('ID_KEY');
 /*
 AddDamage,Add damage to the ship(NO UPDATE DB YET)
 FixDamage,Remove damage from the ship(NO UPDATE DB YET)
-IsDocked,Returns true if the ship is docked on a planet(If location Has Z coordinate)
 SaveShip,Saves the changes made to the ship into the database
 AllShips,Returns all ships in the database
 CreateShip,Creates a new ship and adds it to the database
@@ -706,6 +705,40 @@ function useFuel( shipObj )
     return removeGoods( shipObj, shipObj.shipBluePrint.fuelCost );
 }
 
+//Returns true if the ship is docked on a planet(If location Has Z coordinate)
+function isDocked( shipObj )
+{
+    DEBUG_MODE && console.log( "Calling isDocked in ShipBO, shipObj:" , shipObj );
+    if ( shipObj == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isDocked: shipObj is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.location == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isDocked: shipObj.location is undefined" );
+        return undefined;
+    }
+
+    if ( !isValidLocation( shipObj.location ) )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isDocked: isValidLocation returned false" );
+        return undefined;
+    }
+
+    if ( shipObj.location.z )
+    {
+        DEBUG_MODE && console.log( "ShipBO.isDocked: returning true as ship is docked" );
+        return true;
+    }
+    else
+    {
+        DEBUG_MODE && console.log( "ShipBO.isDocked: returning false as ship is not docked" );
+        return false;
+    }
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -724,3 +757,4 @@ exports.sumGoodsInventory = sumGoodsInventory;
 exports.changeCompany = changeCompany;
 exports.isFull = isFull;
 exports.useFuel = useFuel;
+exports.isDocked = isDocked;
