@@ -43,7 +43,7 @@ function changeLogo( companyObj, newLogo )
     {
         DEBUG_MODE && console.log( "CompanyBO.changeLogo: old logo is undefined" );
         return undefined;
-    }  
+    }
 
     companyObj.logo = newLogo;
     DEBUG_MODE && console.log( "CompanyBO.changeLogo: changed logo successfully" );
@@ -79,7 +79,7 @@ function addMoney( companyObj, amount )
     {
         DEBUG_MODE && console.log( "CompanyBO.addMoney: companyObj.money is undefined" );
         return undefined;
-    }  
+    }
 
     if ( !Number.isInteger( companyObj.money ) )
     {
@@ -121,7 +121,7 @@ function removeMoney( companyObj, amount )
     {
         DEBUG_MODE && console.log( "CompanyBO.removeMoney: companyObj.money is undefined" );
         return undefined;
-    }  
+    }
 
     if ( !Number.isInteger( companyObj.money ) )
     {
@@ -169,7 +169,7 @@ function addEmployees( companyObj, amount )
     {
         DEBUG_MODE && console.log( "CompanyBO.addEmployees: companyObj.employees is undefined" );
         return undefined;
-    }  
+    }
 
     if ( !Number.isInteger( companyObj.employees ) )
     {
@@ -179,7 +179,7 @@ function addEmployees( companyObj, amount )
 
     companyObj.employees += amount;
     DEBUG_MODE && console.log( "CompanyBO.addEmployees: added employees successfully" );
-    return companyObj.employees;    
+    return companyObj.employees;
 }
 
 //Removes employees from the company(NO UPDATE DB YET)
@@ -211,7 +211,7 @@ function removeEmployees( companyObj, amount )
     {
         DEBUG_MODE && console.log( "CompanyBO.removeEmployees: companyObj.employees is undefined" );
         return undefined;
-    }  
+    }
 
     if ( !Number.isInteger( companyObj.employees ) )
     {
@@ -227,7 +227,7 @@ function removeEmployees( companyObj, amount )
 
     companyObj.employees -= amount;
     DEBUG_MODE && console.log( "CompanyBO.removeEmployees: removed employees successfully" );
-    return companyObj.employees;  
+    return companyObj.employees;
 }
 
 //Changes the headquarters of the company(NO UPDATE DB YET)
@@ -238,15 +238,15 @@ function changeHq( companyObj, newHq )
 
     if ( newHq == undefined )
     {
-        DEBUG_MODE && console.log( "CompanyBO.changeHQ: newHq is undefined" );   
-        return undefined; 
+        DEBUG_MODE && console.log( "CompanyBO.changeHQ: newHq is undefined" );
+        return undefined;
     }
 
     if ( typeof newHq != "string" )
     {
-        DEBUG_MODE && console.log( "CompanyBO.changeHQ: newHq is not a string" );   
-        return undefined;     
-    }    
+        DEBUG_MODE && console.log( "CompanyBO.changeHQ: newHq is not a string" );
+        return undefined;
+    }
 
     companyObj.planetHq = newHq;
     DEBUG_MODE && console.log( "CompanyBO.changeHQ: changed planetHq successfully" );
@@ -279,7 +279,7 @@ function saveCompany( companyObj, onFinish )
     {
         protoObj[ prop ] = companyObj[ prop ];
     }
-    
+
     //assign the id field of the new company object to the companyObj parameter id
     protoObj[ ID_KEY ] = companyObj[ ID_KEY ];
 
@@ -331,7 +331,7 @@ function createCompany( companyObj , onFinish )
     {
         protoObj[ prop ] = companyObj[ prop ];
     }
-    
+
     //assign the id field of the new company object to the companyObj parameter id
     if ( companyObj[ ID_KEY ] )
     {
@@ -359,7 +359,3 @@ exports.getAllShips = getAllShips;
 exports.allCompanies = allCompanies;
 exports.getAllOffers = getAllOffers;
 exports.getAllTransfers = getAllTransfers;
-
-
-
-
