@@ -37,10 +37,10 @@ function removePrice( priceObj, onFinish )
     dataAPI.removeOne( TABLE_NAME , priceObj, onFinish );
 }
 
-function getPriceByGood( goodName, onFinish )
+function getPriceByGood( goodName, planetId, onFinish )
 {
-    var queryObj = { "good" : goodName };
-    dataAPI.findOneLike( TABLE_NAME, queryObj, onFinish );    
+    var queryObj = { "good" : goodName , "planetId" : planetId };
+    dataAPI.findOneLike( TABLE_NAME, queryObj, onFinish );
 }
 
 //expose the table name
@@ -53,4 +53,3 @@ exports.getPrice = getPrice;
 exports.updatePrice = updatePrice;
 exports.removePrice = removePrice;
 exports.getPriceByGood = getPriceByGood;
-

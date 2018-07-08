@@ -2,6 +2,7 @@
     {
         "_id" : "1"
         ,"good" : "Low-Grade Fuel"
+        ,"planetId" : "1"
         ,"low" : 120
         ,"high" : 150
         ,"lastUpdate" : "1234.5"
@@ -9,6 +10,7 @@
     ,{
         "_id" : "2"
         ,"good" : "Ore"
+        ,"planetId" : "1"
         ,"low" : 60
         ,"high" : 80
         ,"lastUpdate" : "1234.5"

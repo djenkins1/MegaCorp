@@ -4,7 +4,7 @@ const priceDAO = require( '../Data/PriceDAO' );
 const TABLE_NAME = priceDAO.tableName;
 var mockDataList = require( "../sampleData/prices.json" );
 
-describe('TestPriceDAO', function() 
+describe('TestPriceDAO', function()
 {
     //The before() callback gets run before all tests in the suite.
     before( function( done )
@@ -13,7 +13,7 @@ describe('TestPriceDAO', function()
     });
 
     //The beforeEach() callback gets run before each test in the suite.
-    //Clean and setup the database. 
+    //Clean and setup the database.
     beforeEach( function( done )
     {
         dataAPI.cleanDatabase( function()
@@ -25,6 +25,8 @@ describe('TestPriceDAO', function()
     it( 'test getPriceByGood after insertMany' , function( done )
     {
         assert.ok( mockDataList.length > 0 );
+        assert.ok( mockDataList[ 0 ].good );
+        assert.ok(mockDataList[ 0 ].planetId );
         dataAPI.insertMany( TABLE_NAME, mockDataList, function( err, insertResults )
         {
             if ( err )
@@ -39,10 +41,10 @@ describe('TestPriceDAO', function()
             {
                 assert.fail( "MockDataList[0] has same good name as MockDataList[1]" );
                 done();
-                return;                
+                return;
             }
 
-            priceDAO.getPriceByGood( mockDataList[ 0 ].good, function( err2, foundResult )
+            priceDAO.getPriceByGood( mockDataList[ 0 ].good, mockDataList[ 0 ].planetId, function( err2, foundResult )
             {
                 if ( err2 )
                 {
@@ -56,13 +58,13 @@ describe('TestPriceDAO', function()
                 assert.equal( foundResult.good, mockDataList[ 0 ].good );
                 done();
             });
-        });        
+        });
     });
 
     //after() is run after all tests have completed.
     //close down the database connection
-    after( function( done ) 
+    after( function( done )
     {
         dataAPI.closeConnection( done );
-    });    
+    });
 });
