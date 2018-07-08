@@ -230,6 +230,12 @@ MoneyTransact(Needs DAO/JSON sample data populated/Business Object)
 GoodTransact(Needs DAO/JSON sample data populated/Business Object)
     ID,FromId,ToId,FromType,ToType,StarDate,Reason
 
+ShipConstruction(NEEDS DAO/JSON sample data/Business Object)
+    ID,buildingId,planetId,companyId,shipTypeName,shipBluePrint,StarDate,IsFilled,Price
+
+BuildingConstruction(NEEDS DAO/JSON sample data/Business Object)
+    ID,buildingId,planetId,companyId,BuildingTypeName,buildingBluePrint,StarDate,IsFilled,Price
+
 
 
 
