@@ -2,10 +2,8 @@ const shipDAO = require( "../Data/ShipDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 /*
-SaveShip,Saves the changes made to the ship into the database
 AllShips,Returns all ships in the database
 CreateShip,Creates a new ship and adds it to the database
-DefaultObj,Returns the default prototype for a new object
 */
 
 //returns the sum total of all the goods in the inventory given(Not including @ goods)
@@ -926,6 +924,45 @@ function addDamage( shipObj, addAmount )
     return addAmount;
 }
 
+//Returns the default prototype for a new ship object
+function defaultObj()
+{
+    return {
+        "name" : "",
+        "companyId" : "",
+        "damage" : 0,
+        "shipTypeName" : "",
+        "shipBluePrint" : {},
+        "location" : {},
+        "destination" : {},
+        "inventory" : {}
+    };
+}
+
+//Saves any changes made to the ship to the database
+//when the changes have been saved the onFinish function is called
+//this function ignores any other properties in the shipObj parameter
+//  other then those which are in the defaultObj(as well as _id)
+function saveShip( shipObj, onFinish )
+{
+    //create a new ship object
+    var protoObj = defaultObj();
+
+    //assign each of the properties to the one in shipObj parameter
+    for ( var prop in protoObj )
+    {
+        protoObj[ prop ] = shipObj[ prop ];
+    }
+
+    //assign the id field of the new ship object to the shipObj parameter id
+    protoObj[ ID_KEY ] = shipObj[ ID_KEY ];
+
+    shipDAO.updateShip( protoObj , function( err , result )
+    {
+        onFinish( err , protoObj );
+    });
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -948,3 +985,5 @@ exports.isDocked = isDocked;
 exports.fixDamage = fixDamage;
 exports.isMaxDamaged = isMaxDamaged;
 exports.addDamage = addDamage;
+exports.saveShip = saveShip;
+exports.defaultObj = defaultObj;
