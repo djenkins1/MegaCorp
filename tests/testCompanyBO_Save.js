@@ -54,18 +54,18 @@ function testValueUpdates( companyObj, updateCommands, onFinish )
                 assert.deepEqual( foundResult, insertedObj );
                 onFinish();
             });
-        });        
+        });
     });
 }
 
 function testValueUpdate( companyObj, updateKey, updateValue, updateFunc, onFinish )
 {
     let updateCommands = [];
-    testValueUpdates[ 0 ] = { "updateKey" : updateKey, "updateValue" : updateValue, "updateFunc" : updateFunc };
+    updateCommands[ 0 ] = { "updateKey" : updateKey, "updateValue" : updateValue, "updateFunc" : updateFunc };
     testValueUpdates( companyObj, updateCommands, onFinish );
 }
 
-describe('TestCompanyBO_Save', function() 
+describe('TestCompanyBO_Save', function()
 {
     //The before() callback gets run before all tests in the suite.
     before( function( done )
@@ -74,13 +74,13 @@ describe('TestCompanyBO_Save', function()
     });
 
     //The beforeEach() callback gets run before each test in the suite.
-    //Clean and setup the database. 
+    //Clean and setup the database.
     beforeEach( function( done )
     {
         dataAPI.cleanDatabase( function()
         {
             dataAPI.setupDatabase( done );
-        });        
+        });
     });
 
     it( 'test changeName success and save' , function( done )
@@ -252,7 +252,7 @@ describe('TestCompanyBO_Save', function()
 
     //after() is run after all tests have completed.
     //close down the database connection
-    after( function( done ) 
+    after( function( done )
     {
         dataAPI.closeConnection( done );
     });
