@@ -22,7 +22,17 @@ function testValueUpdates( useFuncs, obj, updateCommands, onFinish )
             let updateValue = updateCommands[ i ].updateValue;
             var resultValue = updateFunc( insertedObj , updateValue );
             assert.ok( resultValue );
-            assert.equal( insertedObj[ updateKey ] , resultValue );
+            //check against the updateValue parameter if isOverwrite is true
+            if ( updateCommands[ i ].isOverwrite )
+            {
+                assert.deepEqual( insertedObj[ updateKey ] , updateValue );
+            }
+            else
+            {
+                //otherwise check against the return value
+                assert.deepEqual( insertedObj[ updateKey ] , resultValue );
+            }
+
         }
 
         useFuncs.save( insertedObj, function( err2, updatedObj )
@@ -58,8 +68,18 @@ function testValueUpdate( useFuncs, obj, updateKey, updateValue, updateFunc, onF
 {
     let updateCommands = [];
     updateCommands[ 0 ] = { "updateKey" : updateKey, "updateValue" : updateValue, "updateFunc" : updateFunc };
+    updateCommands[ 0 ].isOverwrite = true;
+    testValueUpdates( useFuncs, obj, updateCommands, onFinish );
+}
+
+function testValueIncrement( useFuncs, obj, updateKey, updateValue, updateFunc, onFinish )
+{
+    let updateCommands = [];
+    updateCommands[ 0 ] = { "updateKey" : updateKey, "updateValue" : updateValue, "updateFunc" : updateFunc };
+    updateCommands[ 0 ].isOverwrite = false;
     testValueUpdates( useFuncs, obj, updateCommands, onFinish );
 }
 
 exports.testValueUpdate = testValueUpdate;
 exports.testValueUpdates = testValueUpdates;
+exports.testValueIncrement = testValueIncrement;

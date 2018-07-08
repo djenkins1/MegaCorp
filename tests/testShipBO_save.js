@@ -51,9 +51,7 @@ describe('TestShipBO_Save', function()
         testSave.testValueUpdate( useFuncs, shipObj, "companyId", "1", shipBO.changeCompany, done );
     });
 
-    //TODO: need to fix this test case
-    //skipped until testValueUpdate can handle this case where returnValue != updateValue
-    xit( 'test clearDestination success and save' , function( done )
+    it( 'test clearDestination success and save' , function( done )
     {
         //clone the object list from the json file so as to not have problems with cached requires
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );

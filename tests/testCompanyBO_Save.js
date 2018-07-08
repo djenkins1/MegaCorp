@@ -59,7 +59,7 @@ describe('TestCompanyBO_Save', function()
         assert.ok( mockDataList.length >= 1 );
         var companyObj = mockDataList[ 0 ];
 
-        testSave.testValueUpdate( useFuncs, companyObj, "money", 5, companyBO.addMoney, done );
+        testSave.testValueIncrement( useFuncs, companyObj, "money", 5, companyBO.addMoney, done );
     });
 
     it( 'test removeMoney success and save' , function( done )
@@ -70,7 +70,7 @@ describe('TestCompanyBO_Save', function()
         assert.ok( mockDataList.length >= 1 );
         var companyObj = mockDataList[ 0 ];
 
-        testSave.testValueUpdate( useFuncs, companyObj, "money", 5, companyBO.removeMoney, done );
+        testSave.testValueIncrement( useFuncs, companyObj, "money", 5, companyBO.removeMoney, done );
     });
 
     it( 'test addEmployees success and save' , function( done )
@@ -81,7 +81,7 @@ describe('TestCompanyBO_Save', function()
         assert.ok( mockDataList.length >= 1 );
         var companyObj = mockDataList[ 0 ];
 
-        testSave.testValueUpdate( useFuncs, companyObj, "employees", 5, companyBO.addEmployees, done );
+        testSave.testValueIncrement( useFuncs, companyObj, "employees", 5, companyBO.addEmployees, done );
     });
 
     it( 'test removeEmployees success and save' , function( done )
@@ -92,7 +92,7 @@ describe('TestCompanyBO_Save', function()
         assert.ok( mockDataList.length >= 1 );
         var companyObj = mockDataList[ 0 ];
 
-        testSave.testValueUpdate( useFuncs, companyObj, "employees", 5, companyBO.removeEmployees, done );
+        testSave.testValueIncrement( useFuncs, companyObj, "employees", 5, companyBO.removeEmployees, done );
     });
 
     it( 'test changeHQ success and save' , function( done )
@@ -115,12 +115,12 @@ describe('TestCompanyBO_Save', function()
         var companyObj = mockDataList[ 0 ];
 
         let updateCommands = [];
-        updateCommands.push( { "updateKey" : "name" , "updateValue" : "Papa Americano" , "updateFunc" : companyBO.changeName } );
-        updateCommands.push( { "updateKey" : "logo" , "updateValue" : "cookie" , "updateFunc" : companyBO.changeLogo } );
-        updateCommands.push( { "updateKey" : "money" , "updateValue" : 50 , "updateFunc" : companyBO.addMoney } );
-        updateCommands.push( { "updateKey" : "employees" , "updateValue" : 5 , "updateFunc" : companyBO.removeEmployees } );
-        updateCommands.push( { "updateKey" : "planetHq" , "updateValue" : "20" , "updateFunc" : companyBO.changeHq } );
-        updateCommands.push( { "updateKey" : "money" , "updateValue" : 10 , "updateFunc" : companyBO.removeMoney } );
+        updateCommands.push( { "updateKey" : "name" , "updateValue" : "Papa Americano" , "updateFunc" : companyBO.changeName , "isOverwrite" : true } );
+        updateCommands.push( { "updateKey" : "logo" , "updateValue" : "cookie" , "updateFunc" : companyBO.changeLogo, "isOverwrite" : true } );
+        updateCommands.push( { "updateKey" : "money" , "updateValue" : 50 , "updateFunc" : companyBO.addMoney , "isOverwrite" : false } );
+        updateCommands.push( { "updateKey" : "employees" , "updateValue" : 5 , "updateFunc" : companyBO.removeEmployees, "isOverwrite" : false } );
+        updateCommands.push( { "updateKey" : "planetHq" , "updateValue" : "20" , "updateFunc" : companyBO.changeHq, "isOverwrite" : true } );
+        updateCommands.push( { "updateKey" : "money" , "updateValue" : 10 , "updateFunc" : companyBO.removeMoney, "isOverwrite" : false } );
         testSave.testValueUpdates( useFuncs, companyObj, updateCommands, done );
     });
 
