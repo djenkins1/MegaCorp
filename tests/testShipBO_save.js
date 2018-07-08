@@ -4,66 +4,12 @@ const shipDAO = require( '../Data/ShipDAO' );
 const shipBO = require( '../BO/ShipBO' );
 const TABLE_NAME = shipDAO.tableName;
 const ID_KEY = require('config').get('ID_KEY');
-
-function testValueUpdates( shipObj, updateCommands, onFinish )
-{
-    shipDAO.createShip( shipObj , function( err , insertedObj )
-    {
-        if ( err )
-        {
-            console.log( err );
-            assert.fail( "Error occured from shipDAO.createShip" );
-            onFinish();
-            return;
-        }
-
-        assert.ok( insertedObj._id );
-        assert.deepEqual( insertedObj, shipObj );
-        for ( var i = 0; i < updateCommands.length; i++ )
-        {
-            let updateFunc = updateCommands[ i ].updateFunc;
-            let updateKey = updateCommands[ i ].updateKey;
-            let updateValue = updateCommands[ i ].updateValue;
-            var resultValue = updateFunc( insertedObj , updateValue );
-            assert.ok( resultValue );
-            assert.equal( insertedObj[ updateKey ] , resultValue );
-        }
-
-        shipBO.saveShip( insertedObj, function( err2, updatedObj )
-        {
-            if ( err2 )
-            {
-                console.log( err2 );
-                assert.fail( "Error occured from shipBO.saveShip" );
-                onFinish();
-                return;
-            }
-
-            assert.ok( updatedObj );
-            assert.deepEqual( updatedObj, insertedObj );
-            shipDAO.getShip( updatedObj[ ID_KEY ] , function( err3, foundResult )
-            {
-                if ( err3 )
-                {
-                    console.log( err3 );
-                    assert.fail( "Error occured from shipDAO.getShip" );
-                    onFinish();
-                    return;
-                }
-
-                assert.deepEqual( foundResult, insertedObj );
-                onFinish();
-            });
-        });
-    });
-}
-
-function testValueUpdate( shipObj, updateKey, updateValue, updateFunc, onFinish )
-{
-    let updateCommands = [];
-    updateCommands[ 0 ] = { "updateKey" : updateKey, "updateValue" : updateValue, "updateFunc" : updateFunc };
-    testValueUpdates( shipObj, updateCommands, onFinish );
-}
+const testSave = require( './testSave');
+var useFuncs = {
+    create: shipDAO.createShip,
+    save: shipBO.saveShip,
+    searchDB: shipDAO.getShip
+};
 
 describe('TestShipBO_Save', function()
 {
@@ -91,7 +37,7 @@ describe('TestShipBO_Save', function()
         assert.ok( mockDataList.length >= 1 );
         var shipObj = mockDataList[ 0 ];
 
-        testValueUpdate( shipObj, "name", "Beverly Hills", shipBO.changeName, done );
+        testSave.testValueUpdate( useFuncs, shipObj, "name", "Beverly Hills", shipBO.changeName, done );
     });
 
     it( 'test changeCompany success and save' , function( done )
@@ -102,7 +48,7 @@ describe('TestShipBO_Save', function()
         assert.ok( mockDataList.length >= 1 );
         var shipObj = mockDataList[ 0 ];
 
-        testValueUpdate( shipObj, "companyId", "1", shipBO.changeCompany, done );
+        testSave.testValueUpdate( useFuncs, shipObj, "companyId", "1", shipBO.changeCompany, done );
     });
 
     //TODO: need to fix this test case
@@ -115,7 +61,7 @@ describe('TestShipBO_Save', function()
         assert.ok( mockDataList.length >= 1 );
         var shipObj = mockDataList[ 1 ];
 
-        testValueUpdate( shipObj, "destination", {}, shipBO.clearDestination, done );
+        testSave.testValueUpdate( useFuncs, shipObj, "destination", {}, shipBO.clearDestination, done );
     });
 
     it( 'test changeDestination success and save' , function( done )
@@ -127,7 +73,7 @@ describe('TestShipBO_Save', function()
         var shipObj = mockDataList[ 0 ];
         let newDestination = { "x" : 1 , "y" : 1 , "z" : 1 };
 
-        testValueUpdate( shipObj, "destination", newDestination, shipBO.changeDestination, done );
+        testSave.testValueUpdate( useFuncs, shipObj, "destination", newDestination, shipBO.changeDestination, done );
     });
 
     /*
