@@ -487,7 +487,7 @@ function hasGoods( shipObj, goods )
 //Returns true if the ship has the fuel needed to travel 1 square
 function hasFuel( shipObj )
 {
-    DEBUG_MODE && console.log( "Calling hasFuel in ShipBO, goods:" , goods );
+    DEBUG_MODE && console.log( "Calling hasFuel in ShipBO, shipObj:" , shipObj );
     if ( shipObj == undefined )
     {
         DEBUG_MODE && console.log( "ShipBO.hasFuel: shipObj is undefined" );

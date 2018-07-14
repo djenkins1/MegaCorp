@@ -155,7 +155,25 @@ describe('TestShipBO_Save', function()
         testSave.testValueIncrement( useFuncs, shipObj, "inventory", {}, shipBO.useFuel, done );
     });
 
-    //TODO: test everything in one go
+    it( 'test change everything success and save' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+
+        assert.ok( mockDataList.length > 1 );
+        var shipObj = mockDataList[ 1 ];
+        let newDestination = { "x" : 5 , "y" : 6};
+        let addedGoods = { "Stereo" : 5 };
+
+        let updateCommands = [];
+        updateCommands.push( { "updateKey" : "name" , "updateValue" : "Stereo Hearts" , "updateFunc" : shipBO.changeName , "isOverwrite" : true } );
+        updateCommands.push( { "updateKey" : "destination" , "updateValue" : newDestination , "updateFunc" : shipBO.changeDestination , "isOverwrite" : true } );
+        updateCommands.push( { "updateKey" : "location" , "updateValue" : newDestination , "updateFunc" : shipBO.moveShip , "isOverwrite" : true } );
+        updateCommands.push( { "updateKey" : "inventory" , "updateValue" : addedGoods , "updateFunc" : shipBO.addGoods , "isOverwrite" : false } );
+        updateCommands.push( { "updateKey" : "companyId" , "updateValue" : "5" , "updateFunc" : shipBO.changeCompany , "isOverwrite" : true } );
+        testSave.testValueUpdates( useFuncs, shipObj, updateCommands, done );
+    });
+
 
     //after() is run after all tests have completed.
     //close down the database connection
