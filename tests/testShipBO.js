@@ -2299,7 +2299,7 @@ describe('TestShipBO', function()
         let toFixAmount = 1;
 
         let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
-        assert.equal( returnVal, toFixAmount );
+        assert.equal( returnVal, oldDamage - toFixAmount );
         assert.ok( mockDataList[ 0 ].damage );
         assert.equal( mockDataList[ 0 ].damage , oldDamage - toFixAmount );
         done();
@@ -2316,7 +2316,7 @@ describe('TestShipBO', function()
         let toFixAmount = oldDamage;
 
         let returnVal = shipBO.fixDamage( mockDataList[ 0 ], toFixAmount );
-        assert.equal( returnVal, toFixAmount );
+        assert.equal( returnVal, oldDamage - toFixAmount );
         assert.equal( mockDataList[ 0 ].damage , oldDamage - toFixAmount );
         done();
     });
@@ -2637,7 +2637,7 @@ describe('TestShipBO', function()
 
         let oldDamage = mockDataList[ 0 ].damage;
         let damageAdded = 3;
-        assert.equal( shipBO.addDamage( mockDataList[ 0 ] , damageAdded ) , damageAdded );
+        assert.equal( shipBO.addDamage( mockDataList[ 0 ] , damageAdded ) , damageAdded + oldDamage  );
         assert.equal( mockDataList[ 0 ].damage, damageAdded + oldDamage );
         done();
     });

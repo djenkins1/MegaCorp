@@ -74,14 +74,55 @@ describe('TestShipBO_Save', function()
         testSave.testValueUpdate( useFuncs, shipObj, "destination", newDestination, shipBO.changeDestination, done );
     });
 
+    it( 'test moveShip success and save' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+
+        assert.ok( mockDataList.length >= 1 );
+        var shipObj = mockDataList[ 0 ];
+        let newLocation = { "x" : 1 , "y" : 1 , "z" : 1 };
+
+        testSave.testValueUpdate( useFuncs, shipObj, "location", newLocation, shipBO.moveShip, done );
+    });
+
+    it( 'test addDamage success and save' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+
+        assert.ok( mockDataList.length >= 1 );
+        var shipObj = mockDataList[ 0 ];
+        let damageAddValue = 1;
+
+        testSave.testValueIncrement( useFuncs, shipObj, "damage", damageAddValue, shipBO.addDamage, done );
+    });
+
+    it( 'test fixDamage success and save' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+
+        assert.ok( mockDataList.length >= 1 );
+        var shipObj = mockDataList[ 0 ];
+        let damageFixValue = 1;
+        let damageAddValue = 5;
+
+        let updateCommands = [];
+        updateCommands[ 0 ] = { "updateKey" : "damage", "updateValue" : damageAddValue, "updateFunc" : shipBO.addDamage };
+        updateCommands[ 0 ].isOverwrite = false;
+        updateCommands[ 1 ] = { "updateKey" : "damage", "updateValue" : damageFixValue, "updateFunc" : shipBO.fixDamage };
+        updateCommands[ 1 ].isOverwrite = false;
+
+        testSave.testValueUpdates( useFuncs, shipObj, updateCommands, done );
+
+    });
+
     /*
     //TODO: test each
-        moveShip
         addGoods
         removeGoods
         useFuel
-        fixDamage
-        addDamage
     */
 
 

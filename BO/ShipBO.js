@@ -736,7 +736,7 @@ function isDocked( shipObj )
 }
 
 //Remove damage from the ship(NO UPDATE DB YET)
-//returns the total damage removed or undefined otherwise
+//returns the total damage or undefined otherwise
 function fixDamage( shipObj, fixAmount )
 {
     DEBUG_MODE && console.log( "Calling fixDamage in ShipBO, shipObj:" , shipObj );
@@ -785,7 +785,7 @@ function fixDamage( shipObj, fixAmount )
 
     shipObj.damage = parseInt( shipObj.damage ) - parseInt( fixAmount );
     DEBUG_MODE && console.log( "ShipBO.fixDamage: fixed damage successfully" );
-    return fixAmount;
+    return shipObj.damage;
 }
 
 //returns true if the ship has the maximum possible damage
@@ -851,7 +851,7 @@ function isMaxDamaged( shipObj )
 }
 
 //Add damage to the ship(NO UPDATE DB YET)
-//returns damage added or undefined if not successful
+//returns total damage or undefined if not successful
 function addDamage( shipObj, addAmount )
 {
     DEBUG_MODE && console.log( "Calling addDamage in ShipBO, shipObj:" , shipObj );
@@ -921,7 +921,7 @@ function addDamage( shipObj, addAmount )
 
     shipObj.damage = currentDamage + addAmount;
     DEBUG_MODE && console.log( "ShipBO.addDamage: successfully added damage" );
-    return addAmount;
+    return shipObj.damage;
 }
 
 //Returns the default prototype for a new ship object
