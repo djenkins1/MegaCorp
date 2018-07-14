@@ -218,7 +218,7 @@ function changeName( shipObj, newName )
 //uses taxicab distance and ignores z coordinate(inner system travel costs no fuel)
 function locationFuelCost( currentLocation, destination, fuelCostBySquare )
 {
-    DEBUG_MODE && console.log( "Calling locationFuelCost in ShipBO, currentLocation:" , newName , "destination:" , destination );
+    DEBUG_MODE && console.log( "Calling locationFuelCost in ShipBO, currentLocation:" , currentLocation , "destination:" , destination );
     if ( !isValidLocation( currentLocation ) )
     {
         DEBUG_MODE && console.log( "ShipBO.locationFuelCost: currentLocation is not a valid location" );
