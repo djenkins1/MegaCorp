@@ -608,7 +608,7 @@ function isFull( shipObj )
 }
 
 //Remove goods from the ships inventory(NO UPDATE DB YET)
-//returns the removed goods if removed successfully or undefined otherwise
+//returns the new inventory or undefined otherwise
 function removeGoods( shipObj , goods )
 {
     DEBUG_MODE && console.log( "Calling removeGoods in ShipBO, goods:" , goods );
@@ -659,11 +659,11 @@ function removeGoods( shipObj , goods )
     }
 
     DEBUG_MODE && console.log( "ShipBO.removeGoods: removed goods successfully" );
-    return goods;
+    return shipObj.inventory;
 }
 
 //Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
-//returns the fuel removed or undefined otherwise
+//returns the new inventory of the ship or undefined otherwise
 function useFuel( shipObj )
 {
     DEBUG_MODE && console.log( "Calling useFuel in ShipBO, shipObj:" , shipObj );

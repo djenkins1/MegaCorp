@@ -118,13 +118,44 @@ describe('TestShipBO_Save', function()
 
     });
 
-    /*
-    //TODO: test each
-        addGoods
-        removeGoods
-        useFuel
-    */
+    it( 'test addGoods success and save' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
 
+        assert.ok( mockDataList.length > 1 );
+        var shipObj = mockDataList[ 1 ];
+        let addedGoods = { "Food" : 20 };
+
+        testSave.testValueIncrement( useFuncs, shipObj, "inventory", addedGoods, shipBO.addGoods, done );
+    });
+
+    it( 'test removeGoods success and save' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+
+        assert.ok( mockDataList.length >= 1 );
+        var shipObj = mockDataList[ 0 ];
+        let removedGoods = { "Spice" : 10 };
+        assert.ok( shipObj.inventory[ "Spice"] > 10 );
+
+        testSave.testValueIncrement( useFuncs, shipObj, "inventory", removedGoods, shipBO.removeGoods, done );
+    });
+
+    it( 'test useFuel success and save' , function( done )
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+
+        assert.ok( mockDataList.length >= 1 );
+        var shipObj = mockDataList[ 0 ];
+        assert.ok( shipObj.inventory );
+
+        testSave.testValueIncrement( useFuncs, shipObj, "inventory", {}, shipBO.useFuel, done );
+    });
+
+    //TODO: test everything in one go
 
     //after() is run after all tests have completed.
     //close down the database connection

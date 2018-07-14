@@ -1881,7 +1881,7 @@ describe('TestShipBO', function()
         }
 
         let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
-        assert.deepEqual( returnVal, removeGoods );
+        assert.deepEqual( returnVal, mockDataList[ 0 ].inventory );
         assert.ok( mockDataList[ 0 ].inventory[ goodName ] );
         assert.equal( mockDataList[ 0 ].inventory[ goodName ] , oldAmount - goodAmount );
         done();
@@ -1900,7 +1900,7 @@ describe('TestShipBO', function()
         removeGoods[ goodName ] = goodAmount;
 
         let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
-        assert.deepEqual( returnVal, removeGoods );
+        assert.deepEqual( returnVal, mockDataList[ 0 ].inventory );
         if ( mockDataList[ 0 ].inventory[ goodName ] )
         {
             assert.fail( goodName + " should no longer be in inventory" );
@@ -1923,7 +1923,7 @@ describe('TestShipBO', function()
         }
 
         let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
-        assert.deepEqual( returnVal, removeGoods );
+        assert.deepEqual( returnVal, mockDataList[ 0 ].inventory );
         for ( var goodName in mockDataList[0].inventory )
         {
             let newAmount = mockDataList[0].inventory[ goodName ];
@@ -1946,7 +1946,7 @@ describe('TestShipBO', function()
         }
 
         let returnVal = shipBO.removeGoods( mockDataList[ 0 ] , removeGoods );
-        assert.deepEqual( returnVal, removeGoods );
+        assert.deepEqual( returnVal, mockDataList[ 0 ].inventory );
         for ( var goodName in removeGoods )
         {
             if ( mockDataList[ 0 ].inventory[ goodName ] )
@@ -2110,7 +2110,7 @@ describe('TestShipBO', function()
         }
 
         let returnVal = shipBO.useFuel( mockDataList[ 0 ] );
-        assert.deepEqual( returnVal, totalFuelRemove );
+        assert.deepEqual( returnVal, mockDataList[ 0 ].inventory );
         for ( var goodName in totalFuelRemove )
         {
             let oldAmount = oldFuelInventory[ goodName ];
