@@ -1,10 +1,6 @@
 const shipDAO = require( "../Data/ShipDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
-/*
-AllShips,Returns all ships in the database
-CreateShip,Creates a new ship and adds it to the database
-*/
 
 //returns the sum total of all the goods in the inventory given(Not including @ goods)
 function sumGoodsInventory( inventory )
@@ -963,6 +959,33 @@ function saveShip( shipObj, onFinish )
     });
 }
 
+//Passes along all ships in the database to the onFinish function
+function allShips( onFinish )
+{
+    shipDAO.getAllShips( onFinish );
+}
+
+//creates a new ship and adds it to the database
+function createShip( shipObj , onFinish )
+{
+    //create a new company object
+    var protoObj = defaultObj();
+
+    //assign each of the properties to the one in shipObj parameter
+    for ( var prop in protoObj )
+    {
+        protoObj[ prop ] = shipObj[ prop ];
+    }
+
+    //assign the id field of the new ship object to the shipObj parameter id
+    if ( shipObj[ ID_KEY ] )
+    {
+        protoObj[ ID_KEY ] = shipObj[ ID_KEY ];
+    }
+
+    shipDAO.createShip( protoObj , onFinish );
+}
+
 exports.isValidLocation = isValidLocation;
 exports.clearDestination = clearDestination;
 exports.changeDestination = changeDestination;
@@ -987,3 +1010,5 @@ exports.isMaxDamaged = isMaxDamaged;
 exports.addDamage = addDamage;
 exports.saveShip = saveShip;
 exports.defaultObj = defaultObj;
+exports.allShips = allShips;
+exports.createShip = createShip;

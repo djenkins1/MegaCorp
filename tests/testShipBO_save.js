@@ -175,6 +175,80 @@ describe('TestShipBO_Save', function()
     });
 
 
+
+
+
+    it( 'test createShip success with custom id' , function(done)
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+
+        assert.ok( mockDataList.length >= 1 );
+        var shipObj = mockDataList[ 0 ];
+
+        shipBO.createShip( shipObj, function( err, insertedObj )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error with shipBO.createShip" );
+            }
+
+            assert.ok( insertedObj );
+            assert.equal( insertedObj[ ID_KEY ] , shipObj[ ID_KEY ] );
+            assert.deepEqual( insertedObj, shipObj );
+            shipDAO.getShip( insertedObj[ ID_KEY ] , function( err2, foundResult )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error with shipDAO.getShip" );
+                }
+
+                assert.ok( foundResult );
+                assert.deepEqual( foundResult, insertedObj );
+                done();
+            });
+        });
+    });
+
+    it( 'test createShip success with db generated id' , function(done)
+    {
+        //clone the object list from the json file so as to not have problems with cached requires
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/shipsWithBluePrints.json" ) ) );
+
+        assert.ok( mockDataList.length >= 1 );
+        var shipObj = mockDataList[ 0 ];
+        delete shipObj[ ID_KEY ];
+
+        shipBO.createShip( shipObj, function( err, insertedObj )
+        {
+            if ( err )
+            {
+                console.log( err );
+                assert.fail( "Error with shipBO.createShip" );
+            }
+
+            assert.ok( insertedObj );
+            assert.ok( insertedObj[ ID_KEY ] );
+            shipObj[ ID_KEY ] = insertedObj[ ID_KEY ];
+            assert.deepEqual( insertedObj, shipObj );
+            shipDAO.getShip( insertedObj[ ID_KEY ] , function( err2, foundResult )
+            {
+                if ( err2 )
+                {
+                    console.log( err2 );
+                    assert.fail( "Error with shipDAO.getShip" );
+                }
+
+                assert.ok( foundResult );
+                assert.deepEqual( foundResult, insertedObj );
+                done();
+            });
+        });
+    });
+
+
     //after() is run after all tests have completed.
     //close down the database connection
     after( function( done )

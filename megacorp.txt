@@ -49,7 +49,7 @@ Company(DONE)
         CreateCompany,Creates a new company and adds it to the database
         DefaultObj,Returns the default prototype for a new object
 
-Ship(Needs Implemented BusinessObject)
+Ship(DONE)
     ID,Name,CompanyID,Damage,ShipTypeName,ShipBluePrint(OBJ),Location(OBJ),Destination(OBJ),Inventory: []
     BO:
         SumGoods,returns the sum total of all the goods in the ship inventory(Not including @ goods)
@@ -73,6 +73,26 @@ Ship(Needs Implemented BusinessObject)
         SaveShip,Saves the changes made to the ship into the database
         AllShips,Returns all ships in the database
         CreateShip,Creates a new ship and adds it to the database
+        DefaultObj,Returns the default prototype for a new object
+
+Building(Needs BusinessObject)
+    ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
+    BO:
+        SumGoods,returns the sum total of all the goods in the building inventory(Not including @ goods)
+        ChangeName,change name(NO UPDATE DB YET)
+        ChangeCompany,change company that owns(NO UPDATE DB YET)
+        AddGoods,add goods to inventory(NO UPDATE DB YET)
+        RemoveGoods,remove goods from inventory(NO UPDATE DB YET)
+        ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
+        AddDamage,add on damage(NO UPDATE DB YET)
+        FixDamage,remove damage(NO UPDATE DB YET)
+        UseNeeded,remove goods needed for producing(NO UPDATE DB YET)
+        IsFull,return true if inventory is filled to max space or false otherwise
+        HasNeeded,returns true if the building has the goods needed to produce goods
+        HasGoods,returns true if the building has the goods speciifed
+        SaveBuilding,save the changes made to the building object to the database
+        AllBuildings,return all buildings in the database
+        CreateBuilding,insert a new building into database
         DefaultObj,Returns the default prototype for a new object
 
 Planet(Needs BusinessObject)
@@ -103,25 +123,7 @@ System(Needs BusinessObject)
         CreateSystem,Creates a new system and adds it to the database
         DefaultObj,Returns the default prototype for a new object
 
-Building(Needs BusinessObject)
-    ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
-    BO:
-        SumGoods,returns the sum total of all the goods in the building inventory(Not including @ goods)
-        ChangeName,change name(NO UPDATE DB YET)
-        ChangeCompany,change company that owns(NO UPDATE DB YET)
-        AddGoods,add goods to inventory(NO UPDATE DB YET)
-        RemoveGoods,remove goods from inventory(NO UPDATE DB YET)
-        ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
-        AddDamage,add on damage(NO UPDATE DB YET)
-        FixDamage,remove damage(NO UPDATE DB YET)
-        UseNeeded,remove goods needed for producing(NO UPDATE DB YET)
-        IsFull,return true if inventory is filled to max space or false otherwise
-        HasNeeded,returns true if the building has the goods needed to produce goods
-        HasGoods,returns true if the building has the goods speciifed
-        SaveBuilding,save the changes made to the building object to the database
-        AllBuildings,return all buildings in the database
-        CreateBuilding,insert a new building into database
-        DefaultObj,Returns the default prototype for a new object
+
 
 
 ServerInfo(Needs Business Object)
