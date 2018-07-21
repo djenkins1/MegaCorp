@@ -326,42 +326,26 @@ function addGoods( shipObj, goods )
         return undefined;
     }
 
+    if ( shipObj.shipBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addGoods: shipBluePrint is undefined" );
+        return undefined;
+    }
+
+    if ( shipObj.shipBluePrint.maxInventory == undefined )
+    {
+        DEBUG_MODE && console.log( "ShipBO.addGoods: maxInventory is undefined" );
+        return undefined;
+    }
+
     if ( shipObj.inventory == undefined )
     {
         DEBUG_MODE && console.log( "ShipBO.addGoods: shipObj.inventory is undefined" );
         return undefined;
     }
 
-    if ( !checkValidGoods( goods ) )
-    {
-        DEBUG_MODE && console.log( "ShipBO.addGoods: checkValidGoods returned false" );
-        return undefined;
-    }
-
-    if ( !hasSpaceForGoods( shipObj, goods ) )
-    {
-        DEBUG_MODE && console.log( "ShipBO.addGoods: ship does not have space for goods" );
-        return undefined;
-    }
-
-    for ( good in goods )
-    {
-        if ( shipObj.inventory[ good ] )
-        {
-            DEBUG_MODE && console.log( "ShipBO.addGoods: adding" , goods[ good ], "of good"
-                , good , "to existing amount" , shipObj.inventory[ good ] );
-            shipObj.inventory[ good ] += goods[ good ];
-        }
-        else
-        {
-            DEBUG_MODE && console.log( "ShipBO.addGoods: adding" , goods[ good ], "of good"
-                , good , "to empty space" );
-            shipObj.inventory[ good ] = goods[ good ];
-        }
-    }
-
-    DEBUG_MODE && console.log( "ShipBO.addGoods: added goods successfully" );
-    return shipObj.inventory;
+    DEBUG_MODE && console.log( "ShipBO.addGoods: calling InventoryModule.addGoods" );
+    return inventoryMod.addGoods( shipObj.inventory, goods, shipObj.shipBluePrint.maxInventory );
 }
 
 //Returns true if the ship has the goods specified
@@ -374,42 +358,14 @@ function hasGoods( shipObj, goods )
         return undefined;
     }
 
-    if ( goods == undefined )
-    {
-        DEBUG_MODE && console.log( "ShipBO.hasGoods: goods is undefined" );
-        return undefined;
-    }
-
     if ( shipObj.inventory == undefined )
     {
         DEBUG_MODE && console.log( "ShipBO.hasGoods: shipObj.inventory is undefined" );
         return undefined;
     }
 
-    if ( !checkValidGoods( goods ) )
-    {
-        DEBUG_MODE && console.log( "ShipBO.hasGoods: checkValidGoods returned false" );
-        return undefined;
-    }
-
-    for ( good in goods )
-    {
-        if ( shipObj.inventory[ good ] == undefined )
-        {
-            DEBUG_MODE && console.log( "ShipBO.hasGoods: inventory does not contain any of" , good );
-            return undefined;
-        }
-
-        if ( shipObj.inventory[ good ] < goods[ good ] )
-        {
-            DEBUG_MODE && console.log( "ShipBO.hasGoods: inventory does not contain enough of" , good
-                , "has" , shipObj.inventory[ good ] , "/" , goods[ good ] );
-            return undefined;
-        }
-    }
-
-    DEBUG_MODE && console.log( "ShipBO.hasGoods: ship has enough of all goods specified" );
-    return true;
+    DEBUG_MODE && console.log( "ShipBO.hasGoods: calling InventoryModule.hasGoods" );
+    return inventoryMod.hasGoods( shipObj.inventory, goods );
 }
 
 //Returns true if the ship has the fuel needed to travel 1 square
@@ -513,26 +469,8 @@ function isFull( shipObj )
         return undefined;
     }
 
-    if ( !Number.isInteger( shipObj.shipBluePrint.maxInventory ) )
-    {
-        DEBUG_MODE && console.log( "ShipBO.isFull: shipBluePrint.maxInventory is not an integer" );
-        return undefined;
-    }
-
-    let maxGoods = parseInt( shipObj.shipBluePrint.maxInventory , 10 );
-    let totalGoods = sumGoodsInventory( shipObj.inventory );
-    DEBUG_MODE && console.log( "ShipBO.isFull: maxGoods is" , maxGoods );
-    DEBUG_MODE && console.log( "ShipBO.isFull: totalGoods is" , totalGoods );
-    if ( totalGoods >= maxGoods )
-    {
-        DEBUG_MODE && console.log( "ShipBO.isFull: returning true as ship has full inventory" );
-        return true;
-    }
-    else
-    {
-        DEBUG_MODE && console.log( "ShipBO.isFull: returning false as ship still has inventory space" );
-        return false;
-    }
+    DEBUG_MODE && console.log( "ShipBO.isFull: calling InventoryModule.isFull" );
+    return inventoryMod.isFull( shipObj.inventory , shipObj.shipBluePrint.maxInventory );
 }
 
 //Remove goods from the ships inventory(NO UPDATE DB YET)
@@ -546,48 +484,8 @@ function removeGoods( shipObj , goods )
         return undefined;
     }
 
-    if ( shipObj.inventory == undefined )
-    {
-        DEBUG_MODE && console.log( "ShipBO.removeGoods: shipObj.inventory is undefined" );
-        return undefined;
-    }
-
-    if ( goods == undefined )
-    {
-        DEBUG_MODE && console.log( "ShipBO.removeGoods: goods is undefined" );
-        return undefined;
-    }
-
-    if ( !checkValidGoods( goods ) )
-    {
-        DEBUG_MODE && console.log( "ShipBO.removeGoods: checkValidGoods for goods returned false" );
-        return undefined;
-    }
-
-    if ( !hasGoods( shipObj, goods ) )
-    {
-        DEBUG_MODE && console.log( "ShipBO.removeGoods: hasGoods for goods returned false" );
-        return undefined;
-    }
-
-    //remove the goods from the inventory
-    for ( good in goods )
-    {
-        DEBUG_MODE && console.log( "ShipBO.removeGoods: removing" , goods[ good ], "of good"
-            , good , "from existing amount" , shipObj.inventory[ good ] );
-        shipObj.inventory[ good ] -= goods[ good ];
-
-        //if the leftover good is 0 then remove that key from the inventory
-        if ( shipObj.inventory[ good ] == 0 )
-        {
-            DEBUG_MODE && console.log( "ShipBO.removeGoods:"
-                , good, "is now empty,removing key" );
-            delete shipObj.inventory[ good ];
-        }
-    }
-
-    DEBUG_MODE && console.log( "ShipBO.removeGoods: removed goods successfully" );
-    return shipObj.inventory;
+    DEBUG_MODE && console.log( "ShipBO.removeGoods: calling InventoryModule.removeGoods" );
+    return inventoryMod.removeGoods( shipObj.inventory, goods );
 }
 
 //Remove the fuel needed to travel 1 square(NO UPDATE DB YET)
