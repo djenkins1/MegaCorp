@@ -1,34 +1,13 @@
 const shipDAO = require( "../Data/ShipDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
+const inventoryMod = require( './InventoryModule');
 
 //returns the sum total of all the goods in the inventory given(Not including @ goods)
 function sumGoodsInventory( inventory )
 {
     DEBUG_MODE && console.log( "Calling sumGoodsInventory in ShipBO, inventory:" , inventory );
-    if ( inventory == undefined )
-    {
-        DEBUG_MODE && console.log( "ShipBO.sumGoodsInventory: inventory undefined" );
-        return undefined;
-    }
-
-    var good = undefined;
-    var returnSum = 0;
-    for ( good in inventory )
-    {
-        if ( good.charAt( 0 ) === "@" )
-        {
-            DEBUG_MODE && console.log( "ShipBO.sumGoodsInventory: skipping over good" , good );
-            continue;
-        }
-
-        let amount = inventory[ good ];
-        DEBUG_MODE && console.log( "ShipBO.sumGoodsInventory: adding" ,amount, "to sum for good" , good );
-        returnSum += amount;
-    }
-
-    DEBUG_MODE && console.log( "ShipBO.sumGoodsInventory: returning sum" , returnSum );
-    return returnSum;
+    return inventoryMod.sumGoodsInventory( inventory );
 }
 
 //returns the sum total of all the goods in the ship inventory(Not including @ goods)
@@ -289,30 +268,7 @@ function destinationFuelCost( shipObj, destination )
 function checkValidGoods( goods )
 {
     DEBUG_MODE && console.log( "Calling checkValidGoods in ShipBO, goods:" , goods );
-    if ( goods == undefined )
-    {
-        DEBUG_MODE && console.log( "ShipBO.checkValidGoods: goods undefined" );
-        return undefined;
-    }
-
-    var good = undefined;
-    for ( good in goods )
-    {
-        if ( !Number.isInteger( goods[ good ] ) )
-        {
-            DEBUG_MODE && console.log( "ShipBO.checkValidGoods: good " , good , "has non integer value" , goods[ good ] );
-            return undefined;
-        }
-    }
-
-    if ( good == undefined )
-    {
-        DEBUG_MODE && console.log( "ShipBO.checkValidGoods: goods is empty" );
-        return undefined;
-    }
-
-    DEBUG_MODE && console.log( "ShipBO.checkValidGoods: returning true" );
-    return true;
+    return inventoryMod.checkValidGoods( goods );
 }
 
 //returns true if the ship has enough inventory space for the goods specified or undefined otherwise
@@ -349,32 +305,8 @@ function hasSpaceForGoods( shipObj, goods )
         return undefined;
     }
 
-    if ( !Number.isInteger( shipObj.shipBluePrint.maxInventory ) )
-    {
-        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj.shipBluePrint.maxInventory is non-integer" );
-        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: shipObj.shipBluePrint.maxInventory is"
-            , shipObj.shipBluePrint.maxInventory );
-        return undefined;
-    }
-
-    if ( !checkValidGoods( goods ) )
-    {
-        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: checkValidGoods returned false" );
-        return undefined;
-    }
-
-    var currentInventorySum = sumGoodsInventory( shipObj.inventory );
-    let newGoodSum = sumGoodsInventory( goods );
-
-    var maxSpace = shipObj.shipBluePrint.maxInventory;
-    if ( maxSpace >= currentInventorySum + newGoodSum )
-    {
-        DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: returning true" );
-        return true;
-    }
-
-    DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: returning undefined for sums" , currentInventorySum, "and", newGoodSum );
-    return undefined;
+    DEBUG_MODE && console.log( "ShipBO.hasSpaceForGoods: returning InventoryModule.hasSpaceForGoods" );
+    return inventoryMod.hasSpaceForGoods( shipObj.inventory, goods, shipObj.shipBluePrint.maxInventory );
 }
 
 //Adds goods to the ships inventory(NO UPDATE DB YET)

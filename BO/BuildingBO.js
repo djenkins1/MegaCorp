@@ -11,13 +11,16 @@ ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
 AddDamage,add on damage(NO UPDATE DB YET)
 FixDamage,remove damage(NO UPDATE DB YET)
 UseNeeded,remove goods needed for producing(NO UPDATE DB YET)
+
 IsFull,return true if inventory is filled to max space or false otherwise
 HasNeeded,returns true if the building has the goods needed to produce goods
 HasGoods,returns true if the building has the goods speciifed
-SaveBuilding,save the changes made to the building object to the database
-AllBuildings,return all buildings in the database
-CreateBuilding,insert a new building into database
-DefaultObj,Returns the default prototype for a new object
+
+Database:
+    SaveBuilding,save the changes made to the building object to the database
+    AllBuildings,return all buildings in the database
+    CreateBuilding,insert a new building into database
+    DefaultObj,Returns the default prototype for a new object
 */
 
 //ChangeName,changes name of the building(NO UPDATE DB YET)
