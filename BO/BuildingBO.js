@@ -3,7 +3,6 @@ const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 
 /*
-ChangeCompany,change company that owns(NO UPDATE DB YET)
 AddDamage,add on damage(NO UPDATE DB YET)
 FixDamage,remove damage(NO UPDATE DB YET)
 
@@ -60,4 +59,33 @@ function changeName( obj, newName )
     return newName;
 }
 
+//ChangeCompany,change company that owns(NO UPDATE DB YET)
+//returns the new companyId if updated or undefined otherwise
+function changeCompany( obj, newCompanyId )
+{
+    DEBUG_MODE && console.log( "Calling changeCompany in BuildingBO, new company:" , newCompanyId );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.changeCompany: obj is undefined" );
+        return undefined;
+    }
+
+    if ( newCompanyId == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.changeCompany: newCompanyId is undefined" );
+        return undefined;
+    }
+
+    if ( obj.companyId == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.changeCompany: old companyId is undefined" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "BuildingBO.changeCompany: changed companyId successfully" );
+    obj.companyId = newCompanyId;
+    return newCompanyId;
+}
+
 exports.changeName = changeName;
+exports.changeCompany = changeCompany;

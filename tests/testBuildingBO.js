@@ -114,6 +114,87 @@ describe('TestBuildingBO', function()
 
     });
 
+    /*
+    ===========
+    changeCompany testing begins
+    ===========
+    */
+    it( 'test changeCompany success' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsAllSameCompany.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].companyId );
+
+        let testObj = mockDataList[ 0 ];
+        let testCompany = "1";
+
+        let result = bo.changeCompany( testObj, testCompany );
+        assert.ok( result );
+        assert.equal( result, testCompany );
+        assert.equal( testObj.companyId, testCompany );
+        done();
+    });
+
+    it( 'test changeCompany failure obj undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsAllSameCompany.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].companyId );
+
+        let testObj = undefined;
+        let testCompany = "1";
+
+        let result = bo.changeCompany( testObj, testCompany );
+        if ( result )
+        {
+            assert.fail( "changeCompany returned for undefined obj: " + result );
+        }
+        done();
+    });
+
+    it( 'test changeCompany failure newCompanyId undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsAllSameCompany.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].companyId );
+
+        let testObj = mockDataList[ 0 ];
+        let testCompany = undefined;
+
+        let result = bo.changeCompany( testObj, testCompany );
+        if ( result )
+        {
+            assert.fail( "changeCompany returned for undefined newCompanyId: " + result );
+        }
+        done();
+    });
+
+    it( 'test changeCompany failure old companyId undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsAllSameCompany.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].companyId );
+
+        let testObj = mockDataList[ 0 ];
+        mockDataList[ 0 ].companyId = undefined;
+        let testCompany = "1";
+
+        let result = bo.changeCompany( testObj, testCompany );
+        if ( result )
+        {
+            assert.fail( "changeCompany returned for undefined old companyId: " + result );
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done )
     {
