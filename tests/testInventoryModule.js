@@ -380,8 +380,225 @@ describe('TestInventoryModule', function()
     });
 
     /*
+    ============
+    addGoods testing begins
+    ============
+    */
+    it( 'test addGoods success single same good' , function( done )
+    {
+        let maxGoods = 20;
+        let testAdd = 2;
+        let oldValue = 10;
+        let testInventory = {
+            "pollen" : oldValue
+        };
+        let testGoods = {
+            "pollen" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        assert.ok( returnVal );
+        assert.ok( returnVal[ "pollen" ] );
+        assert.equal( returnVal[ "pollen" ] , oldValue + testAdd );
+        done();
+    });
+
+    it( 'test addGoods success single different good' , function( done )
+    {
+        let maxGoods = 20;
+        let testAdd = 2;
+        let oldValue = 10;
+        let testInventory = {
+            "pollen" : oldValue
+        };
+        let testGoods = {
+            "chicken" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        assert.ok( returnVal );
+        assert.ok( returnVal[ "pollen" ] );
+        assert.equal( returnVal[ "pollen" ] , oldValue );
+        assert.equal( returnVal[ "chicken" ], testAdd );
+        done();
+    });
+
+    it( 'test addGoods success multiple goods' , function( done )
+    {
+        let maxGoods = 20;
+        let testAdd = 2;
+        let oldValue = 10;
+        let testInventory = {
+            "pollen" : oldValue
+        };
+        let testGoods = {
+            "chicken" : testAdd,
+            "pork" : testAdd,
+            "pollen" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        assert.ok( returnVal );
+        assert.ok( returnVal[ "pollen" ] );
+        assert.equal( returnVal[ "pollen" ] , oldValue + testAdd );
+        assert.equal( returnVal[ "chicken" ], testAdd );
+        assert.equal( returnVal[ "pork" ], testAdd );
+        done();
+    });
+
+    it( 'test addGoods success with @goods in inventory' , function( done )
+    {
+        let maxGoods = 20;
+        let testAdd = 2;
+        let oldValue = maxGoods;
+        let testInventory = {
+            "@pollen" : maxGoods
+        };
+        let testGoods = {
+            "chicken" : testAdd,
+            "pork" : testAdd,
+            "@pollen" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        assert.ok( returnVal );
+        assert.ok( returnVal[ "@pollen" ] );
+        assert.equal( returnVal[ "@pollen" ] , oldValue + testAdd );
+        assert.equal( returnVal[ "chicken" ], testAdd );
+        assert.equal( returnVal[ "pork" ], testAdd );
+        done();
+    });
+
+    it( 'test addGoods failure inventory undefined' , function( done )
+    {
+        let maxGoods = 20;
+        let testAdd = 2;
+        let testInventory = undefined;
+        let testGoods = {
+            "chicken" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods returned for undefined inventory: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure goods undefined' , function( done )
+    {
+        let maxGoods = 20;
+        let testAdd = 2;
+        let testGoods = undefined;
+        let testInventory = {
+            "chicken" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods returned for undefined goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure maxGoods undefined' , function( done )
+    {
+        let maxGoods = undefined;
+        let testAdd = 2;
+        let testGoods = {
+            "pork" : testAdd
+        };
+        let testInventory = {
+            "chicken" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods returned for undefined maxGoods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure maxGoods non-integer' , function( done )
+    {
+        let maxGoods = "badStr";
+        let testAdd = 2;
+        let testGoods = {
+            "pork" : testAdd
+        };
+        let testInventory = {
+            "chicken" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods returned for non-integer maxGoods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure empty goods' , function( done )
+    {
+        let maxGoods = 20;
+        let testAdd = 2;
+        let testGoods = {};
+        let testInventory = {
+            "chicken" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods returned for empty goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure string value goods' , function( done )
+    {
+        let maxGoods = 20;
+        let testAdd = 2;
+        let testGoods = {
+            "pork" : "badSTR"
+        };
+        let testInventory = {
+            "chicken" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods returned for string value in goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test addGoods failure not enough space' , function( done )
+    {
+        let maxGoods = 20;
+        let testAdd = 2;
+        let oldValue = maxGoods;
+        let testInventory = {
+            "pollen" : maxGoods
+        };
+        let testGoods = {
+            "chicken" : testAdd
+        };
+
+        let returnVal = inventoryMod.addGoods( testInventory, testGoods, maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "addGoods returned for too many goods: " + returnVal );
+        }
+        done();
+    });
+
+    /*
     //TODO:
-    addGoods
     hasGoods
     isFull
     removeGoods
