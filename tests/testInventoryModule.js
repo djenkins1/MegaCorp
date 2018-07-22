@@ -176,8 +176,211 @@ describe('TestInventoryModule', function()
     });
 
     /*
+    ============
+    hasSpaceForGoods testing begins
+    ============
+    */
+    it( 'test hasSpaceForGoods success single same good' , function( done )
+    {
+        let maxGoods = 20;
+        let testInventory = {
+            "mgmt" : 10
+        };
+        let testGoods = {
+            "mgmt" : 10
+        };
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        assert.ok( returnVal );
+        done();
+    });
+
+    it( 'test hasSpaceForGoods success single different good' , function( done )
+    {
+        let maxGoods = 20;
+        let testInventory = {
+            "mgmt" : 10
+        };
+        let testGoods = {
+            "pollen" : 10
+        };
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        assert.ok( returnVal );
+        done();
+    });
+
+    it( 'test hasSpaceForGoods success multiple goods' , function( done )
+    {
+        let maxGoods = 40;
+        let testInventory = {
+            "mgmt" : 10,
+            "pollen" : 10
+        };
+        let testGoods = {
+            "pollen" : 10,
+            "trees" : 5
+        };
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        assert.ok( returnVal );
+        done();
+    });
+
+    it( 'test hasSpaceForGoods success empty inventory' , function( done )
+    {
+        let maxGoods = 40;
+        let testInventory = {};
+        let testGoods = {
+            "pollen" : 10,
+            "trees" : 5
+        };
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        assert.ok( returnVal );
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure undefined goods' , function( done )
+    {
+        let maxGoods = 40;
+        let testInventory = {
+            "pollen" : 10
+        };
+        let testGoods = undefined;
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "hasSpaceForGoods returned for undefined goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure undefined inventory' , function( done )
+    {
+        let maxGoods = 40;
+        let testGoods = {
+            "pollen" : 10
+        };
+        let testInventory = undefined;
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "hasSpaceForGoods returned for undefined inventory: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure undefined maxGoods' , function( done )
+    {
+        let maxGoods = undefined;
+        let testGoods = {
+            "pollen" : 10
+        };
+        let testInventory = {
+            "pollen" : 10
+        };
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "hasSpaceForGoods returned for undefined maxGoods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure non-integer maxGoods' , function( done )
+    {
+        let maxGoods = "badstr";
+        let testGoods = {
+            "pollen" : 10
+        };
+        let testInventory = {
+            "pollen" : 10
+        };
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "hasSpaceForGoods returned for non-integer maxGoods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure empty goods' , function( done )
+    {
+        let maxGoods = 20;
+        let testGoods = {};
+        let testInventory = {
+            "pollen" : 10
+        };
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "hasSpaceForGoods returned for empty goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'test hasSpaceForGoods failure goods with string value' , function( done )
+    {
+        let maxGoods = 20;
+        let testGoods = {
+            "pollen" : "BadStr"
+        };
+        let testInventory = {
+            "pollen" : 10
+        };
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "hasSpaceForGoods returned for string value in goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'hasSpaceForGoods return undefined for more goods than space' , function( done )
+    {
+        let maxGoods = 20;
+        let testGoods = {
+            "pollen" : maxGoods
+        };
+        let testInventory = {
+            "pollen" : 10
+        };
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "hasSpaceForGoods returned for too many goods: " + returnVal );
+        }
+        done();
+    });
+
+    it( 'hasSpaceForGoods return undefined for completely full inventory' , function( done )
+    {
+        let maxGoods = 20;
+        let testInventory = {
+            "pollen" : maxGoods
+        };
+        let testGoods = {
+            "pollen" : 1
+        };
+
+        let returnVal = inventoryMod.hasSpaceForGoods( testInventory, testGoods , maxGoods );
+        if ( returnVal )
+        {
+            assert.fail( "hasSpaceForGoods returned for full inventory: " + returnVal );
+        }
+        done();
+    });
+
+    /*
     //TODO:
-    hasSpaceForGoods
     addGoods
     hasGoods
     isFull
