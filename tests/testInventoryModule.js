@@ -786,8 +786,139 @@ describe('TestInventoryModule', function()
     });
 
     /*
+    ============
+    isFull testing begins
+    ============
+    */
+    it( 'test isFull success filled equal maxGoods' , function( done )
+    {
+        let maxGoods = 10;
+        let testInventory = {
+            "rings" : maxGoods
+        };
+
+        let result = inventoryMod.isFull( testInventory, maxGoods );
+        assert.ok( result );
+        done();
+    });
+
+    it( 'test isFull success not filled' , function( done )
+    {
+        let maxGoods = 10;
+        let testInventory = {
+            "rings" : maxGoods / 2
+        };
+
+        let result = inventoryMod.isFull( testInventory, maxGoods );
+        if ( result )
+        {
+            assert.fail( "isFull returned for non full inventory: " + result );
+        }
+        done();
+    });
+
+    it( 'test isFull success not filled with @ goods' , function( done )
+    {
+        let maxGoods = 10;
+        let testInventory = {
+            "rings" : maxGoods / 2,
+            "@sheep" : maxGoods
+        };
+
+        let result = inventoryMod.isFull( testInventory, maxGoods );
+        if ( result )
+        {
+            assert.fail( "isFull returned for non full inventory with @goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test isFull success not filled off by one' , function( done )
+    {
+        let maxGoods = 10;
+        let testInventory = {
+            "rings" : maxGoods - 1,
+        };
+
+        let result = inventoryMod.isFull( testInventory, maxGoods );
+        if ( result )
+        {
+            assert.fail( "isFull returned for non full inventory: " + result );
+        }
+        done();
+    });
+
+    it( 'test isFull success not filled empty inventory' , function( done )
+    {
+        let maxGoods = 10;
+        let testInventory = {};
+
+        let result = inventoryMod.isFull( testInventory, maxGoods );
+        if ( result )
+        {
+            assert.fail( "isFull returned for empty inventory: " + result );
+        }
+        done();
+    });
+
+
+    it( 'test isFull success filled with too many goods for max' , function( done )
+    {
+        let maxGoods = 10;
+        let testInventory = {
+            "rings" : maxGoods + 1
+        };
+
+        let result = inventoryMod.isFull( testInventory, maxGoods );
+        assert.ok( result );
+        done();
+    });
+
+    it( 'test isFull failure inventory undefined' , function( done )
+    {
+        let maxGoods = 10;
+        let testInventory = undefined;
+
+        let result = inventoryMod.isFull( testInventory, maxGoods );
+        if ( result )
+        {
+            assert.fail( "isFull returned for undefined inventory: " + result );
+        }
+        done();
+    });
+
+    it( 'test isFull failure maxGoods undefined' , function( done )
+    {
+        let maxGoods = undefined;
+        let testInventory = {
+            "happiness" : 5
+        };
+
+        let result = inventoryMod.isFull( testInventory, maxGoods );
+        if ( result )
+        {
+            assert.fail( "isFull returned for undefined maxGoods: " + result );
+        }
+        done();
+    });
+
+    it( 'test isFull failure maxGoods non integer' , function( done )
+    {
+        let maxGoods = "badStr";
+        let testInventory = {
+            "happiness" : 5
+        };
+
+        let result = inventoryMod.isFull( testInventory, maxGoods );
+        if ( result )
+        {
+            assert.fail( "isFull returned for non-integer maxGoods: " + result );
+        }
+        done();
+    });
+
+    /*
     //TODO:
-    isFull
     removeGoods
     */
 
