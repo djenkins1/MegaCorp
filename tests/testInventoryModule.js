@@ -918,9 +918,229 @@ describe('TestInventoryModule', function()
     });
 
     /*
-    //TODO:
-    removeGoods
+    ============
+    removeGoods testing begins
+    ============
     */
+    it( 'test removeGoods success single good' , function( done )
+    {
+        let testGoodName = "kings";
+        let testGoodValue = 10;
+        let testRemoveValue = 4;
+
+        let testInventory = {};
+        testInventory[ testGoodName ] = testGoodValue;
+
+        let testGoods = {};
+        testGoods[ testGoodName ] = testRemoveValue;
+
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        assert.ok( result );
+        assert.ok( result[ testGoodName ] );
+        assert.equal( result[ testGoodName ] , testGoodValue - testRemoveValue );
+        assert.equal( testInventory[ testGoodName ] , result[ testGoodName ] );
+        done();
+    });
+
+    it( 'test removeGoods success single good multiple inventory' , function( done )
+    {
+        let testGoodName = "kings";
+        let testOtherGood = "yards"
+        let testGoodValue = 10;
+        let testRemoveValue = 4;
+
+        let testInventory = {};
+        testInventory[ testGoodName ] = testGoodValue;
+        testInventory[ testOtherGood ] = testGoodValue;
+
+        let testGoods = {};
+        testGoods[ testGoodName ] = testRemoveValue;
+
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        assert.ok( result );
+        assert.ok( result[ testGoodName ] );
+        assert.equal( result[ testGoodName ] , testGoodValue - testRemoveValue );
+        assert.equal( testInventory[ testGoodName ] , result[ testGoodName ] );
+        assert.equal( testInventory[ testOtherGood ] , result[ testOtherGood ] );
+        assert.equal( result[ testOtherGood ] , testGoodValue );
+        done();
+    });
+
+    it( 'test removeGoods success multiple good multiple inventory' , function( done )
+    {
+        let testGoodName = "kings";
+        let testOtherGood = "yards"
+        let testGoodValue = 10;
+        let testRemoveValue = 4;
+        let testOtherRemoveValue = 2;
+
+        let testInventory = {};
+        testInventory[ testGoodName ] = testGoodValue;
+        testInventory[ testOtherGood ] = testGoodValue;
+
+        let testGoods = {};
+        testGoods[ testGoodName ] = testRemoveValue;
+        testGoods[ testOtherGood ] = testOtherRemoveValue;
+
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        assert.ok( result );
+        assert.ok( result[ testGoodName ] );
+        assert.equal( result[ testGoodName ] , testGoodValue - testRemoveValue );
+        assert.equal( testInventory[ testGoodName ] , result[ testGoodName ] );
+        assert.equal( testInventory[ testOtherGood ] , result[ testOtherGood ] );
+        assert.equal( result[ testOtherGood ] , testGoodValue - testOtherRemoveValue );
+        done();
+    });
+
+    it( 'test removeGoods success remove all of one good multiple inventory' , function( done )
+    {
+        let testGoodName = "kings";
+        let testOtherGood = "yards"
+        let testGoodValue = 10;
+        let testRemoveValue = testGoodValue;
+
+        let testInventory = {};
+        testInventory[ testGoodName ] = testGoodValue;
+        testInventory[ testOtherGood ] = testGoodValue;
+
+        let testGoods = {};
+        testGoods[ testGoodName ] = testRemoveValue;
+
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        assert.ok( result );
+        if ( result[ testGoodName ] )
+        {
+            assert.fail( "Zero of good is still in inventory: " + result[ testGoodName ] );
+        }
+        assert.equal( testInventory[ testOtherGood ] , result[ testOtherGood ] );
+        assert.equal( result[ testOtherGood ] , testGoodValue );
+        done();
+    });
+
+    it( 'test removeGoods success remove entire inventory' , function( done )
+    {
+        let testInventory = {
+            "grain" : 10,
+            "widgets" : 5
+        };
+
+        let testGoods = testInventory;
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        if ( result && result[ "grain" ] )
+        {
+            assert.fail( "removeGoods returned for remove entire inventory: " + result );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure not enough single good' , function( done )
+    {
+        let testInventory = {
+            "grain" : 10,
+            "widgets" : 5
+        };
+
+        let testGoods = {
+            "grain" : 11
+        };
+
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "removeGoods returned for not enough goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure not enough multiple goods' , function( done )
+    {
+        let testInventory = {
+            "grain" : 10,
+            "widgets" : 5
+        };
+
+        let testGoods = {
+            "grain" : 11,
+            "widgets" : 6
+        };
+
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "removeGoods returned for not enough goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure inventory undefined' , function( done )
+    {
+        let testInventory = undefined;
+
+        let testGoods = {
+            "grain" : 11,
+            "widgets" : 6
+        };
+
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "removeGoods returned for undefined inventory: " + result );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure goods undefined' , function( done )
+    {
+        let testInventory = {
+            "grain" : 11,
+            "widgets" : 6
+        };
+
+        let testGoods = undefined;
+
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "removeGoods returned for undefined goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure goods empty' , function( done )
+    {
+        let testInventory = {
+            "grain" : 11,
+            "widgets" : 6
+        };
+
+        let testGoods = {};
+
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "removeGoods returned for empty goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test removeGoods failure goods string value' , function( done )
+    {
+        let testInventory = {
+            "grain" : 11,
+            "widgets" : 6
+        };
+
+        let testGoods = {
+            "grain" : "wall"
+        };
+
+        let result = inventoryMod.removeGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "removeGoods returned for string value in goods: " + result );
+        }
+        done();
+    });
 
     //after() is run after all tests have completed.
     after( function( done )
