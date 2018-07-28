@@ -6,6 +6,7 @@
         "buildingBluePrint" : "1",
         "planetId" : "2",
         "companyId" : "1",
+        "damage" : 0,
         "inventory" : {"Ore" : 20 }
     },
     {
@@ -15,8 +16,7 @@
         "buildingBluePrint" : "2",
         "planetId" : "2",
         "companyId" : "4",
-        "inventory" : {}    
+        "damage" : 0,
+        "inventory" : {}
     }
 ]
-
-
