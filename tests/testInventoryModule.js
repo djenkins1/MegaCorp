@@ -598,8 +598,195 @@ describe('TestInventoryModule', function()
     });
 
     /*
+    ============
+    hasGoods testing begins
+    ============
+    */
+    it( 'test hasGoods success for single good in inventory/goods' , function( done )
+    {
+        let testInventory = {
+            "submarines" : 20
+        };
+
+        let testGoods = {
+            "submarines" : 1
+        };
+
+        let result = inventoryMod.hasGoods( testInventory, testGoods );
+        assert.ok( result );
+        done();
+    });
+
+    it( 'test hasGoods success for single good in goods multiple in inventory' , function( done )
+    {
+        let testInventory = {
+            "submarines" : 20,
+            "hearts" : 10
+        };
+
+        let testGoods = {
+            "submarines" : 1
+        };
+
+        let result = inventoryMod.hasGoods( testInventory, testGoods );
+        assert.ok( result );
+        done();
+    });
+
+    it( 'test hasGoods success for multiple goods in goods/inventory' , function( done )
+    {
+        let testInventory = {
+            "submarines" : 20,
+            "hearts" : 10,
+            "spades" : 50
+        };
+
+        let testGoods = {
+            "submarines" : 5,
+            "hearts" : 2
+        };
+
+        let result = inventoryMod.hasGoods( testInventory, testGoods );
+        assert.ok( result );
+        done();
+    });
+
+    it( 'test hasGoods failure for single good missing in inventory' , function( done )
+    {
+        let testInventory = {
+            "submarines" : 20,
+            "hearts" : 10,
+            "spades" : 50
+        };
+
+        let testGoods = {
+            "submarines" : 5,
+            "operator" : 2
+        };
+
+        let result = inventoryMod.hasGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for missing good: " + result );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure for multiple good missing in inventory' , function( done )
+    {
+        let testInventory = {
+            "submarines" : 20,
+            "hearts" : 10,
+            "spades" : 50
+        };
+
+        let testGoods = {
+            "marinos" : 5,
+            "operator" : 2
+        };
+
+        let result = inventoryMod.hasGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for missing goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure for not enough good in inventory' , function( done )
+    {
+        let testInventory = {
+            "submarines" : 20,
+            "hearts" : 10,
+            "spades" : 50
+        };
+
+        let testGoods = {
+            "submarines" : 21
+        };
+
+        let result = inventoryMod.hasGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for not enough goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure inventory undefined' , function( done )
+    {
+        let testInventory = undefined;
+
+        let testGoods = {
+            "submarines" : 21
+        };
+
+        let result = inventoryMod.hasGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for not undefined inventory: " + result );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure goods undefined' , function( done )
+    {
+        let testInventory = {
+            "submarines" : 20,
+            "hearts" : 10,
+            "spades" : 50
+        };
+
+        let testGoods = undefined;
+
+        let result = inventoryMod.hasGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for undefined goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure goods empty' , function( done )
+    {
+        let testInventory = {
+            "submarines" : 20,
+            "hearts" : 10,
+            "spades" : 50
+        };
+
+        let testGoods = {};
+
+        let result = inventoryMod.hasGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for empty goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test hasGoods failure goods string value' , function( done )
+    {
+        let testInventory = {
+            "submarines" : 20,
+            "hearts" : 10,
+            "spades" : 50
+        };
+
+        let testGoods = {
+            "submarines" : "badStr"
+        };
+
+        let result = inventoryMod.hasGoods( testInventory, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for string value in goods: " + result );
+        }
+        done();
+    });
+
+    /*
     //TODO:
-    hasGoods
     isFull
     removeGoods
     */
