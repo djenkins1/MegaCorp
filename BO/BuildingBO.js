@@ -3,7 +3,6 @@ const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 
 /*
-AddDamage,add on damage(NO UPDATE DB YET)
 FixDamage,remove damage(NO UPDATE DB YET)
 
 InventoryModule reuse:
@@ -87,5 +86,77 @@ function changeCompany( obj, newCompanyId )
     return newCompanyId;
 }
 
+//AddDamage,add on damage(NO UPDATE DB YET)
+//returns total damage or undefined if not successful
+function addDamage( obj, damageToAdd )
+{
+    DEBUG_MODE && console.log( "Calling addDamage in BuildingBO, damageToAdd:" , damageToAdd );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addDamage: obj is undefined" );
+        return undefined;
+    }
+
+    if ( obj.damage == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addDamage: oldDamage is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( obj.damage ) )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addDamage: oldDamage is not an integer" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addDamage: obj.buildingBluePrint is undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint.maxDamage == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addDamage: buildingBluePrint.maxDamage is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( obj.buildingBluePrint.maxDamage ) )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addDamage: buildingBluePrint.maxDamage is not an integer" );
+        return undefined;
+    }
+
+    if ( damageToAdd == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addDamage: damageToAdd is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( damageToAdd ) )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addDamage: damageToAdd is not an integer" );
+        return undefined;
+    }
+
+    let currentDamage = parseInt( obj.damage , 10 );
+    let damageAddInt = parseInt( damageToAdd, 10 );
+    let maxDamage = parseInt( obj.buildingBluePrint.maxDamage, 10 );
+    DEBUG_MODE && console.log( "BuildingBO.addDamage: maxDamage," , maxDamage );
+    DEBUG_MODE && console.log( "BuildingBO.addDamage: damageAddInt," , damageAddInt );
+    DEBUG_MODE && console.log( "BuildingBO.addDamage: currentDamage," , currentDamage );
+
+    if ( maxDamage < currentDamage + damageAddInt )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addDamage: Cannot add damage beyond maxDamage value" );
+        return undefined;
+    }
+
+    obj.damage = currentDamage + damageAddInt;
+    DEBUG_MODE && console.log( "BuildingBO.addDamage: added damage successfully" );
+    return obj.damage;
+}
+
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
+exports.addDamage = addDamage;
