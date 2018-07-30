@@ -3,8 +3,6 @@ const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 
 /*
-FixDamage,remove damage(NO UPDATE DB YET)
-
 InventoryModule reuse:
     SumGoods,returns the sum total of all the goods in the building inventory(Not including @ goods)
     AddGoods,add goods to inventory(NO UPDATE DB YET)
@@ -157,6 +155,63 @@ function addDamage( obj, damageToAdd )
     return obj.damage;
 }
 
+//FixDamage,remove damage(NO UPDATE DB YET)
+//returns the total damage or undefined otherwise
+function fixDamage( obj , damageToFix )
+{
+    DEBUG_MODE && console.log( "Calling fixDamage in BuildingBO, damageToFix:" , damageToFix );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.fixDamage: obj is undefined" );
+        return undefined;
+    }
+
+    if ( obj.damage == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.fixDamage: obj.damage is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( obj.damage ) )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.fixDamage: obj.damage is not an integer" );
+        return undefined;
+    }
+
+    if ( damageToFix == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.fixDamage: damageToFix is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( damageToFix ) )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.fixDamage: damageToFix is not an integer" );
+        return undefined;
+    }
+
+    let damageFixInt = parseInt( damageToFix, 10 );
+    if ( damageFixInt <= 0 )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.fixDamage: damageToFix is not positive" );
+        return undefined;
+    }
+
+    let currentDamage = parseInt( obj.damage, 10 );
+    DEBUG_MODE && console.log( "BuildingBO.fixDamage: currentDamage," + currentDamage );
+    DEBUG_MODE && console.log( "BuildingBO.fixDamage: damageFixInt," + damageFixInt );
+    if ( currentDamage < damageFixInt )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.fixDamage: currentDamage is less than damageToFix" );
+        return undefined;
+    }
+
+    obj.damage = currentDamage - damageFixInt;
+    DEBUG_MODE && console.log( "BuildingBO.fixDamage: successfully fixed damage" );
+    return obj.damage;
+}
+
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
 exports.addDamage = addDamage;
+exports.fixDamage = fixDamage;

@@ -444,6 +444,204 @@ describe('TestBuildingBO', function()
         done();
     });
 
+    /*
+    ===========
+    fixDamage testing begins
+    ===========
+    */
+    it( 'test fixDamage success less than total damage' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint.maxDamage );
+
+        let testDamage = 2;
+        let testFix = 1;
+        let testObj = mockDataList[ 0 ];
+        testObj.damage = testDamage;
+
+        let result = bo.fixDamage( testObj, testFix );
+        assert.equal( result, testDamage - testFix );
+        assert.equal( testObj.damage, result );
+        done();
+    });
+
+    it( 'test fixDamage success equal total damage' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint.maxDamage );
+
+        let testDamage = 2;
+        let testFix = testDamage;
+        let testObj = mockDataList[ 0 ];
+        testObj.damage = testDamage;
+
+        let result = bo.fixDamage( testObj, testFix );
+        assert.equal( result, testDamage - testFix );
+        assert.equal( testObj.damage, result );
+        done();
+    });
+
+    it( 'test fixDamage failure more than total damage' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint.maxDamage );
+
+        let testDamage = 2;
+        let testFix = testDamage + 1;
+        let testObj = mockDataList[ 0 ];
+        testObj.damage = testDamage;
+
+        let result = bo.fixDamage( testObj, testFix );
+        if ( result )
+        {
+            assert.fail( "fixDamage returned for too much damageToFix: " + result );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure obj undefined' , function( done )
+    {
+        let testDamage = 2;
+        let testFix = testDamage - 1;
+        let testObj = undefined;
+
+        let result = bo.fixDamage( testObj, testFix );
+        if ( result )
+        {
+            assert.fail( "fixDamage returned for undefined obj: " + result );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure obj.damage undefined' , function( done )
+    {
+        let testDamage = 2;
+        let testFix = testDamage - 1;
+        let testObj = {};
+
+        let result = bo.fixDamage( testObj, testFix );
+        if ( result )
+        {
+            assert.fail( "fixDamage returned for undefined obj.damage: " + result );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure obj.damage non-integer' , function( done )
+    {
+        let testDamage = 2;
+        let testFix = testDamage - 1;
+        let testObj = {};
+        testObj.damage = 1.5;
+
+        let result = bo.fixDamage( testObj, testFix );
+        if ( result )
+        {
+            assert.fail( "fixDamage returned for non-integer obj.damage: " + result );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure damageToFix undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint.maxDamage );
+
+        let testDamage = 2;
+        let testFix = undefined;
+        let testObj = mockDataList[ 0 ];
+        testObj.damage = testDamage;
+
+        let result = bo.fixDamage( testObj, testFix );
+        if ( result )
+        {
+            assert.fail( "fixDamage returned for undefined damageToFix: " + result );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure damageToFix non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint.maxDamage );
+
+        let testDamage = 2;
+        let testFix = 1.75;
+        let testObj = mockDataList[ 0 ];
+        testObj.damage = testDamage;
+
+        let result = bo.fixDamage( testObj, testFix );
+        if ( result )
+        {
+            assert.fail( "fixDamage returned for non-integer damageToFix: " + result );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure damageToFix negative' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint.maxDamage );
+
+        let testDamage = 2;
+        let testFix = -1;
+        let testObj = mockDataList[ 0 ];
+        testObj.damage = testDamage;
+
+        let result = bo.fixDamage( testObj, testFix );
+        if ( result )
+        {
+            assert.fail( "fixDamage returned for negative damageToFix: " + result );
+        }
+        done();
+    });
+
+    it( 'test fixDamage failure damageToFix zero' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint.maxDamage );
+
+        let testDamage = 2;
+        let testFix = 0;
+        let testObj = mockDataList[ 0 ];
+        testObj.damage = testDamage;
+
+        let result = bo.fixDamage( testObj, testFix );
+        if ( result )
+        {
+            assert.fail( "fixDamage returned for zero damageToFix: " + result );
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done )
     {
