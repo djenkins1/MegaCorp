@@ -4,8 +4,6 @@ const ID_KEY = require('config').get('ID_KEY');
 const inventoryMod = require( "./InventoryModule" );
 
 /*
-InventoryModule reuse:
-    RemoveGoods,remove goods from inventory(NO UPDATE DB YET)
 
 After InventoryModule:
     ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
@@ -340,6 +338,33 @@ function isFull( obj )
     return inventoryMod.isFull( obj.inventory, obj.buildingBluePrint.maxGoods );
 }
 
+//RemoveGoods,remove goods from inventory(NO UPDATE DB YET)
+//returns the new inventory or undefined otherwise
+function removeGoods( obj , goods )
+{
+    DEBUG_MODE && console.log( "Calling removeGoods in BuildingBO, obj:" , obj );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.removeGoods: obj undefined" );
+        return undefined;
+    }
+
+    if ( obj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.removeGoods: inventory undefined" );
+        return undefined;
+    }
+
+    if ( goods == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.removeGoods: goods undefined" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "BuildingBO.isFull: returning from isFull call"  );
+    return inventoryMod.removeGoods( obj.inventory, goods );
+}
+
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
 exports.addDamage = addDamage;
@@ -348,3 +373,4 @@ exports.sumGoods = sumGoods;
 exports.hasGoods = hasGoods;
 exports.addGoods = addGoods;
 exports.isFull = isFull;
+exports.removeGoods = removeGoods;
