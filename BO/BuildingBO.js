@@ -8,7 +8,6 @@ InventoryModule reuse:
     AddGoods,add goods to inventory(NO UPDATE DB YET)
     RemoveGoods,remove goods from inventory(NO UPDATE DB YET)
     IsFull,return true if inventory is filled to max space or false otherwise
-    HasGoods,returns true if the building has the goods specified
 
 After InventoryModule:
     ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
@@ -232,8 +231,37 @@ function sumGoods( obj )
     return inventoryMod.sumGoodsInventory( obj.inventory );
 }
 
+//HasGoods,returns true if the building has the goods specified
+//returns true if building has goods or false if not
+//returns undefined if invalid parameters
+function hasGoods( obj, goods )
+{
+    DEBUG_MODE && console.log( "Calling hasGoods in BuildingBO, obj:" , obj );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.hasGoods: obj undefined" );
+        return undefined;
+    }
+
+    if ( obj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.hasGoods: inventory undefined" );
+        return undefined;
+    }
+
+    if ( goods == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.hasGoods: goods undefined" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "BuildingBO.hasGoods: returning from hasGoods call"  );
+    return inventoryMod.hasGoods( obj.inventory, goods );
+}
+
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
 exports.addDamage = addDamage;
 exports.fixDamage = fixDamage;
 exports.sumGoods = sumGoods;
+exports.hasGoods = hasGoods;

@@ -773,6 +773,189 @@ describe('TestBuildingBO', function()
         done();
     });
 
+    /*
+    ===========
+    hasGoods testing begins
+    ===========
+    */
+    it( 'test hasGoods returns true for single good in single inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let testValue = 2;
+        let testGoodName = "diamond"
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {
+            [testGoodName] : testSum
+        };
+
+        let testGoods = {
+            [testGoodName] : testValue
+        };
+
+        let result = bo.hasGoods( testObj, testGoods );
+        assert.ok( result );
+        done();
+    });
+
+    it( 'test hasGoods returns true for single good in multiple inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let testValue = 2;
+        let testGoodName = "diamond"
+        let otherGoodName = "circus";
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {
+            [testGoodName] : testSum,
+            [otherGoodName] : testSum
+        };
+
+        let testGoods = {
+            [testGoodName] : testValue
+        };
+
+        let result = bo.hasGoods( testObj, testGoods );
+        assert.ok( result );
+        done();
+    });
+
+    it( 'test hasGoods returns true for multiple goods in multiple inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let testValue = 2;
+        let testGoodName = "diamond"
+        let otherGoodName = "circus";
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {
+            [testGoodName] : testSum,
+            [otherGoodName] : testSum
+        };
+
+        let testGoods = {
+            [testGoodName] : testValue,
+            [otherGoodName] : testValue
+        };
+
+        let result = bo.hasGoods( testObj, testGoods );
+        assert.ok( result );
+        done();
+    });
+
+    it( 'test hasGoods returns false for not enough single good' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let testValue = testSum + 1;
+        let testGoodName = "diamond"
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {
+            [testGoodName] : testSum
+        };
+
+        let testGoods = {
+            [testGoodName] : testValue
+        };
+
+        let result = bo.hasGoods( testObj, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for not enough single good: " + result );
+        }
+        done();
+    });
+
+    it( 'test hasGoods returns undefined for undefined obj' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let testValue = testSum + 1;
+        let testGoodName = "diamond"
+        let testObj = undefined;
+
+        let testGoods = {
+            [testGoodName] : testValue
+        };
+
+        let result = bo.hasGoods( testObj, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for undefined obj: " + result );
+        }
+        done();
+    });
+
+    it( 'test hasGoods returns undefined for undefined inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let testValue = testSum + 1;
+        let testGoodName = "diamond"
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = undefined;
+
+        let testGoods = {
+            [testGoodName] : testValue
+        };
+
+        let result = bo.hasGoods( testObj, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for undefined inventory: " + result );
+        }
+        done();
+    });
+
+    it( 'test hasGoods returns undefined for undefined goods' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let testValue = testSum + 1;
+        let testGoodName = "diamond"
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {
+            [testGoodName] : testSum
+        };
+
+        let testGoods = undefined;
+
+        let result = bo.hasGoods( testObj, testGoods );
+        if ( result )
+        {
+            assert.fail( "hasGoods returned for undefined goods: " + result );
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done )
     {
