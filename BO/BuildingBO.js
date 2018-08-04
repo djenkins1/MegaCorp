@@ -5,7 +5,6 @@ const inventoryMod = require( "./InventoryModule" );
 
 /*
 InventoryModule reuse:
-    AddGoods,add goods to inventory(NO UPDATE DB YET)
     RemoveGoods,remove goods from inventory(NO UPDATE DB YET)
     IsFull,return true if inventory is filled to max space or false otherwise
 
@@ -259,9 +258,55 @@ function hasGoods( obj, goods )
     return inventoryMod.hasGoods( obj.inventory, goods );
 }
 
+//AddGoods,add goods to inventory(NO UPDATE DB YET)
+//returns the new inventory if updated or undefined otherwise
+function addGoods( obj, goods )
+{
+    DEBUG_MODE && console.log( "Calling addGoods in BuildingBO, obj:" , obj );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addGoods: obj undefined" );
+        return undefined;
+    }
+
+    if ( obj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addGoods: inventory undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addGoods: buildingBluePrint undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint.maxGoods == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addGoods: maxGoods undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( obj.buildingBluePrint.maxGoods ) )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addGoods: maxGoods non-integer" );
+        return undefined;
+    }
+
+    if ( goods == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.addGoods: goods undefined" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "BuildingBO.addGoods: returning from addGoods call"  );
+    return inventoryMod.addGoods( obj.inventory, goods , obj.buildingBluePrint.maxGoods );
+}
+
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
 exports.addDamage = addDamage;
 exports.fixDamage = fixDamage;
 exports.sumGoods = sumGoods;
 exports.hasGoods = hasGoods;
+exports.addGoods = addGoods;
