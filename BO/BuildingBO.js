@@ -1,10 +1,10 @@
 const buildingDAO = require( "../Data/BuildingDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
+const inventoryMod = require( "./InventoryModule" );
 
 /*
 InventoryModule reuse:
-    SumGoods,returns the sum total of all the goods in the building inventory(Not including @ goods)
     AddGoods,add goods to inventory(NO UPDATE DB YET)
     RemoveGoods,remove goods from inventory(NO UPDATE DB YET)
     IsFull,return true if inventory is filled to max space or false otherwise
@@ -211,7 +211,29 @@ function fixDamage( obj , damageToFix )
     return obj.damage;
 }
 
+//SumGoods,returns the sum total of all the goods in the building inventory(Not including @ goods)
+//returns the sum total of all the goods or undefined otherwise
+function sumGoods( obj )
+{
+    DEBUG_MODE && console.log( "Calling sumGoods in BuildingBO, obj:" , obj );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.sumGoods: obj undefined" );
+        return undefined;
+    }
+
+    if ( obj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.sumGoods: inventory undefined" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "BuildingBO.sumGoods: returning from sumGoodsInventory call"  );
+    return inventoryMod.sumGoodsInventory( obj.inventory );
+}
+
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
 exports.addDamage = addDamage;
 exports.fixDamage = fixDamage;
+exports.sumGoods = sumGoods;

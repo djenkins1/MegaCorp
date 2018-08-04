@@ -642,6 +642,137 @@ describe('TestBuildingBO', function()
         done();
     });
 
+    /*
+    ===========
+    sumGoods testing begins
+    ===========
+    */
+    it( 'test sumGoods success single good' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {
+            "diamond" : testSum
+        };
+
+        let result = bo.sumGoods( testObj );
+        assert.ok( result );
+        assert.equal( result, testSum );
+        done();
+    });
+
+    it( 'test sumGoods success multiple goods' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let otherValue = 2;
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {
+            "diamond" : testSum - otherValue,
+            "spade" : otherValue
+        };
+
+        let result = bo.sumGoods( testObj );
+        assert.ok( result );
+        assert.equal( result, testSum );
+        done();
+    });
+
+    it( 'test sumGoods success single @good return zero' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {
+            "@diamond" : testSum
+        };
+
+        let result = bo.sumGoods( testObj );
+        assert.equal( result, 0 );
+        done();
+    });
+
+    it( 'test sumGoods success multiple goods with @good' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let otherValue = 2;
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {
+            "@diamond" : otherValue,
+            "spade" : testSum
+        };
+
+        let result = bo.sumGoods( testObj );
+        assert.ok( result );
+        assert.equal( result, testSum );
+        done();
+    });
+
+    it( 'test sumGoods success returns zero for empty inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testSum = 10;
+        let otherValue = 2;
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {};
+
+        let result = bo.sumGoods( testObj );
+        assert.equal( result, 0 );
+        done();
+    });
+
+    it( 'test sumGoods failure undefined obj' , function( done )
+    {
+        let testObj = undefined;
+
+        let result = bo.sumGoods( testObj );
+        if ( result )
+        {
+            assert.fail( "sumGoods returned for undefined obj: " + JSON.stringify( result ) );
+        }
+        done();
+    });
+
+    it( 'test sumGoods failure undefined inventory' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = undefined;
+
+        let result = bo.sumGoods( testObj );
+        if ( result )
+        {
+            assert.fail( "sumGoods returned for undefined inventory: " + JSON.stringify( result ) );
+        }
+        done();
+    });
+
     //after() is run after all tests have completed.
     after( function( done )
     {
