@@ -6,7 +6,6 @@ const inventoryMod = require( "./InventoryModule" );
 /*
 InventoryModule reuse:
     RemoveGoods,remove goods from inventory(NO UPDATE DB YET)
-    IsFull,return true if inventory is filled to max space or false otherwise
 
 After InventoryModule:
     ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
@@ -303,6 +302,44 @@ function addGoods( obj, goods )
     return inventoryMod.addGoods( obj.inventory, goods , obj.buildingBluePrint.maxGoods );
 }
 
+//IsFull,return true if inventory is filled to max space or false otherwise
+function isFull( obj )
+{
+    DEBUG_MODE && console.log( "Calling isFull in BuildingBO, obj:" , obj );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.isFull: obj undefined" );
+        return undefined;
+    }
+
+    if ( obj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.isFull: inventory undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.isFull: buildingBluePrint undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint.maxGoods == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.isFull: maxGoods undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( obj.buildingBluePrint.maxGoods ) )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.isFull: maxGoods non-integer" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "BuildingBO.isFull: returning from isFull call"  );
+    return inventoryMod.isFull( obj.inventory, obj.buildingBluePrint.maxGoods );
+}
+
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
 exports.addDamage = addDamage;
@@ -310,3 +347,4 @@ exports.fixDamage = fixDamage;
 exports.sumGoods = sumGoods;
 exports.hasGoods = hasGoods;
 exports.addGoods = addGoods;
+exports.isFull = isFull;
