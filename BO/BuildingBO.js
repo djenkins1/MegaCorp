@@ -8,7 +8,6 @@ const inventoryMod = require( "./InventoryModule" );
 After InventoryModule:
     ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
     UseNeeded,remove goods needed for producing(NO UPDATE DB YET)
-    HasNeeded,returns true if the building has the goods needed to produce goods
 
 Database:
     SaveBuilding,save the changes made to the building object to the database
@@ -361,8 +360,41 @@ function removeGoods( obj , goods )
         return undefined;
     }
 
-    DEBUG_MODE && console.log( "BuildingBO.isFull: returning from isFull call"  );
+    DEBUG_MODE && console.log( "BuildingBO.removeGoods: returning from removeGoods call"  );
     return inventoryMod.removeGoods( obj.inventory, goods );
+}
+
+//HasNeeded,returns true if the building has the goods needed to produce goods
+//returns false if the building does not have the goods or undefined if invalid
+function hasNeeded( obj )
+{
+    DEBUG_MODE && console.log( "Calling hasNeeded in BuildingBO, obj:" , obj );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.hasNeeded: obj undefined" );
+        return undefined;
+    }
+
+    if ( obj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.hasNeeded: inventory undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.hasNeeded: buildingBluePrint undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint.productionCost == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.hasNeeded: productionCost undefined" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "BuildingBO.hasNeeded: returning from hasGoods call"  );
+    return hasGoods( obj, obj.buildingBluePrint.productionCost );
 }
 
 exports.changeName = changeName;
@@ -374,3 +406,4 @@ exports.hasGoods = hasGoods;
 exports.addGoods = addGoods;
 exports.isFull = isFull;
 exports.removeGoods = removeGoods;
+exports.hasNeeded = hasNeeded;
