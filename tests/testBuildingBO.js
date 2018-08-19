@@ -1888,7 +1888,6 @@ describe('TestBuildingBO', function()
     produceGoods testing begins
     ===========
     */
-    /*
     it( 'test produceGoods success single good empty inventory' , function( done )
     {
         let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
@@ -2047,26 +2046,93 @@ describe('TestBuildingBO', function()
         done();
     });
 
-    xit( 'test produceGoods failure inventory undefined' , function( done )
+    it( 'test produceGoods failure inventory undefined' , function( done )
     {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Keys";
+        let testValue = 10;
+        testObj.buildingBluePrint.produces = {
+            [testGood] : testValue
+        };
+
+        testObj.inventory = undefined;
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        let result = bo.produceGoods( testObj );
+        if ( result )
+        {
+            assert.fail( "produceGoods returned for undefined inventory: " + result );
+        }
         done();
     });
 
-    xit( 'test produceGoods failure buildingBluePrint undefined' , function( done )
+    it( 'test produceGoods failure buildingBluePrint undefined' , function( done )
     {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.inventory = {};
+        testObj.buildingBluePrint = undefined;
+
+        let result = bo.produceGoods( testObj );
+        if ( result )
+        {
+            assert.fail( "produceGoods returned for undefined buildingBluePrint: " + result );
+        }
         done();
     });
 
-    xit( 'test produceGoods failure produces undefined' , function( done )
+    it( 'test produceGoods failure produces undefined' , function( done )
     {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.buildingBluePrint.produces = undefined;
+        testObj.inventory = {};
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        let result = bo.produceGoods( testObj );
+        if ( result )
+        {
+            assert.fail( "produceGoods returned for undefined produces: " + result );
+        }
         done();
     });
 
-    xit( 'test produceGoods failure produces invalid empty' , function( done )
+    it( 'test produceGoods failure produces invalid empty' , function( done )
     {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.buildingBluePrint.produces = {};
+        testObj.inventory = {};
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        let result = bo.produceGoods( testObj );
+        if ( result )
+        {
+            assert.fail( "produceGoods returned for empty produces: " + result );
+        }
         done();
     });
-    */
+
 
     //after() is run after all tests have completed.
     after( function( done )

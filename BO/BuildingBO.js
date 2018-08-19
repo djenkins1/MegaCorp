@@ -399,7 +399,6 @@ function hasNeeded( obj )
 //ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
 //returns the new inventory if updated or undefined otherwise
 //does not remove or check whether the needed materials are in the inventory
-/*
 function produceGoods( obj )
 {
     DEBUG_MODE && console.log( "Calling produceGoods in BuildingBO, obj:" , obj );
@@ -430,7 +429,7 @@ function produceGoods( obj )
     DEBUG_MODE && console.log( "BuildingBO.produceGoods: calling addGoods and returning result" );
     return addGoods( obj , obj.buildingBluePrint.produces );
 }
-*/
+
 
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
@@ -442,4 +441,4 @@ exports.addGoods = addGoods;
 exports.isFull = isFull;
 exports.removeGoods = removeGoods;
 exports.hasNeeded = hasNeeded;
-//exports.produceGoods = produceGoods;
+exports.produceGoods = produceGoods;

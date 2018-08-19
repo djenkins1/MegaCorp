@@ -40,6 +40,6 @@
         ]
     }
     ,"DebugMode": false
-    ,"DebugModeBO" : true
+    ,"DebugModeBO" : false
     ,"ID_KEY" : "_id"
 }
