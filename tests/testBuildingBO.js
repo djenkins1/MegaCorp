@@ -976,7 +976,7 @@ describe('TestBuildingBO', function()
         testObj.inventory = {
             [testGoodName] : testSum
         };
-        testObj.buildingBluePrint.maxGoods = testSum * 10;
+        testObj.buildingBluePrint.maxInventory = testSum * 10;
 
         let testGoods = {
             [testGoodName] : testValue
@@ -1002,7 +1002,7 @@ describe('TestBuildingBO', function()
         let testGoodName = "diamond";
         let otherGoodName = "spade";
         let testObj = mockDataList[ 0 ];
-        testObj.buildingBluePrint.maxGoods = testSum * 10;
+        testObj.buildingBluePrint.maxInventory = testSum * 10;
         testObj.inventory = {
             [testGoodName] : testSum,
             [otherGoodName] : testSum
@@ -1033,7 +1033,7 @@ describe('TestBuildingBO', function()
         let testGoodName = "diamond";
         let otherGoodName = "spade";
         let testObj = mockDataList[ 0 ];
-        testObj.buildingBluePrint.maxGoods = testSum * 10;
+        testObj.buildingBluePrint.maxInventory = testSum * 10;
         testObj.inventory = {
             [testGoodName] : testSum,
             [otherGoodName] : testSum
@@ -1067,7 +1067,7 @@ describe('TestBuildingBO', function()
         testObj.inventory = {
             [testGoodName] : testSum
         };
-        testObj.buildingBluePrint.maxGoods = testSum;
+        testObj.buildingBluePrint.maxInventory = testSum;
 
         let testGoods = {
             [testGoodName] : testValue
@@ -1119,7 +1119,7 @@ describe('TestBuildingBO', function()
         let testGoodName = "diamond"
         let testObj = mockDataList[ 0 ];
         testObj.inventory = undefined;
-        testObj.buildingBluePrint.maxGoods = testSum * 10;
+        testObj.buildingBluePrint.maxInventory = testSum * 10;
 
         let testGoods = {
             [testGoodName] : testValue
@@ -1162,7 +1162,7 @@ describe('TestBuildingBO', function()
         done();
     });
 
-    it( 'test addGoods failure maxGoods undefined' , function( done )
+    it( 'test addGoods failure maxInventory undefined' , function( done )
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
@@ -1177,7 +1177,7 @@ describe('TestBuildingBO', function()
         testObj.inventory = {
             [testGoodName] : testSum
         };
-        testObj.buildingBluePrint.maxGoods = undefined;
+        testObj.buildingBluePrint.maxInventory = undefined;
 
         let testGoods = {
             [testGoodName] : testValue
@@ -1186,12 +1186,12 @@ describe('TestBuildingBO', function()
         let result = bo.addGoods( testObj, testGoods );
         if ( result )
         {
-            assert.fail( "addGoods returned for undefined maxGoods: " + JSON.stringify( result ) );
+            assert.fail( "addGoods returned for undefined maxInventory: " + JSON.stringify( result ) );
         }
         done();
     });
 
-    it( 'test addGoods failure maxGoods non-integer' , function( done )
+    it( 'test addGoods failure maxInventory non-integer' , function( done )
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
@@ -1206,7 +1206,7 @@ describe('TestBuildingBO', function()
         testObj.inventory = {
             [testGoodName] : testSum
         };
-        testObj.buildingBluePrint.maxGoods = "nonIntegerStringValue";
+        testObj.buildingBluePrint.maxInventory = "nonIntegerStringValue";
 
         let testGoods = {
             [testGoodName] : testValue
@@ -1215,7 +1215,7 @@ describe('TestBuildingBO', function()
         let result = bo.addGoods( testObj, testGoods );
         if ( result )
         {
-            assert.fail( "addGoods returned for non-integer maxGoods: " + JSON.stringify( result ) );
+            assert.fail( "addGoods returned for non-integer maxInventory: " + JSON.stringify( result ) );
         }
         done();
     });
@@ -1235,7 +1235,7 @@ describe('TestBuildingBO', function()
         testObj.inventory = {
             [testGoodName] : testSum
         };
-        testObj.buildingBluePrint.maxGoods = testSum * 10;
+        testObj.buildingBluePrint.maxInventory = testSum * 10;
 
         let testGoods = undefined;
 
@@ -1262,7 +1262,7 @@ describe('TestBuildingBO', function()
         testObj.inventory = {
             [testGoodName] : testSum
         };
-        testObj.buildingBluePrint.maxGoods = testSum * 10;
+        testObj.buildingBluePrint.maxInventory = testSum * 10;
 
         let testGoods = {};
 
@@ -1293,7 +1293,7 @@ describe('TestBuildingBO', function()
         testObj.inventory = {
             [testGoodName] : testSum
         };
-        testObj.buildingBluePrint.maxGoods = testSum;
+        testObj.buildingBluePrint.maxInventory = testSum;
 
         let result = bo.isFull( testObj );
         assert.ok( result );
@@ -1314,7 +1314,7 @@ describe('TestBuildingBO', function()
         testObj.inventory = {
             [testGoodName] : testSum
         };
-        testObj.buildingBluePrint.maxGoods = testSum * 2;
+        testObj.buildingBluePrint.maxInventory = testSum * 2;
 
         let result = bo.isFull( testObj );
         if ( result )
@@ -1336,7 +1336,7 @@ describe('TestBuildingBO', function()
         let testGoodName = "diamond";
         let otherGoodName = "spade";
         let testObj = mockDataList[ 0 ];
-        testObj.buildingBluePrint.maxGoods = testSum * 2;
+        testObj.buildingBluePrint.maxInventory = testSum * 2;
         testObj.inventory = {
             [testGoodName] : testSum,
             [otherGoodName] : testSum
@@ -1359,7 +1359,7 @@ describe('TestBuildingBO', function()
         let testGoodName = "diamond";
         let otherGoodName = "spade";
         let testObj = mockDataList[ 0 ];
-        testObj.buildingBluePrint.maxGoods = testSum * 10;
+        testObj.buildingBluePrint.maxInventory = testSum * 10;
         testObj.inventory = {
             [testGoodName] : testSum,
             [otherGoodName] : testSum
@@ -1397,7 +1397,7 @@ describe('TestBuildingBO', function()
         let testGoodName = "diamond"
         let testObj = mockDataList[ 0 ];
         testObj.inventory = undefined;
-        testObj.buildingBluePrint.maxGoods = testSum * 2;
+        testObj.buildingBluePrint.maxInventory = testSum * 2;
 
         let result = bo.isFull( testObj );
         if ( result )
@@ -1431,7 +1431,7 @@ describe('TestBuildingBO', function()
         done();
     });
 
-    it( 'test isFull failure undefined maxGoods' , function( done )
+    it( 'test isFull failure undefined maxInventory' , function( done )
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
@@ -1445,17 +1445,17 @@ describe('TestBuildingBO', function()
         testObj.inventory = {
             [testGoodName] : testSum
         };
-        testObj.buildingBluePrint.maxGoods = undefined;
+        testObj.buildingBluePrint.maxInventory = undefined;
 
         let result = bo.isFull( testObj );
         if ( result )
         {
-            assert.fail( "isFull returned for undefined maxGoods: " + result );
+            assert.fail( "isFull returned for undefined maxInventory: " + result );
         }
         done();
     });
 
-    it( 'test isFull failure non-integer maxGoods' , function( done )
+    it( 'test isFull failure non-integer maxInventory' , function( done )
     {
         let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
         assert.ok( mockDataList );
@@ -1469,12 +1469,12 @@ describe('TestBuildingBO', function()
         testObj.inventory = {
             [testGoodName] : testSum
         };
-        testObj.buildingBluePrint.maxGoods = "3oh3";
+        testObj.buildingBluePrint.maxInventory = "3oh3";
 
         let result = bo.isFull( testObj );
         if ( result )
         {
-            assert.fail( "isFull returned for non-integer maxGoods: " + result );
+            assert.fail( "isFull returned for non-integer maxInventory: " + result );
         }
         done();
     });
@@ -1725,7 +1725,7 @@ describe('TestBuildingBO', function()
 
         let testObj = mockDataList[ 0 ];
         testObj.inventory = JSON.parse( JSON.stringify( testObj.buildingBluePrint.productionCost ) );
-        mockDataList[ 0 ].buildingBluePrint.maxGoods = 1000;
+        mockDataList[ 0 ].buildingBluePrint.maxInventory = 1000;
         for ( var good in testObj.inventory )
         {
             testObj.inventory[ good ] *= 2;
@@ -1747,7 +1747,7 @@ describe('TestBuildingBO', function()
 
         let testObj = mockDataList[ 0 ];
         testObj.inventory = JSON.parse( JSON.stringify( testObj.buildingBluePrint.productionCost ) );
-        mockDataList[ 0 ].buildingBluePrint.maxGoods = 1000;
+        mockDataList[ 0 ].buildingBluePrint.maxInventory = 1000;
         for ( var good in testObj.inventory )
         {
             testObj.inventory[ good ] -= 2;
@@ -1882,6 +1882,191 @@ describe('TestBuildingBO', function()
         }
         done();
     });
+
+    /*
+    ===========
+    produceGoods testing begins
+    ===========
+    */
+    /*
+    it( 'test produceGoods success single good empty inventory' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Keys";
+        let testValue = 10;
+
+        testObj.buildingBluePrint.produces = {
+            [testGood] : testValue
+        };
+
+        testObj.inventory = {};
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        let result = bo.produceGoods( testObj );
+        assert.ok( result );
+        assert.deepEqual( result, testObj.inventory );
+        assert.equal( testObj.inventory[ testGood ] , testValue );
+        done();
+    });
+
+    it( 'test produceGoods success multiple goods empty inventory' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Keys";
+        let otherTestGood = "Water";
+        let testValue = 10;
+        let otherTestValue = 15;
+        testObj.buildingBluePrint.produces = {
+            [testGood] : testValue,
+            [otherTestGood] : otherTestValue
+        };
+
+        testObj.inventory = {};
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        let result = bo.produceGoods( testObj );
+        assert.ok( result );
+        assert.deepEqual( result, testObj.inventory );
+        assert.equal( testObj.inventory[ testGood ] , testValue );
+        assert.equal( testObj.inventory[ otherTestGood ] , otherTestValue );
+        done();
+    });
+
+    it( 'test produceGoods success single good partial inventory' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Keys";
+        let otherTestGood = "Water";
+        let otherTestValue = 15;
+        let testValue = 10;
+
+        testObj.buildingBluePrint.produces = {
+            [testGood] : testValue
+        };
+
+        testObj.inventory = {
+            [testGood] : testValue,
+            [otherTestGood] : otherTestValue
+        };
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        let result = bo.produceGoods( testObj );
+        assert.ok( result );
+        assert.deepEqual( result, testObj.inventory );
+        assert.equal( testObj.inventory[ testGood ] , testValue * 2 );
+        assert.equal( testObj.inventory[ otherTestGood ] , otherTestValue );
+        done();
+    });
+
+    it( 'test produceGoods success multiple goods partial inventory' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Keys";
+        let otherTestGood = "Water";
+        let otherTestValue = 15;
+        let testValue = 10;
+
+        testObj.buildingBluePrint.produces = {
+            [testGood] : testValue,
+            [otherTestGood] : otherTestValue
+        };
+
+        testObj.inventory = {
+            [testGood] : testValue,
+            [otherTestGood] : otherTestValue
+        };
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        let result = bo.produceGoods( testObj );
+        assert.ok( result );
+        assert.deepEqual( result, testObj.inventory );
+        assert.equal( testObj.inventory[ testGood ] , testValue * 2 );
+        assert.equal( testObj.inventory[ otherTestGood ] , otherTestValue * 2 );
+        done();
+    });
+
+    it( 'test produceGoods failure not enough space' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Keys";
+        let testValue = 10;
+        testObj.buildingBluePrint.produces = {
+            [testGood] : testValue
+        };
+
+        testObj.inventory = {};
+        testObj.buildingBluePrint.maxInventory = testValue - 2;
+
+        let result = bo.produceGoods( testObj );
+        if ( result )
+        {
+            assert.fail( "produceGoods returned for not enough space: " + result );
+        }
+        done();
+    });
+
+    it( 'test produceGoods failure obj undefined' , function( done )
+    {
+        let testObj = undefined;
+
+        let result = bo.produceGoods( testObj );
+        if ( result )
+        {
+            assert.fail( "produceGoods returned undefined obj: " + result );
+        }
+        done();
+    });
+
+    xit( 'test produceGoods failure inventory undefined' , function( done )
+    {
+        done();
+    });
+
+    xit( 'test produceGoods failure buildingBluePrint undefined' , function( done )
+    {
+        done();
+    });
+
+    xit( 'test produceGoods failure produces undefined' , function( done )
+    {
+        done();
+    });
+
+    xit( 'test produceGoods failure produces invalid empty' , function( done )
+    {
+        done();
+    });
+    */
 
     //after() is run after all tests have completed.
     after( function( done )

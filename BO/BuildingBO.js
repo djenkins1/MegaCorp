@@ -6,7 +6,6 @@ const inventoryMod = require( "./InventoryModule" );
 /*
 
 After InventoryModule:
-    ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
     UseNeeded,remove goods needed for producing(NO UPDATE DB YET)
 
 Database:
@@ -277,15 +276,15 @@ function addGoods( obj, goods )
         return undefined;
     }
 
-    if ( obj.buildingBluePrint.maxGoods == undefined )
+    if ( obj.buildingBluePrint.maxInventory == undefined )
     {
-        DEBUG_MODE && console.log( "BuildingBO.addGoods: maxGoods undefined" );
+        DEBUG_MODE && console.log( "BuildingBO.addGoods: maxInventory undefined" );
         return undefined;
     }
 
-    if ( !Number.isInteger( obj.buildingBluePrint.maxGoods ) )
+    if ( !Number.isInteger( obj.buildingBluePrint.maxInventory ) )
     {
-        DEBUG_MODE && console.log( "BuildingBO.addGoods: maxGoods non-integer" );
+        DEBUG_MODE && console.log( "BuildingBO.addGoods: maxInventory non-integer" );
         return undefined;
     }
 
@@ -296,7 +295,7 @@ function addGoods( obj, goods )
     }
 
     DEBUG_MODE && console.log( "BuildingBO.addGoods: returning from addGoods call"  );
-    return inventoryMod.addGoods( obj.inventory, goods , obj.buildingBluePrint.maxGoods );
+    return inventoryMod.addGoods( obj.inventory, goods , obj.buildingBluePrint.maxInventory );
 }
 
 //IsFull,return true if inventory is filled to max space or false otherwise
@@ -321,20 +320,20 @@ function isFull( obj )
         return undefined;
     }
 
-    if ( obj.buildingBluePrint.maxGoods == undefined )
+    if ( obj.buildingBluePrint.maxInventory == undefined )
     {
         DEBUG_MODE && console.log( "BuildingBO.isFull: maxGoods undefined" );
         return undefined;
     }
 
-    if ( !Number.isInteger( obj.buildingBluePrint.maxGoods ) )
+    if ( !Number.isInteger( obj.buildingBluePrint.maxInventory ) )
     {
         DEBUG_MODE && console.log( "BuildingBO.isFull: maxGoods non-integer" );
         return undefined;
     }
 
     DEBUG_MODE && console.log( "BuildingBO.isFull: returning from isFull call"  );
-    return inventoryMod.isFull( obj.inventory, obj.buildingBluePrint.maxGoods );
+    return inventoryMod.isFull( obj.inventory, obj.buildingBluePrint.maxInventory );
 }
 
 //RemoveGoods,remove goods from inventory(NO UPDATE DB YET)
@@ -397,6 +396,42 @@ function hasNeeded( obj )
     return hasGoods( obj, obj.buildingBluePrint.productionCost );
 }
 
+//ProduceGoods,add the goods that are produced to inventory(NO UPDATE DB YET)
+//returns the new inventory if updated or undefined otherwise
+//does not remove or check whether the needed materials are in the inventory
+/*
+function produceGoods( obj )
+{
+    DEBUG_MODE && console.log( "Calling produceGoods in BuildingBO, obj:" , obj );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.produceGoods: obj undefined" );
+        return undefined;
+    }
+
+    if ( obj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.produceGoods: obj.inventory undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.produceGoods: obj.buildingBluePrint undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint.produces == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.produceGoods: buildingBluePrint.produces undefined" );
+        return undefined;
+    }
+
+    DEBUG_MODE && console.log( "BuildingBO.produceGoods: calling addGoods and returning result" );
+    return addGoods( obj , obj.buildingBluePrint.produces );
+}
+*/
+
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
 exports.addDamage = addDamage;
@@ -407,3 +442,4 @@ exports.addGoods = addGoods;
 exports.isFull = isFull;
 exports.removeGoods = removeGoods;
 exports.hasNeeded = hasNeeded;
+//exports.produceGoods = produceGoods;
