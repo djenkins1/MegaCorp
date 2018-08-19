@@ -2133,6 +2133,262 @@ describe('TestBuildingBO', function()
         done();
     });
 
+    /*
+    ===========
+    useNeeded testing begins
+    ===========
+    */
+    it( 'test useNeeded success single good single inventory' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Trouble";
+        let testValue = 10;
+        let testTotal = 25;
+
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        testObj.buildingBluePrint.productionCost = {
+            [testGood] : testValue
+        };
+
+        testObj.inventory = {
+            [testGood] : testTotal
+        };
+
+        let result = bo.useNeeded( testObj );
+        assert.ok( result );
+        assert.deepEqual( result, testObj.inventory );
+        assert.equal( testObj.inventory[ testGood ] , testTotal - testValue );
+        done();
+    });
+
+    it( 'test useNeeded success single good multiple inventory' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Trouble";
+        let testValue = 10;
+        let testTotal = 25;
+        let otherTestGood = "Problem";
+        let otherTestValue = 12;
+
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        testObj.buildingBluePrint.productionCost = {
+            [testGood] : testValue
+        };
+
+        testObj.inventory = {
+            [testGood] : testTotal,
+            [otherTestGood] : otherTestValue
+        };
+
+        let result = bo.useNeeded( testObj );
+        assert.ok( result );
+        assert.deepEqual( result, testObj.inventory );
+        assert.equal( testObj.inventory[ testGood ] , testTotal - testValue );
+        assert.equal( testObj.inventory[ otherTestGood ] , otherTestValue );
+        done();
+    });
+
+    it( 'test useNeeded success multiple good multiple inventory' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Trouble";
+        let testValue = 10;
+        let testTotal = 25;
+        let otherTestGood = "Problem";
+        let otherTestValue = 12;
+
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        testObj.buildingBluePrint.productionCost = {
+            [testGood] : testValue,
+            [otherTestGood] : testValue
+        };
+
+        testObj.inventory = {
+            [testGood] : testTotal,
+            [otherTestGood] : otherTestValue
+        };
+
+        let result = bo.useNeeded( testObj );
+        assert.ok( result );
+        assert.deepEqual( result, testObj.inventory );
+        assert.equal( testObj.inventory[ testGood ] , testTotal - testValue );
+        assert.equal( testObj.inventory[ otherTestGood ] , otherTestValue - testValue );
+        done();
+    });
+
+    it( 'test useNeeded failure not enough single good' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Trouble";
+        let testValue = 10;
+        let testTotal = testValue - 2;
+
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        testObj.buildingBluePrint.productionCost = {
+            [testGood] : testValue
+        };
+
+        testObj.inventory = {
+            [testGood] : testTotal
+        };
+
+        let result = bo.useNeeded( testObj );
+        if ( result )
+        {
+            assert.fail( "useNeeded returned for not enough goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test useNeeded failure not enough multiple good' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Trouble";
+        let otherTestGood = "Problem";
+        let testValue = 10;
+        let testTotal = testValue - 2;
+        let otherTestValue = 12;
+
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        testObj.buildingBluePrint.productionCost = {
+            [testGood] : testValue,
+            [otherTestGood] : testValue
+        };
+
+        testObj.inventory = {
+            [testGood] : testTotal,
+            [otherTestGood] : otherTestValue
+        };
+
+        let result = bo.useNeeded( testObj );
+        if ( result )
+        {
+            assert.fail( "useNeeded returned for not enough goods: " + result );
+        }
+        done();
+    });
+
+    it( 'test useNeeded failure obj undefined' , function( done )
+    {
+        let testObj = undefined;
+
+        let result = bo.useNeeded( testObj );
+        if ( result )
+        {
+            assert.fail( "useNeeded returned for undefined obj: " + result );
+        }
+        done();
+    });
+
+    it( 'test useNeeded failure inventory undefined' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Trouble";
+        let testValue = 10;
+
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        testObj.buildingBluePrint.productionCost = {
+            [testGood] : testValue
+        };
+
+        testObj.inventory = undefined;
+
+        let result = bo.useNeeded( testObj );
+        if ( result )
+        {
+            assert.fail( "useNeeded returned for undefined inventory: " + result );
+        }
+        done();
+    });
+
+    it( 'test useNeeded failure buildingBluePrint undefined' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Trouble";
+        let testValue = 10;
+
+        testObj.buildingBluePrint = undefined;
+        testObj.inventory = {};
+
+        let result = bo.useNeeded( testObj );
+        if ( result )
+        {
+            assert.fail( "useNeeded returned for undefined buildingBluePrint: " + result );
+        }
+        done();
+    });
+
+    it( 'test useNeeded failure productionCost undefined' , function( done )
+    {
+        let mockDataList = JSON.parse( JSON.stringify( require( "../sampleData/testData/buildingsWithBluePrints.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+        assert.ok( mockDataList[ 0 ].buildingBluePrint );
+
+        let testObj = mockDataList[ 0 ];
+        let testGood = "Trouble";
+        let testValue = 10;
+
+        testObj.buildingBluePrint.maxInventory = 100;
+
+        testObj.buildingBluePrint.productionCost = undefined;
+        testObj.inventory = {};
+
+        let result = bo.useNeeded( testObj );
+        if ( result )
+        {
+            assert.fail( "useNeeded returned for undefined productionCost: " + result );
+        }
+        done();
+    });
 
     //after() is run after all tests have completed.
     after( function( done )

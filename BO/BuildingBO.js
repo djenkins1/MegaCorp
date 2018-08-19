@@ -2,12 +2,7 @@ const buildingDAO = require( "../Data/BuildingDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 const inventoryMod = require( "./InventoryModule" );
-
 /*
-
-After InventoryModule:
-    UseNeeded,remove goods needed for producing(NO UPDATE DB YET)
-
 Database:
     SaveBuilding,save the changes made to the building object to the database
     AllBuildings,return all buildings in the database
@@ -430,6 +425,44 @@ function produceGoods( obj )
     return addGoods( obj , obj.buildingBluePrint.produces );
 }
 
+//UseNeeded,remove goods needed for producing(NO UPDATE DB YET)
+//returns the new inventory if updated or undefined otherwise
+//does not produce goods associated with the needed goods
+function useNeeded( obj )
+{
+    DEBUG_MODE && console.log( "Calling useNeeded in BuildingBO, obj:" , obj );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.useNeeded: obj undefined" );
+        return undefined;
+    }
+
+    if ( obj.inventory == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.useNeeded: inventory undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.useNeeded: buildingBluePrint undefined" );
+        return undefined;
+    }
+
+    if ( obj.buildingBluePrint.productionCost == undefined )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.useNeeded: productionCost undefined" );
+        return undefined;
+    }
+
+    if ( !hasNeeded( obj ) )
+    {
+        DEBUG_MODE && console.log( "BuildingBO.useNeeded: obj does not have needed" );
+        return undefined;
+    }
+
+    return removeGoods( obj, obj.buildingBluePrint.productionCost );
+}
 
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
@@ -442,3 +475,4 @@ exports.isFull = isFull;
 exports.removeGoods = removeGoods;
 exports.hasNeeded = hasNeeded;
 exports.produceGoods = produceGoods;
+exports.useNeeded = useNeeded;

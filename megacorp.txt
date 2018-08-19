@@ -75,7 +75,7 @@ Ship(DONE)
         CreateShip,Creates a new ship and adds it to the database
         DefaultObj,Returns the default prototype for a new object
 
-Building(Needs BusinessObject)
+Building(Needs full BusinessObject implementation)
     ID,Name,BuildingTypeName,BuildingBluePrint(OBJ),PlanetID,CompanyID,Inventory: []
     BO:
         SumGoods,returns the sum total of all the goods in the building inventory(Not including @ goods)
