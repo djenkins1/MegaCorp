@@ -2,13 +2,6 @@ const buildingDAO = require( "../Data/BuildingDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 const inventoryMod = require( "./InventoryModule" );
-/*
-Database:
-    SaveBuilding,save the changes made to the building object to the database
-    AllBuildings,return all buildings in the database
-    CreateBuilding,insert a new building into database
-    DefaultObj,Returns the default prototype for a new object
-*/
 
 //ChangeName,changes name of the building(NO UPDATE DB YET)
 //returns the new name of the building or undefined otherwise
@@ -464,6 +457,68 @@ function useNeeded( obj )
     return removeGoods( obj, obj.buildingBluePrint.productionCost );
 }
 
+//DefaultObj,Returns the default prototype for a new object
+function defaultObj()
+{
+    return {
+        "name" : "",
+        "buildingTypeName" : "",
+        "damage" : 0,
+        "buildingBluePrint" : {},
+        "planetId" : "",
+        "companyId" : "",
+        "inventory" : {}
+    };
+}
+
+//SaveBuilding,save the changes made to the building object to the database
+function saveBuilding( obj, onFinish )
+{
+    //create a new building object
+    var protoObj = defaultObj();
+
+    //assign each of the properties to the one in obj parameter
+    for ( var prop in protoObj )
+    {
+        protoObj[ prop ] = obj[ prop ];
+    }
+
+    //assign the id field of the new object to the old obj parameter id
+    protoObj[ ID_KEY ] = obj[ ID_KEY ];
+
+    buildingDAO.updateBuilding( protoObj , function( err , result )
+    {
+        onFinish( err , protoObj );
+    });
+}
+
+//AllBuildings,return all buildings in the database
+function allBuildings( onFinish )
+{
+    buildingDAO.getAllBuildings( onFinish );
+}
+
+//CreateBuilding,insert a new building into database
+function createBuilding( obj , onFinish )
+{
+    //create a new company object
+    var protoObj = defaultObj();
+
+    //assign each of the properties to the one in obj parameter
+    for ( var prop in protoObj )
+    {
+        protoObj[ prop ] = obj[ prop ];
+    }
+
+    //assign the id field of the new object to the obj parameter id
+    if ( obj[ ID_KEY ] )
+    {
+        protoObj[ ID_KEY ] = obj[ ID_KEY ];
+    }
+
+    buildingDAO.createBuilding( protoObj , onFinish );
+}
+
 exports.changeName = changeName;
 exports.changeCompany = changeCompany;
 exports.addDamage = addDamage;
@@ -474,5 +529,12 @@ exports.addGoods = addGoods;
 exports.isFull = isFull;
 exports.removeGoods = removeGoods;
 exports.hasNeeded = hasNeeded;
+
 exports.produceGoods = produceGoods;
 exports.useNeeded = useNeeded;
+
+exports.defaultObj = defaultObj;
+
+exports.saveBuilding = saveBuilding;
+exports.allBuildings = allBuildings;
+exports.createBuilding = createBuilding;

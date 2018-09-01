@@ -174,10 +174,6 @@ describe('TestShipBO_Save', function()
         testSave.testValueUpdates( useFuncs, shipObj, updateCommands, done );
     });
 
-
-
-
-
     it( 'test createShip success with custom id' , function(done)
     {
         //clone the object list from the json file so as to not have problems with cached requires
