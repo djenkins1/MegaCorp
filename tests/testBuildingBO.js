@@ -1,8 +1,6 @@
 const assert = require('assert');
 const dataAPI = require( '../Data/DataAPI' );
-const dao = require( '../Data/BuildingDAO' );
 const bo = require( '../BO/BuildingBO' );
-const TABLE_NAME = dao.tableName;
 
 //This test file does not test database functionality
 describe('TestBuildingBO', function()

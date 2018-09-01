@@ -42,4 +42,5 @@
     ,"DebugMode": false
     ,"DebugModeBO" : false
     ,"ID_KEY" : "_id"
+    ,"MAX_TAX_RATE" : 0.25
 }
