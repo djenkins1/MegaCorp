@@ -1,5 +1,6 @@
 //dao imports
 const planetDAO = require( "../Data/PlanetDAO" );
+const shipDAO = require( "../Data/ShipDAO" );
 const systemDAO = require( "../Data/SystemDAO" );
 //constants
 const DEBUG_MODE = require('config').get('DebugModeBO');

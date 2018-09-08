@@ -135,6 +135,10 @@ ServerInfo(Needs Business Object)
         CreateInfo,insert a new info object into the database
         DefaultObj,Returns the default prototype for a new object
 
+MVP:
+    Get all ships that are traveling and move ships across locations and use fuel
+        cannot use GetShipsTraveling in SystemBO because ships can be between two systems(outside any system)
+
 ============
 Phase 2 Start
 ============
@@ -157,27 +161,32 @@ MoneyTransact(Needs DAO/JSON sample data populated/Business Object)
         CreateMoneyTransact
         AllMoneyTransact
         DefaultObj,Returns the default prototype for a new object
+    NOTES:
+        need to get transactions from specific companies for listing to user
 
 GoodTransact(Needs DAO/JSON sample data populated/Business Object)
-    ID,FromId,ToId,FromType,ToType,StarDate,Reason
+    ID,FromId,ToId,FromType,ToType,FromCompany,ToCompany,StarDate,Reason
+    BO:
+        CreateGoodTransact
+        AllGoodTransact
+        DefaultObj,Returns the default prototype for a new object
+    NOTES:
+        need to get transactions from specific companies for listing to user
 
-
-
-
-
-============
-Phase 3 Start
-============
 Offer(Needs Business Object)
-    ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated,OfferType(Buy/Sell),IsFilled,Priority,Goods: []
+    ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated,OfferType(Buy/Sell),IsFilled,Goods: []
     BO:
         UpdatePrice,updates the price of the offer(NO UPDATE DB YET)
         SetFilled,sets that the offer is filled(NO UPDATE DB YET)
-        UpdatePriority,updates the priority of the offer(NO UPDATE DB YET)
         SaveOffer,updates the offer in the database
         AllOffers,returns all offers in the database
         CreateOffer,creates a new offer and inserts into the database
         DefaultObj,Returns the default prototype for a new object
+    NOTES:
+        make sure companies cannot fulfill their own offers(might result in price fixing)
+        removed priority from attributes as it seems not needed for offers
+        need to get unfulfilled offers for particular star date
+        need to get filled offers for particular star date
 
 Transfer(Needs Business Object)
     ID,BuildingFromID,BuildingToID,CompanyID,PlanetID,IsFilled,StarDateCreated,Priority,Goods: []
@@ -188,7 +197,26 @@ Transfer(Needs Business Object)
         AllTransfers,returns all transfers in the database
         CreateTransfer,creates a new transfer and inserts into the database
         DefaultObj,Returns the default prototype for a new object
+    NOTES:
+        make sure company is owner of both buildings
+        need to get unfulfilled transfers for particular star date
+        need to get filled transfers for particular star date
 
+MVP:
+    Move goods between buildings of same owner via Transfers
+        order by priority ascending,priority of 1 is highest priority
+        log transactions in GoodTransact table
+    Move goods between buildings/ships of same owner manually
+        log transactions in GoodTransact table
+    Move goods between ships/buildings of different owners via Offers
+        log transactions in MoneyTransact and GoodTransact tables
+    Produce goods by going through each building in each system
+    Update prices based on offers that were filled in specific star date
+
+
+============
+Phase 3 Start
+============
 ShipBluePrint(Needs BusinessObject)
     ID,Name,MaxInventory,MaxDamage,Speed,Range,Size,Employees,LaborCost,WeaponTypeName,WeaponBluePrint(OBJ),FuelCost: [],ResourceCost(CONSTRUCT): []
     BO:
@@ -211,7 +239,16 @@ WeaponBluePrint(Needs BusinessObject)
         AllBluePrints,returns all weapon blueprints in the database
         DefaultObj,Returns the default prototype for a new object
 
+ShipConstruction(NEEDS DAO/JSON sample data/Business Object)
+    ID,buildingId,planetId,companyId,shipTypeName,shipBluePrint,StarDate,IsFilled,Price
 
+BuildingConstruction(NEEDS DAO/JSON sample data/Business Object)
+    ID,buildingId,planetId,companyId,BuildingTypeName,buildingBluePrint,StarDate,IsFilled,Price
+
+MVP:
+    Be able to construct new buildings based on BuildingConstruction table
+    Be able to construct new ships based on ShipConstruction table
+    Ship combat(?)
 
 ============
 Phase 4 Start
@@ -240,12 +277,9 @@ RevolveTransfer(Needs JSON sample data populated/Business Object)
         CreateRevolveTransfer,creates a new revolve transfer and inserts into the database
         DefaultObj,Returns the default prototype for a new object
 
-ShipConstruction(NEEDS DAO/JSON sample data/Business Object)
-    ID,buildingId,planetId,companyId,shipTypeName,shipBluePrint,StarDate,IsFilled,Price
 
-BuildingConstruction(NEEDS DAO/JSON sample data/Business Object)
-    ID,buildingId,planetId,companyId,BuildingTypeName,buildingBluePrint,StarDate,IsFilled,Price
-
+MVP:
+    Create new transfers/offers from revolving at end of each turn
 
 
 
