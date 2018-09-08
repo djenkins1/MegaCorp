@@ -1,22 +1,17 @@
+//dao imports
 const planetDAO = require( "../Data/PlanetDAO" );
 const shipDAO = require( "../Data/ShipDAO" );
+const companyDAO = require( "../Data/CompanyDAO" );
+const buildingDAO = require( "../Data/BuildingDAO" );
+//constants
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 const MAX_TAX_RATE = require('config').get('MAX_TAX_RATE');
 
 /*
-DB(Reads):
-GetAllBuildings,Returns all buildings that are on the planet
-    buildingDAO.getBuildingsOnPlanet( planetId, onFinish )
-GetCompaniesByHQ,Returns all companies that have headquarters on planet
-    companyDAO.getCompaniesByHq( planetId, onFinish )
-
 DB(Modifications):
 SavePlanet,Saves any changes to the planet to the database
-AllPlanets,Returns all planets in the database
 CreatePlanet,Creates a new planet and adds it to the database
-
-DefaultObj,Returns the default prototype for a new object
 */
 
 //ChangeTaxes,changes the tax rate of the planet(NO UPDATE DB YET)
@@ -340,6 +335,44 @@ function getDockedShips( obj, onFinish )
     shipDAO.getShipsAtLocation( obj.location, onFinish );
 }
 
+//GetAllBuildings,Returns all buildings that are on the planet
+//passes along resulting list to onFinish function
+function getAllBuildings( obj, onFinish )
+{
+    DEBUG_MODE && console.log( "Calling getAllBuildings in PlanetBO" );
+    buildingDAO.getBuildingsOnPlanet( obj[ ID_KEY ], onFinish );
+}
+
+//GetCompaniesByHQ,Returns all companies that have headquarters on planet
+//passes along resulting list to onFinish function
+function getCompaniesByHq( obj , onFinish )
+{
+    DEBUG_MODE && console.log( "Calling getCompaniesByHq in PlanetBO" );
+    companyDAO.getCompaniesByHq( obj[ ID_KEY ], onFinish );
+}
+
+//AllPlanets,Returns all planets in the database
+//passes along resulting list to onFinish function
+function allPlanets( onFinish )
+{
+    planetDAO.getAllPlanets( onFinish );
+}
+
+//DefaultObj,Returns the default prototype for a new object
+function defaultObj()
+{
+    return {
+        "name" : "",
+        "taxes" : 0.0,
+        "money" : 0,
+        "atmosphere" : "",
+        "composition" : "",
+        "systemId" : "",
+        "population" : 0,
+        "location" : {}
+    };
+}
+
 exports.changeTaxes = changeTaxes;
 exports.changeName = changeName;
 exports.addMoney = addMoney;
@@ -347,4 +380,10 @@ exports.removeMoney = removeMoney;
 exports.addPopulation = addPopulation;
 exports.removePopulation = removePopulation;
 
+//wrapper functions already tested in DAO tests
 exports.getDockedShips = getDockedShips;
+exports.getAllBuildings = getAllBuildings;
+exports.getCompaniesByHq = getCompaniesByHq;
+exports.allPlanets = allPlanets;
+
+exports.defaultObj = defaultObj;
