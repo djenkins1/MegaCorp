@@ -8,12 +8,6 @@ const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 const MAX_TAX_RATE = require('config').get('MAX_TAX_RATE');
 
-/*
-DB(Modifications):
-SavePlanet,Saves any changes to the planet to the database
-CreatePlanet,Creates a new planet and adds it to the database
-*/
-
 //ChangeTaxes,changes the tax rate of the planet(NO UPDATE DB YET)
 //returns the new tax rate if updated or undefined otherwise
 function changeTaxes( obj, newRate )
@@ -373,12 +367,58 @@ function defaultObj()
     };
 }
 
+//CreatePlanet,Creates a new planet and adds it to the database
+function createPlanet( obj , onFinish )
+{
+    //create a new building object
+    var protoObj = defaultObj();
+
+    //assign each of the properties to the one in obj parameter
+    for ( var prop in protoObj )
+    {
+        protoObj[ prop ] = obj[ prop ];
+    }
+
+    //assign the id field of the new object to the obj parameter id
+    if ( obj[ ID_KEY ] )
+    {
+        protoObj[ ID_KEY ] = obj[ ID_KEY ];
+    }
+
+    planetDAO.createPlanet( protoObj , onFinish );
+}
+
+//SavePlanet,Saves any changes to the planet to the database
+function savePlanet( obj, onFinish )
+{
+    //create a new object
+    var protoObj = defaultObj();
+
+    //assign each of the properties to the one in obj parameter
+    for ( var prop in protoObj )
+    {
+        protoObj[ prop ] = obj[ prop ];
+    }
+
+    //assign the id field of the new object to the old obj parameter id
+    protoObj[ ID_KEY ] = obj[ ID_KEY ];
+
+    planetDAO.updatePlanet( protoObj , function( err , result )
+    {
+        onFinish( err , protoObj );
+    });
+}
+
 exports.changeTaxes = changeTaxes;
 exports.changeName = changeName;
 exports.addMoney = addMoney;
 exports.removeMoney = removeMoney;
 exports.addPopulation = addPopulation;
 exports.removePopulation = removePopulation;
+
+//modification db functions
+exports.createPlanet = createPlanet;
+exports.savePlanet = savePlanet;
 
 //wrapper functions already tested in DAO tests
 exports.getDockedShips = getDockedShips;

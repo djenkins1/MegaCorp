@@ -501,7 +501,7 @@ function allBuildings( onFinish )
 //CreateBuilding,insert a new building into database
 function createBuilding( obj , onFinish )
 {
-    //create a new company object
+    //create a new object
     var protoObj = defaultObj();
 
     //assign each of the properties to the one in obj parameter
