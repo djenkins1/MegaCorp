@@ -254,6 +254,8 @@ NOTES:
 
     Need to verify that goods are > 0 for ShipBO.checkValidGoods
 
+    When importing planets need to set location to system and z-index already in location
+
     Need to convert everything to integer when adding/removing(goods/money...)
 
     Need to add deleteObj to each module for removing from db

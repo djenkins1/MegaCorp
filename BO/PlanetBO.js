@@ -7,7 +7,9 @@ const MAX_TAX_RATE = require('config').get('MAX_TAX_RATE');
 /*
 DB(Reads):
 GetAllBuildings,Returns all buildings that are on the planet
+    buildingDAO.getBuildingsOnPlanet( planetId, onFinish )
 GetCompaniesByHQ,Returns all companies that have headquarters on planet
+    companyDAO.getCompaniesByHq( planetId, onFinish )
 
 DB(Modifications):
 SavePlanet,Saves any changes to the planet to the database
