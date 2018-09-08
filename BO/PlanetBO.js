@@ -1,11 +1,11 @@
 const planetDAO = require( "../Data/PlanetDAO" );
+const shipDAO = require( "../Data/ShipDAO" );
 const DEBUG_MODE = require('config').get('DebugModeBO');
 const ID_KEY = require('config').get('ID_KEY');
 const MAX_TAX_RATE = require('config').get('MAX_TAX_RATE');
 
 /*
 DB(Reads):
-GetDockedShips,Returns all ships that are docked on planet(Have Z in location that matches planet's Z)
 GetAllBuildings,Returns all buildings that are on the planet
 GetCompaniesByHQ,Returns all companies that have headquarters on planet
 
@@ -330,9 +330,19 @@ function removePopulation( obj, removeAmount )
     return obj.population;
 }
 
+//GetDockedShips,Returns all ships that are docked on planet(Have Z in location that matches planet's Z)
+//passes along resulting list to onFinish function
+function getDockedShips( obj, onFinish )
+{
+    DEBUG_MODE && console.log( "Calling getDockedShips in PlanetBO" );
+    shipDAO.getShipsAtLocation( obj.location, onFinish );
+}
+
 exports.changeTaxes = changeTaxes;
 exports.changeName = changeName;
 exports.addMoney = addMoney;
 exports.removeMoney = removeMoney;
 exports.addPopulation = addPopulation;
 exports.removePopulation = removePopulation;
+
+exports.getDockedShips = getDockedShips;
