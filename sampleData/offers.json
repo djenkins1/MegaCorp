@@ -8,7 +8,6 @@
         "starDateCreated" : "1234.5",
         "offerType" : "buy",
         "isFilled" : false,
-        "priority" : 1,
         "goods" : { "@Power" : 50 }
     },
     {
@@ -20,8 +19,6 @@
         "starDateCreated" : "1234.5",
         "offerType" : "sell",
         "isFilled" : true,
-        "priority" : 1,
         "goods" : {"Steel" : 10}
     }
 ]
-
