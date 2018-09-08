@@ -4,7 +4,6 @@ const ID_KEY = require('config').get('ID_KEY');
 const MAX_TAX_RATE = require('config').get('MAX_TAX_RATE');
 
 /*
-RemoveMoney,Removes money from the planet(NO UPDATE DB YET)
 AddPopulation,Adds population to the planet(NO UPDATE DB YET)
 RemovePopulation,Removes population from the planet(NO UPDATE DB YET)
 
@@ -141,6 +140,72 @@ function addMoney( obj, addAmount )
     return obj.money;
 }
 
+//RemoveMoney,Removes money from the planet(NO UPDATE DB YET)
+//returns the new amount if updated or undefined otherwise
+function removeMoney( obj, removeAmount )
+{
+    DEBUG_MODE && console.log( "Calling removeMoney in PlanetBO, removeAmount: " , removeAmount );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removeMoney: obj is undefined" );
+        return undefined;
+    }
+
+    if ( obj.money == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removeMoney: old money is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( obj.money ) )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removeMoney: old money is not an integer" );
+        return undefined;
+    }
+
+    let oldAmountParsed = parseInt( obj.money, 10 );
+    DEBUG_MODE && console.log( "PlanetBO.removeMoney: oldAmountParsed, " + str( oldAmountParsed ) );
+
+    if ( oldAmountParsed < 0 )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removeMoney: old amount is negative" );
+        return undefined;
+    }
+
+    if ( removeAmount == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removeMoney: removeAmount is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( removeAmount ) )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removeMoney: removeAmount is not an integer" );
+        return undefined;
+    }
+
+    let removeAmountParsed = parseInt( removeAmount, 10 );
+    DEBUG_MODE && console.log( "PlanetBO.removeMoney: removeAmountParsed, " + str( removeAmountParsed ) );
+
+    if ( removeAmountParsed <= 0 )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removeMoney: removeAmount must be > 0" );
+        return undefined;
+    }
+
+    if ( oldAmountParsed < removeAmountParsed )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removeMoney: removeAmount must be less than old amount" );
+        return undefined;
+    }
+
+    obj.money = oldAmountParsed - removeAmountParsed;
+    DEBUG_MODE && console.log( "PlanetBO.removeMoney: new money, " + str( obj.money ) );
+    DEBUG_MODE && console.log( "PlanetBO.removeMoney: removed money successfully" );
+    return obj.money;
+}
+
 exports.changeTaxes = changeTaxes;
 exports.changeName = changeName;
 exports.addMoney = addMoney;
+exports.removeMoney = removeMoney;
