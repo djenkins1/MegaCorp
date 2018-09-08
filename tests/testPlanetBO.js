@@ -881,6 +881,227 @@ describe('TestPlanetBO', function()
 
     /*
     ===========
+    removePopulation testing begins
+    ===========
+    */
+    it( 'test removePopulation success' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.population;
+        let testAmount = 25;
+        assert.ok( testAmount < oldAmount );
+
+        let result = bo.removePopulation( testObj, testAmount );
+        assert.ok( result );
+        assert.equal( result, oldAmount - testAmount );
+        assert.equal( testObj.population, result );
+        done();
+    });
+
+    it( 'test removePopulation success removeAmount = old amount' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.population;
+        let testAmount = testObj.population;
+
+        let result = bo.removePopulation( testObj, testAmount );
+        assert.equal( result, oldAmount - testAmount );
+        assert.equal( testObj.population, result );
+        done();
+    });
+
+    it( 'test removePopulation failure obj undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = undefined;
+        let testAmount = 100;
+
+        let result = bo.removePopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "removePopulation returned for undefined obj: " + result );
+        }
+        done();
+    });
+
+    it( 'test removePopulation failure old population undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.population = undefined;
+        let testAmount = 100;
+
+        let result = bo.removePopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "removePopulation returned for undefined old amount: " + result );
+        }
+        done();
+    });
+
+    it( 'test removePopulation failure old population non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.population = "badStr";
+        let testAmount = 100;
+
+        let result = bo.removePopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "removePopulation returned for non-integer old amount: " + result );
+        }
+        done();
+    });
+
+    it( 'test removePopulation failure old population negative' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.population = -20;
+        let testAmount = 100;
+
+        let result = bo.removePopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "removePopulation returned for negative old amount: " + result );
+        }
+        done();
+    });
+
+    it( 'test removePopulation failure removeAmount undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        assert.ok( testObj.population );
+        let oldAmount = testObj.population;
+        let testAmount = undefined;
+
+        let result = bo.removePopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "removePopulation returned for undefined removeAmount: " + result );
+        }
+        assert.equal( testObj.population, oldAmount );
+        done();
+    });
+
+    it( 'test removePopulation failure removeAmount non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        assert.ok( testObj.population );
+        let oldAmount = testObj.population;
+        let testAmount = "badStringHere";
+
+        let result = bo.removePopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "removePopulation returned for non-integer removeAmount: " + result );
+        }
+        assert.equal( testObj.population, oldAmount );
+        done();
+    });
+
+    it( 'test removePopulation failure removeAmount negative' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.population;
+        assert.ok( testObj.population );
+        let testAmount = -20;
+
+        let result = bo.removePopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "removePopulation returned for negative removeAmount: " + result );
+        }
+        assert.equal( testObj.population, oldAmount );
+        done();
+    });
+
+    it( 'test removePopulation failure removeAmount zero' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.population;
+        assert.ok( testObj.population );
+        let testAmount = 0;
+
+        let result = bo.removePopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "removePopulation returned for zero removeAmount: " + result );
+        }
+        assert.equal( testObj.population, oldAmount );
+        done();
+    });
+
+    it( 'test removePopulation failure removeAmount too much' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        assert.ok( testObj.population );
+        let oldAmount = testObj.population;
+        let testAmount = testObj.population + 1;
+
+        let result = bo.removePopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "removePopulation returned for too much removeAmount: " + result );
+        }
+        assert.equal( testObj.population, oldAmount );
+        done();
+    });
+
+    /*
+    ===========
     _____ testing begins
     ===========
     */

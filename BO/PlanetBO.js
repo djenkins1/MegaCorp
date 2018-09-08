@@ -4,8 +4,6 @@ const ID_KEY = require('config').get('ID_KEY');
 const MAX_TAX_RATE = require('config').get('MAX_TAX_RATE');
 
 /*
-RemovePopulation,Removes population from the planet(NO UPDATE DB YET)
-
 DB(Reads):
 GetDockedShips,Returns all ships that are docked on planet(Have Z in location that matches planet's Z)
 GetAllBuildings,Returns all buildings that are on the planet
@@ -267,8 +265,74 @@ function addPopulation( obj, addAmount )
     return obj.population;
 }
 
+//RemovePopulation,Removes population from the planet(NO UPDATE DB YET)
+//returns the new population if updated or undefined otherwise
+function removePopulation( obj, removeAmount )
+{
+    DEBUG_MODE && console.log( "Calling removePopulation in PlanetBO, removeAmount: " , removeAmount );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removePopulation: obj is undefined" );
+        return undefined;
+    }
+
+    if ( obj.population == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removePopulation: old population is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( obj.population ) )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removePopulation: old population is not an integer" );
+        return undefined;
+    }
+
+    let oldAmountParsed = parseInt( obj.population, 10 );
+    DEBUG_MODE && console.log( "PlanetBO.removePopulation: oldAmountParsed, " + str( oldAmountParsed ) );
+
+    if ( oldAmountParsed < 0 )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removePopulation: old amount is negative" );
+        return undefined;
+    }
+
+    if ( removeAmount == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removePopulation: removeAmount is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( removeAmount ) )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removePopulation: removeAmount is not an integer" );
+        return undefined;
+    }
+
+    let removeAmountParsed = parseInt( removeAmount, 10 );
+    DEBUG_MODE && console.log( "PlanetBO.removePopulation: removeAmountParsed, " + str( removeAmountParsed ) );
+
+    if ( removeAmountParsed <= 0 )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removePopulation: removeAmount must be > 0" );
+        return undefined;
+    }
+
+    if ( oldAmountParsed < removeAmountParsed )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.removePopulation: removeAmount must be less than old amount" );
+        return undefined;
+    }
+
+    obj.population = oldAmountParsed - removeAmountParsed;
+    DEBUG_MODE && console.log( "PlanetBO.removePopulation: new population, " + str( obj.population ) );
+    DEBUG_MODE && console.log( "PlanetBO.removePopulation: removed population successfully" );
+    return obj.population;
+}
+
 exports.changeTaxes = changeTaxes;
 exports.changeName = changeName;
 exports.addMoney = addMoney;
 exports.removeMoney = removeMoney;
 exports.addPopulation = addPopulation;
+exports.removePopulation = removePopulation;
