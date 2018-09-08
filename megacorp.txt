@@ -97,7 +97,7 @@ Building(DONE)
         CreateBuilding,insert a new building into database
         DefaultObj,Returns the default prototype for a new object
 
-Planet(Needs BusinessObject)
+Planet(DONE)
     ID,Name,Taxes,Money,Atmosphere,Composition,SystemID,Population,Location(OBJ)
     BO:
         (NOT NEEDED)GetAllCompanies,Returns all companies with buildings/ships/headquarters(?) on planet
