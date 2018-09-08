@@ -4,7 +4,6 @@ const ID_KEY = require('config').get('ID_KEY');
 const MAX_TAX_RATE = require('config').get('MAX_TAX_RATE');
 
 /*
-AddMoney,Adds money to the planet(NO UPDATE DB YET)
 RemoveMoney,Removes money from the planet(NO UPDATE DB YET)
 AddPopulation,Adds population to the planet(NO UPDATE DB YET)
 RemovePopulation,Removes population from the planet(NO UPDATE DB YET)
@@ -82,5 +81,66 @@ function changeName( obj , newName )
     return newName;
 }
 
+//AddMoney,Adds money to the planet(NO UPDATE DB YET)
+//returns the new amount of money if updated or undefined otherwise
+function addMoney( obj, addAmount )
+{
+    DEBUG_MODE && console.log( "Calling addMoney in PlanetBO, addAmount:" , addAmount );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addMoney: obj is undefined" );
+        return undefined;
+    }
+
+    if ( obj.money == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addMoney: old money is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( obj.money ) )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addMoney: old money is not an integer" );
+        return undefined;
+    }
+
+    let oldAmountParsed = parseInt( obj.money, 10 );
+    DEBUG_MODE && console.log( "PlanetBO.addMoney: oldAmountParsed, " + str( oldAmountParsed ) );
+
+    if ( oldAmountParsed < 0 )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addMoney: old amount is negative" );
+        return undefined;
+    }
+
+    if ( addAmount == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addMoney: addAmount is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( addAmount ) )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addMoney: addAmount is not an integer" );
+        return undefined;
+    }
+
+    let addAmountParsed = parseInt( addAmount, 10 );
+    DEBUG_MODE && console.log( "PlanetBO.addMoney: addAmountParsed, " + str( addAmountParsed ) );
+
+    if ( addAmountParsed <= 0 )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addMoney: addAmount must be > 0" );
+        return undefined;
+    }
+
+    obj.money = oldAmountParsed + addAmountParsed;
+
+    DEBUG_MODE && console.log( "PlanetBO.addMoney: new money, " + str( obj.money ) );
+    DEBUG_MODE && console.log( "PlanetBO.addMoney: added money successfully" );
+    return obj.money;
+}
+
 exports.changeTaxes = changeTaxes;
 exports.changeName = changeName;
+exports.addMoney = addMoney;

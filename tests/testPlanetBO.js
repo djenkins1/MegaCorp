@@ -258,6 +258,207 @@ describe('TestPlanetBO', function()
 
     /*
     ===========
+    addMoney testing begins
+    ===========
+    */
+    it( 'test addMoney success for non-zero' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.money;
+        let testAmount = 500;
+
+        let result = bo.addMoney( testObj, testAmount );
+        assert.ok( result );
+        assert.equal( result, oldAmount + testAmount );
+        assert.equal( testObj.money, result );
+        done();
+    });
+
+    it( 'test addMoney success for zero' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.money = 0;
+        let oldAmount = testObj.money;
+        let testAmount = 500;
+
+        let result = bo.addMoney( testObj, testAmount );
+        assert.ok( result );
+        assert.equal( result, oldAmount + testAmount );
+        assert.equal( testObj.money, result );
+        done();
+    });
+
+    it( 'test addMoney failure obj undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = undefined;
+        let testAmount = 500;
+
+        let result = bo.addMoney( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addMoney returned for undefined obj: " + result );
+        }
+        done();
+    });
+
+    it( 'test addMoney failure old money undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.money = undefined;
+        let testAmount = 500;
+
+        let result = bo.addMoney( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addMoney returned for undefined old money: " + result );
+        }
+        done();
+    });
+
+    it( 'test addMoney failure old money non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.money = "badStr";
+        let testAmount = 500;
+
+        let result = bo.addMoney( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addMoney returned for non-integer old money: " + result );
+        }
+        done();
+    });
+
+    it( 'test addMoney failure old money negative' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.money = -128;
+        let testAmount = 500;
+
+        let result = bo.addMoney( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addMoney returned for negative old money: " + result );
+        }
+        done();
+    });
+
+    it( 'test addMoney failure addAmount undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.money;
+        let testAmount = undefined;
+
+        let result = bo.addMoney( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addMoney returned for undefined addAmount: " + result );
+        }
+
+        assert.equal( testObj.money, oldAmount );
+        done();
+    });
+
+    it( 'test addMoney failure addAmount non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.money;
+        let testAmount = "badStr";
+
+        let result = bo.addMoney( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addMoney returned for non-integer addAmount: " + result );
+        }
+
+        assert.equal( testObj.money, oldAmount );
+        done();
+    });
+
+    it( 'test addMoney failure addAmount negative' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.money;
+        let testAmount = -125;
+
+        let result = bo.addMoney( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addMoney returned for negative addAmount: " + result );
+        }
+
+        assert.equal( testObj.money, oldAmount );
+        done();
+    });
+
+    it( 'test addMoney failure addAmount zero' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.money;
+        let testAmount = 0;
+
+        let result = bo.addMoney( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addMoney returned for zero addAmount: " + result );
+        }
+
+        assert.equal( testObj.money, oldAmount );
+        done();
+    });
+
+    /*
+    ===========
     _____ testing begins
     ===========
     */
