@@ -29,7 +29,9 @@ Modules:
 DATA:
 ==============================
 
-
+============
+Phase 1 Start
+============
 Company(DONE)
     ID,Name,Logo,Money,Employees,PlanetID(Headquarters)
     BO:
@@ -123,9 +125,6 @@ System(Needs BusinessObject)
         CreateSystem,Creates a new system and adds it to the database
         DefaultObj,Returns the default prototype for a new object
 
-
-
-
 ServerInfo(Needs Business Object)
     Key,Value
     +++Things like Galactic Star Date...
@@ -136,6 +135,39 @@ ServerInfo(Needs Business Object)
         CreateInfo,insert a new info object into the database
         DefaultObj,Returns the default prototype for a new object
 
+============
+Phase 2 Start
+============
+Price(Needs Business Object)
+    Prices table for goods which is updated every turn based on fulfilled offers
+    ID,good,planetId,low,high,lastUpdate
+    BO:
+        UpdateLow,updates the low price of a particular good(NO UPDATE DB YET)
+        UpdateHigh,updates the high price of a particular good(NO UPDATE DB YET)
+        SetLastUpdate,sets the star date that the good's price was updated last(NO UPDATE DB YET)
+        SavePrice,updates the price to the database
+        AllPrices,returns all prices in the database
+        GetPriceOfGood,returns the price object of the good specified for the planet specified
+        CreatePrice,creates a new price and inserts into the database
+        DefaultObj,Returns the default prototype for a new object
+
+MoneyTransact(Needs DAO/JSON sample data populated/Business Object)
+    ID,FromCompany,ToCompany,Amount,StarDate,Reason
+    BO:
+        CreateMoneyTransact
+        AllMoneyTransact
+        DefaultObj,Returns the default prototype for a new object
+
+GoodTransact(Needs DAO/JSON sample data populated/Business Object)
+    ID,FromId,ToId,FromType,ToType,StarDate,Reason
+
+
+
+
+
+============
+Phase 3 Start
+============
 Offer(Needs Business Object)
     ID,BuildingID,CompanyID,PlanetID,Price,StarDateCreated,OfferType(Buy/Sell),IsFilled,Priority,Goods: []
     BO:
@@ -179,23 +211,11 @@ WeaponBluePrint(Needs BusinessObject)
         AllBluePrints,returns all weapon blueprints in the database
         DefaultObj,Returns the default prototype for a new object
 
-Price(Needs Business Object)
-    Prices table for goods which is updated every turn based on fulfilled offers
-    ID,good,planetId,low,high,lastUpdate
-    BO:
-        UpdateLow,updates the low price of a particular good(NO UPDATE DB YET)
-        UpdateHigh,updates the high price of a particular good(NO UPDATE DB YET)
-        SetLastUpdate,sets the star date that the good's price was updated last(NO UPDATE DB YET)
-        SavePrice,updates the price to the database
-        AllPrices,returns all prices in the database
-        GetPriceOfGood,returns the price object of the good specified for the planet specified
-        CreatePrice,creates a new price and inserts into the database
-        DefaultObj,Returns the default prototype for a new object
 
 
-
-
-
+============
+Phase 4 Start
+============
 RevolveOffer(Needs JSON sample data populated/Business Object)
     ID,Offer(OBJ),Frequency(OBJ),Until(OBJ),InEffect(true,false)
     BO:
@@ -220,18 +240,6 @@ RevolveTransfer(Needs JSON sample data populated/Business Object)
         CreateRevolveTransfer,creates a new revolve transfer and inserts into the database
         DefaultObj,Returns the default prototype for a new object
 
-
-
-MoneyTransact(Needs DAO/JSON sample data populated/Business Object)
-    ID,FromCompany,ToCompany,Amount,StarDate,Reason
-    BO:
-        CreateMoneyTransact
-        AllMoneyTransact
-        DefaultObj,Returns the default prototype for a new object
-
-GoodTransact(Needs DAO/JSON sample data populated/Business Object)
-    ID,FromId,ToId,FromType,ToType,StarDate,Reason
-
 ShipConstruction(NEEDS DAO/JSON sample data/Business Object)
     ID,buildingId,planetId,companyId,shipTypeName,shipBluePrint,StarDate,IsFilled,Price
 
@@ -247,6 +255,8 @@ NOTES:
     Need to verify that goods are > 0 for ShipBO.checkValidGoods
 
     Need to convert everything to integer when adding/removing(goods/money...)
+
+    Need to add deleteObj to each module for removing from db
 
     (DONE)Need to redo locationFuelCost and destinationFuelCost in ShipBO
         (DONE)should be based on shipBluePrint.fuelCost and not configuration value
