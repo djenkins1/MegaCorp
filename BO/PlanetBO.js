@@ -4,16 +4,18 @@ const ID_KEY = require('config').get('ID_KEY');
 const MAX_TAX_RATE = require('config').get('MAX_TAX_RATE');
 
 /*
-AddPopulation,Adds population to the planet(NO UPDATE DB YET)
 RemovePopulation,Removes population from the planet(NO UPDATE DB YET)
 
-DB:
+DB(Reads):
 GetDockedShips,Returns all ships that are docked on planet(Have Z in location that matches planet's Z)
 GetAllBuildings,Returns all buildings that are on the planet
 GetCompaniesByHQ,Returns all companies that have headquarters on planet
+
+DB(Modifications):
 SavePlanet,Saves any changes to the planet to the database
 AllPlanets,Returns all planets in the database
 CreatePlanet,Creates a new planet and adds it to the database
+
 DefaultObj,Returns the default prototype for a new object
 */
 
@@ -205,7 +207,68 @@ function removeMoney( obj, removeAmount )
     return obj.money;
 }
 
+//AddPopulation,Adds population to the planet(NO UPDATE DB YET)
+//returns the new population if updated or undefined otherwise
+function addPopulation( obj, addAmount )
+{
+    DEBUG_MODE && console.log( "Calling addPopulation in PlanetBO, addAmount:" , addAmount );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addPopulation: obj is undefined" );
+        return undefined;
+    }
+
+    if ( obj.population == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addPopulation: old population is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( obj.population ) )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addPopulation: old population is not an integer" );
+        return undefined;
+    }
+
+    let oldAmountParsed = parseInt( obj.population, 10 );
+    DEBUG_MODE && console.log( "PlanetBO.addPopulation: oldAmountParsed, " + str( oldAmountParsed ) );
+
+    if ( oldAmountParsed < 0 )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addPopulation: old amount is negative" );
+        return undefined;
+    }
+
+    if ( addAmount == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addPopulation: addAmount is undefined" );
+        return undefined;
+    }
+
+    if ( !Number.isInteger( addAmount ) )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addPopulation: addAmount is not an integer" );
+        return undefined;
+    }
+
+    let addAmountParsed = parseInt( addAmount, 10 );
+    DEBUG_MODE && console.log( "PlanetBO.addPopulation: addAmountParsed, " + str( addAmountParsed ) );
+
+    if ( addAmountParsed <= 0 )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.addPopulation: addAmount must be > 0" );
+        return undefined;
+    }
+
+    obj.population = oldAmountParsed + addAmountParsed;
+
+    DEBUG_MODE && console.log( "PlanetBO.addPopulation: new population, " + str( obj.population ) );
+    DEBUG_MODE && console.log( "PlanetBO.addPopulation: added population successfully" );
+    return obj.population;
+}
+
 exports.changeTaxes = changeTaxes;
 exports.changeName = changeName;
 exports.addMoney = addMoney;
 exports.removeMoney = removeMoney;
+exports.addPopulation = addPopulation;

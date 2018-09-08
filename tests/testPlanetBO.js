@@ -680,6 +680,207 @@ describe('TestPlanetBO', function()
 
     /*
     ===========
+    addPopulation testing begins
+    ===========
+    */
+    it( 'test addPopulation success for non-zero' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.population;
+        let testAmount = 12000;
+
+        let result = bo.addPopulation( testObj, testAmount );
+        assert.ok( result );
+        assert.equal( result, oldAmount + testAmount );
+        assert.equal( testObj.population, result );
+        done();
+    });
+
+    it( 'test addPopulation success for zero' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.population = 0;
+        let oldAmount = testObj.population;
+        let testAmount = 7000;
+
+        let result = bo.addPopulation( testObj, testAmount );
+        assert.ok( result );
+        assert.equal( result, oldAmount + testAmount );
+        assert.equal( testObj.population, result );
+        done();
+    });
+
+    it( 'test addPopulation failure obj undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = undefined;
+        let testAmount = 7500;
+
+        let result = bo.addPopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addPopulation returned for undefined obj: " + result );
+        }
+        done();
+    });
+
+    it( 'test addPopulation failure old population undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.population = undefined;
+        let testAmount = 2500;
+
+        let result = bo.addPopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addPopulation returned for undefined old population: " + result );
+        }
+        done();
+    });
+
+    it( 'test addPopulation failure old population non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.population = "badStr";
+        let testAmount = 5600;
+
+        let result = bo.addPopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addPopulation returned for non-integer old population: " + result );
+        }
+        done();
+    });
+
+    it( 'test addPopulation failure old population negative' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.population = -128;
+        let testAmount = 2500;
+
+        let result = bo.addPopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addPopulation returned for negative old population: " + result );
+        }
+        done();
+    });
+
+    it( 'test addPopulation failure addAmount undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.population;
+        let testAmount = undefined;
+
+        let result = bo.addPopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addPopulation returned for undefined addAmount: " + result );
+        }
+
+        assert.equal( testObj.population, oldAmount );
+        done();
+    });
+
+    it( 'test addPopulation failure addAmount non-integer' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.population;
+        let testAmount = "badStr";
+
+        let result = bo.addPopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addPopulation returned for non-integer addAmount: " + result );
+        }
+
+        assert.equal( testObj.population, oldAmount );
+        done();
+    });
+
+    it( 'test addPopulation failure addAmount negative' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.population;
+        let testAmount = -1000;
+
+        let result = bo.addPopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addPopulation returned for negative addAmount: " + result );
+        }
+
+        assert.equal( testObj.population, oldAmount );
+        done();
+    });
+
+    it( 'test addPopulation failure addAmount zero' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let oldAmount = testObj.population;
+        let testAmount = 0;
+
+        let result = bo.addPopulation( testObj, testAmount );
+        if ( result )
+        {
+            assert.fail( "addPopulation returned for zero addAmount: " + result );
+        }
+
+        assert.equal( testObj.population, oldAmount );
+        done();
+    });
+
+    /*
+    ===========
     _____ testing begins
     ===========
     */
