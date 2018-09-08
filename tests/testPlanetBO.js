@@ -1100,12 +1100,6 @@ describe('TestPlanetBO', function()
         done();
     });
 
-    /*
-    ===========
-    _____ testing begins
-    ===========
-    */
-
     //after() is run after all tests have completed.
     after( function( done )
     {
