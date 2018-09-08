@@ -180,6 +180,84 @@ describe('TestPlanetBO', function()
 
     /*
     ===========
+    changeName testing begins
+    ===========
+    */
+    it( 'test changeName success' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let testName = "Ork";
+
+        let result = bo.changeName( testObj, testName );
+        assert.ok( result );
+        assert.equal( result, testName );
+        assert.equal( testObj.name, testName );
+        done();
+    });
+
+    it( 'test changeName failure obj undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = undefined;
+        let testName = "Ork";
+
+        let result = bo.changeName( testObj, testName );
+        if ( result )
+        {
+            assert.fail( "changeName returned for undefined obj: " + result );
+        }
+        done();
+    });
+
+    it( 'test changeName failure newName undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        let testName = undefined;
+
+        let result = bo.changeName( testObj, testName );
+        if ( result )
+        {
+            assert.fail( "changeName returned for undefined newName: " + result );
+        }
+        done();
+    });
+
+    it( 'test changeName failure old name undefined' , function( done )
+    {
+        let mockDataList = JSON.parse(JSON.stringify( require( "../sampleData/testData/planetsDifferentSystems.json" ) ) );
+        assert.ok( mockDataList );
+        assert.ok( mockDataList.length );
+        assert.ok( mockDataList[ 0 ] );
+
+        let testObj = mockDataList[ 0 ];
+        testObj.name = undefined;
+        let testName = "Ork";
+
+        let result = bo.changeName( testObj, testName );
+        if ( result )
+        {
+            assert.fail( "changeName returned for undefined old name: " + result );
+        }
+        done();
+    });
+
+
+    /*
+    ===========
     _____ testing begins
     ===========
     */

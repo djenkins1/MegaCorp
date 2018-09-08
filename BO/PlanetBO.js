@@ -4,7 +4,6 @@ const ID_KEY = require('config').get('ID_KEY');
 const MAX_TAX_RATE = require('config').get('MAX_TAX_RATE');
 
 /*
-ChangeName,changes the name of the planet(NO UPDATE DB YET)
 AddMoney,Adds money to the planet(NO UPDATE DB YET)
 RemoveMoney,Removes money from the planet(NO UPDATE DB YET)
 AddPopulation,Adds population to the planet(NO UPDATE DB YET)
@@ -55,4 +54,33 @@ function changeTaxes( obj, newRate )
     return newRateParsed;
 }
 
+//ChangeName,changes the name of the planet(NO UPDATE DB YET)
+//returns the new name if updated or undefined otherwise
+function changeName( obj , newName )
+{
+    DEBUG_MODE && console.log( "Calling changeName in PlanetBO, new name:" , newName );
+    if ( obj == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.changeName: obj is undefined" );
+        return undefined;
+    }
+
+    if ( newName == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.changeName: newName is undefined" );
+        return undefined;
+    }
+
+    if ( obj.name == undefined )
+    {
+        DEBUG_MODE && console.log( "PlanetBO.changeName: old name is undefined" );
+        return undefined;
+    }
+
+    obj.name = newName;
+    DEBUG_MODE && console.log( "PlanetBO.changeName: changed name successfully" );
+    return newName;
+}
+
 exports.changeTaxes = changeTaxes;
+exports.changeName = changeName;
